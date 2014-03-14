@@ -1,0 +1,46 @@
+"Siemens 3.6 mW 120 m (Manufacturer's graph)"
+"120"
+"0"
+"25"
+"3.5"
+"0"
+"0"
+"0"
+"127"
+"285"
+"512"
+"795"
+"1140"
+"1587"
+"2120"
+"2770"
+"3287"
+"3500"
+"3578"
+"3600"
+"3600"
+"3600"
+"3600"
+"3600"
+"3600"
+"3600"
+"3600"
+"3600"
+"3600"
+"3600"
+"0"
+"0"
+"0"
+"0"
+"0"
+"(Oct 2012 notes)
+
+http://www.energy.siemens.com
+
+Power curve obtained using PelaFlow digitising program from small manufacturer's graph.
+
+Three-bladed upwind turbine with gearbox.
+
+Pitch controlled.
+
+Identical to 107 metre model but with increased rotor diameter."

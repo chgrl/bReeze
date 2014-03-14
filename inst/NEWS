@@ -1,0 +1,156 @@
+bReeze 0.3-1 [2014-01-13]
+-------------------------
+
+* plotDay: sectoral plotting for single data sets added
+
+* some small improvements of code and documentation
+
+
+bReeze 0.3-0 [2014-01-13]
+-------------------------
+
+* plotMap: function for simple map plotting is back, 
+  now based on RgoogleMaps package
+
+* uncertainty: new function for uncertainty assessment 
+
+* plotUncertainty: new function for uncertainty plots
+
+* short name wrapper functions: bug fixed - default value 
+  confusion
+
+
+bReeze 0.2-4 [2013-12-04]
+-------------------------
+
+* formatTS: removed some test code left in last version
+
+* readPC: simpler specifying of package directory files
+
+* some background improvements/fixes
+
+
+bReeze 0.2-3 [2013-09-17]
+-------------------------
+
+* monthStats: all available signals of the met mast can now be 
+  used for calculations;
+  in addition to "mean", also "median", "min", "max" and "sd" 
+  can be applied
+
+* plotAvailability: faster plotting
+
+* profile: new method loglm (log-linear model) added - now more
+  than two heights can be used for profile calculation
+
+
+bReeze 0.2-2 [2013-06-27]
+-------------------------
+
+* availability: v.set and dir.set can now handle vectors of 
+  datasets 
+
+* availability, clean, frequency, monthStats, plotAvailability, 
+  plotDay, plotMonthStats, plotTimeSeries, plotTurbIEC,profile, 
+  turbulence, weibull: data sets can now be specified by name
+
+* formatTS: bug fixed - handling of duplicates
+
+* plotPC: bug fixed - ugly axis if both coefficients are plotted;
+  a list of power curves can now be plotted at once
+
+* printObject: bugs fixed - function calls incorrect in some 
+  cases
+
+* readPC: power curve data base update
+
+* new short name aliases for functions
+
+
+bReeze 0.2-1 [2013-02-28]
+-------------------------
+
+* energy, frequency and plotProfile: bug fixed - output of 
+  internally called function printed
+
+* frequency, profile, turbulence, weibull: number of sectors no
+  longer limited to 4/8/12/16
+
+* monthStats: bug fixed - calculation error for met masts 
+  with just one dataset
+
+* printObject: bug fixed - original/cleaned data displayed
+  wrong for met masts with just one dataset
+
+* polar plotting functions (plotAep, plotEnergy, plotFrequency, 
+  plotPolar, plotTurbulence): optional graphical parameters
+  added
+
+* some small code and documentation cosmetics
+
+
+bReeze 0.2-0 [2013-02-06]
+-------------------------
+
+* clean: wind direction values are now excluded, where wind 
+  speed is lower than the v.avg.min specified; 
+  bug fixed - unwanted cleanings and wrong feedback possible; 
+  repetitions can now be cleaned
+
+* frequency: bug fixed - wrong frequency
+  values possible for uncleaned mast objects
+
+* plotDay: now all signals can be plottet
+
+* plotMap: function removed from package due to disproportional 
+  high installation requirements compared to the low performance 
+  of the used OpenStreetMap package
+
+* printMast: replaced by printObject
+
+* printObject: new print method for all bReeze objects; 
+  bug fixed in old printMast method, that returned wrong 
+  availability values
+
+* plotting functions (plotAep, plotAvailability, plotDay, 
+  plotEnergy, plotFrequency, plotMonthStats, plotPC, plotPolar, 
+  plotProfile, plotTimeSeries, plotTurbIEC, plotTurbulence, 
+  plotWbDir, plotWeibull): many optional graphical parameters 
+  added
+
+* processing functions (aep, energy, frequency, monthStats, 
+  profile, turbulence, weibull): new 'digits' argument for the 
+  number of decimal places to be used for results; new 'print' 
+  argument to show/hide results
+
+* further small improvements of code and documentation; 
+  namespace added
+
+
+bReeze 0.1-1 [2012-10-21]
+-------------------------
+
+* aep: capacity factor added to the output
+
+* availability: two bugs fixed - slightly wrong availability 
+  values in some cases of missing samples; error in calculation 
+  for sets with just one signal 
+
+* clean: wind speed limit for calculation of turbulence intensity
+  can now be adjusted by the user
+
+* createPC: if rated.p is not given, rated power is now
+  automatically set to the maximum power value; desc argument for
+  name and/or description of a wind turbine added
+
+* formatTS: available patterns cleaned up and internal handling
+  enhanced; possible error in pattern selection fixed
+
+* plotTimeSeries: bug fixed - blocking of '00:00:00' time stamps 
+  for the start and end arguments
+
+
+bReeze 0.1-0 [2012-07-10]
+-------------------------
+
+* This is the first version

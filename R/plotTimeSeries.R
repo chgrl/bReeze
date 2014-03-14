@@ -1,0 +1,151 @@
+plotTimeSeries <-
+function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), start, end, ...) {
+### plotting time series of mast data
+		
+	if(class(mast)!="mast") stop(paste(substitute(mast), "is no mast object"))
+	num.sets <- length(mast$sets)
+	time.stamp <- mast$time.stamp
+	num.samples <- length(time.stamp)
+	
+	if(missing(set)) set <- 1:num.sets
+	if(!is.numeric(set)) set <- match(set, names(mast$sets))
+	if(any(is.na(set))) stop("'set' not found\n")
+	if(any(set<1) || any(set>num.sets)) stop("'set' not found\n")
+	if(missing(start)) start <- as.character(time.stamp[1])
+	if(missing(end)) end <- as.character(time.stamp[num.samples])
+	start <- strptime(start, "%Y-%m-%d %H:%M:%S")
+	end <- strptime(end, "%Y-%m-%d %H:%M:%S")
+	if(is.na(start)) stop("Specified 'start' not correctly formated\n")
+	if(is.na(end)) stop("Specified 'end' not correctly formated\n")
+
+	# match start and end date
+	if(start<time.stamp[1] || start>time.stamp[num.samples]) stop("Specified 'start' not in period\n")
+	match.date <- difftime(time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	
+	if(end<time.stamp[1] || end>time.stamp[num.samples]) stop("Specified 'end' not in period\n")
+	match.date <- difftime(time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	
+	# get units
+	n.sig <- length(signal)
+	n.set <- length(set)
+	h.unit <- attr(mast$sets[[1]]$height, "unit")
+	units <- rep("", n.sig)
+	for(s in 1:n.sig) {
+		for(i in 1:n.set) {
+			if(any(names(mast$sets[[i]]$data)==signal[s])) {
+				if(!is.null(attr(mast$sets[[i]]$data[,signal[s]], "unit")))	units[s] <- attr(mast$sets[[i]]$data[,signal[s]], "unit"); break
+			}
+		}
+	}
+	  
+	# prepare plot
+	old.par <- par(no.readonly=TRUE)
+	on.exit(par(old.par))
+	
+	plot.param <- list(...)
+	if(any(names(plot.param)=="col")) col <- plot.param$col
+	else {
+		if(num.sets<=9) {
+			col <- col1 <- brewer.pal(3, "Set1")
+			if(num.sets>3) col <- col1 <- brewer.pal(num.sets, "Set1")
+			col[1] <- col1[2]
+			col[2] <- col1[1]
+		} else col <- c("blue", "green", "red", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
+	}
+	if(any(names(plot.param)=="col.lab")) col.lab <- plot.param$col.lab
+	else col.lab <- "black"
+	if(any(names(plot.param)=="col.axis")) col.axis <- plot.param$col.axis
+	else col.axis <- "black"
+	if(any(names(plot.param)=="col.leg")) col.leg <- plot.param$col.leg
+	else col.leg <- "black"
+	if(any(names(plot.param)=="col.ticks")) col.ticks <- plot.param$col.ticks
+	else col.ticks <- "black"
+	if(any(names(plot.param)=="cex")) cex <- plot.param$cex
+	else cex <- 1
+	cex <- cex-0.2
+	if(any(names(plot.param)=="cex.lab")) cex.lab <- plot.param$cex.lab
+	else cex.lab <- cex
+	if(any(names(plot.param)=="cex.axis")) cex.axis <- plot.param$cex.axis
+	else cex.axis <- cex
+	if(any(names(plot.param)=="cex.leg")) cex.leg <- plot.param$cex.leg
+	else cex.leg <- cex-0.1
+	if(any(names(plot.param)=="x.intersp")) x.intersp <- plot.param$x.intersp
+	else x.intersp <- 0.4
+	if(any(names(plot.param)=="bty.leg")) bty.leg <- plot.param$bty.leg
+	else bty.leg <- "n"
+	if(any(names(plot.param)=="mar")) mar <- plot.param$mar
+	else mar <- c(1,4.5,0,1)
+	if(any(names(plot.param)=="mgp")) mgp <- plot.param$mgp
+	else mgp <- c(2.5,0.7,0)
+	if(any(names(plot.param)=="las")) las <- plot.param$las
+	else las <- 1
+	if(any(names(plot.param)=="bty")) bty <- plot.param$bty
+	else bty <- "o"
+	if(any(names(plot.param)=="col.box")) col.box <- plot.param$col.box
+	else col.box <- "black"
+	if(any(names(plot.param)=="legend")) legend <- plot.param$legend
+	else legend <- TRUE
+	if(any(names(plot.param)=="lty")) lty <- plot.param$lty
+	else lty <- rep(1, num.sets)
+	if(any(names(plot.param)=="ylab")) ylab <- plot.param$ylab
+	else {
+		ylab <- NULL
+		for(i in 1:n.sig) {
+			if(signal[i]=="v.avg") ylab <- append(ylab, paste("Wind speed [", units[i], "]", sep=""))
+			else if(signal[i]=="v.max") ylab <- append(ylab, paste("Max wind speed [", units[i], "]", sep=""))
+			else if(signal[i]=="v.min") ylab <- append(ylab, paste("Min wind speed [", units[i], "]", sep=""))
+			else if(signal[i]=="dir.avg") ylab <- append(ylab, paste("Wind direction [", units[i], "]", sep=""))
+			else if(signal[i]=="turb.int") ylab <- append(ylab, paste("Turbulence intensity [", units[i], "]", sep=""))
+			else ylab <- append(ylab, paste(signal[i], " [", units[i], "]", sep=""))
+		}
+	}
+	for(i in 1:length(ylab)) if(substr(ylab[i], nchar(ylab[i])-2, nchar(ylab[i]))==" []") ylab[i] <- substr(ylab[i], 1, nchar(ylab[i])-3)
+	
+	# layout
+	lo <- layout(matrix(c(n.sig+2, 1:(n.sig+1)), n.sig+2, 1), heights=c(1, rep(4, n.sig), 1))
+	if(n.sig==1) lo <- layout(matrix(c(n.sig+2, 1:(n.sig+1)), n.sig+2, 1), heights=c(1, 9, 1))
+	n.set <- length(set)
+	set.idx <- data.frame(matrix(NA, ncol=n.sig, nrow=n.set))
+	names(set.idx) <- signal
+	for(i in 1:n.sig) {
+		for(j in 1:n.set) {
+			if(any(names(mast$sets[[set[j]]]$data)==signal[i])) set.idx[j,i] <- j
+		}
+	}
+		
+	# plot
+	for(i in 1:n.sig) {
+		par(mar=mar, mgp=mgp, las=las, bty="n")
+		sets <- set.idx[!is.na(set.idx[,which(names(set.idx)==signal[i])]),which(names(set.idx)==signal[i])]
+		if(length(sets)>=1) {
+			plot(time.stamp[start:end], mast$sets[[sets[1]]]$data[[which(names(mast$sets[[sets[1]]]$data)==signal[i])]][start:end], type="l", col=col[sets[1]], ylab=ylab[i], axes=FALSE, col.lab=col.lab, cex.lab=cex.lab, lty=lty[sets[1]])
+			box(bty=bty, col=col.box)
+			axis(2, line=mgp[3], col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
+			if(i<n.sig) axis.POSIXct(1, at=seq(min(time.stamp[start:end]), max(time.stamp[start:end]), length.out=6), format="%Y-%m-%d %H:%M:%S", labels=FALSE, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
+			else axis.POSIXct(1, at=seq(min(time.stamp[start:end]), max(time.stamp[start:end]), length.out=6), format="%Y-%m-%d %H:%M:%S", col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
+		
+		
+			if(length(sets)>1) {
+				for(j in 2:length(sets)) {
+					lines(time.stamp[start:end], mast$sets[[sets[j]]]$data[[which(names(mast$sets[[sets[j]]]$data)==signal[i])]][start:end], col=col[sets[j]], lty=lty[sets[j]])
+				}
+			}
+		} else {
+			plot(0, type="n", axes=FALSE, xlab="", ylab="")
+			text(0, labels=paste(signal[i], "not found!"))
+		}
+	}
+	
+	set.idx <- unique(unlist(set.idx)[!is.na(unlist(set.idx))])
+	heights <- names <- NULL
+	for(i in 1:length(set.idx)) {
+		heights <- append(heights, mast$sets[[set.idx[i]]]$height)
+		names <- append(names, names(mast$sets)[set.idx[i]])
+	}
+	plot(0, type="n", axes=FALSE, xlab="", ylab="")
+	par(mar=c(0,5,0,1))
+	plot(0, type="n", axes=FALSE, xlab="", ylab="")
+	if(legend) legend("center", legend=paste(names, " (", heights, h.unit, ")", sep=""), col=col[set.idx], lty=lty[set.idx], ncol=length(set.idx), bty=bty.leg, cex=cex.leg, text.col=col.leg, x.intersp=x.intersp)
+}
