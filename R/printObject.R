@@ -1,7 +1,7 @@
 printObject <- function(object) {
 ### summarising object information
 	
-	if(is.null(attr(aep, "call"))) stop(paste(substitute(object), "seems not to be a bReeze object\n"))
+	if(is.null(attr(object, "call"))) stop(paste(substitute(object), "seems not to be a bReeze object\n"))
 	
 	if(attr(object, "call")$func=="createMast") { # mast object
 		if(!is.null(object$location)) loc <- object$location
@@ -202,11 +202,9 @@ printObject <- function(object) {
 		names(object)[1] <- "wind speed"
 		names(tbl.units) <- names(obj) <- names(object)
 		row.names(tbl.units) <- " "
-		str(object)
 		row.names(obj) <- c(toupper(head(row.names(object), -1)), tail(row.names(object), 1))
-		cat("twerwer")
 		print(rbind(tbl.units, obj), quote=FALSE)
-		cat("\ncall: frequency(mast=", attr(object, "call")$mast, ", v.set=", attr(object, "call")$v.set, ", dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", bins=c(", paste(attr(object, "call")$bins, collapse=", "), "), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
+		cat("\ncall: frequency(mast=", attr(object, "call")$mast, ", v.set=", attr(object, "call")$v.set, ", dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", bins=c(", paste(attr(object, "call")$bins, collapse=", "), "), subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\"), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
 	} else if(attr(object, "call")$func=="turbulence") { # turbulence object
 		cat("\n\tTurbulence intensity\n\n")
 		row.names(object) <- c(toupper(head(row.names(object), -1)), tail(row.names(object), 1))
