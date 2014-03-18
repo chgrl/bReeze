@@ -2,7 +2,8 @@ profile <-
 function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fixed"), alpha=NULL, digits=3, print=TRUE) {
 ###	computing profile from mast data
 	
-	if(class(mast)!="mast") stop(paste(substitute(mast), "is no mast object"))
+	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
+	if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
 	num.sets <- length(mast$sets)
 	if(missing(v.set)) stop("Please choose one or two sets in 'v.set'\n")
 	if(!is.numeric(v.set)) if(!(length(v.set)==1 && any(v.set=="all"))) v.set <- match(v.set, names(mast$sets))
@@ -134,7 +135,6 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 	
 	profile <- list(profile=round(profile, digits), h.ref=h1)
 	attr(profile, "call") <- list(func="profile", mast=deparse(substitute(mast)), v.set=v.set, dir.set=dir.set, num.sectors=num.sectors, method=method, alpha=alpha, digits=digits, print=print)
-	class(profile) <- "profile"
 	
 	if(print) printObject(profile)
 	invisible(profile)

@@ -2,7 +2,8 @@ plotPolar <-
 function(mast, v.set=1, dir.set=1, ...) {
 ### plotting wind speed vs. wind direction in polar plot
 	
-	if(class(mast)!="mast") stop(paste(substitute(mast), "is no mast object"))
+	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
+	if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
 	num.sets <- length(mast$sets)
 	
 	if(!is.numeric(v.set)) v.set <- match(v.set, names(mast$sets))

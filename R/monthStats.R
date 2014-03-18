@@ -2,7 +2,8 @@ monthStats <-
 function(mast, set, signal="v.avg", fun=c("mean", "median", "min", "max", "sd"), digits=3, print=TRUE) {
 ### calculating monthly statistics
 
-	if(class(mast)!="mast") stop(paste(substitute(mast), "is no mast object"))
+	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
+	if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
 	if(missing(set)) set <- "all"
 	if(is.null(signal)) stop("Please choose signal\n")
 	if(length(signal)>1) stop("Please choose only one signal\n")
@@ -41,7 +42,6 @@ function(mast, set, signal="v.avg", fun=c("mean", "median", "min", "max", "sd"),
 
 	attr(m.stats.l, "unit") <- unit
 	attr(m.stats.l, "call") <- list(func="monthStats", mast=deparse(substitute(mast)), set=set, signal=signal, fun=fun, digits=digits, print=print)
-	class(m.stats.l) <- "stats"
 	
 	if(print) printObject(m.stats.l)
 	invisible(m.stats.l)

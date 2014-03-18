@@ -32,7 +32,6 @@ function(v, p, cp, ct, rho=1.225, rated.p, desc) {
 	attr(pc, "rated.power") <- rated.p
 	if(!is.null(desc)) attr(pc, "description") <- desc
 	attr(pc, "call") <- list(func="createPC")
-	class(pc) <- "pc"
 	
 	return(pc)
 }

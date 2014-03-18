@@ -3,7 +3,8 @@ function(avail, set, ...) {
 ### plotting 	availability data
 		
 	num.sets <- length(avail)
-	if(class(avail)!="availability") stop(paste(substitute(availability), "is no availability object\n"))
+	if(is.null(attr(avail, "call")$func)) stop(paste(substitute(availability), "is no availability object\n"))
+	if(attr(avail, "call")$func!="availability") stop(paste(substitute(availability), "is no availability object\n"))
 	if(is.null(attr(avail[[1]]$daily, "num.daily.samples"))) stop("Cannot use 'avail' - please use output object of availability\n")
 	if(missing(set)) set <- 1:num.sets
 	n.set <- length(set)

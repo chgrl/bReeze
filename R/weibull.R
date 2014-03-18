@@ -2,7 +2,8 @@ weibull <-
 function(mast, v.set, dir.set, num.sectors=12, digits=3, print=TRUE) {
 ### calculating weibull parameters for sectors
 	
-	if(class(mast)!="mast") stop(paste(substitute(mast), "is no mast object"))
+	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
+	if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
 	num.sets <- length(mast$sets)
 	if(!missing(v.set) && missing(dir.set)) dir.set <- v.set
 	if(missing(v.set) && !missing(dir.set)) v.set <- dir.set
@@ -52,7 +53,6 @@ function(mast, v.set, dir.set, num.sectors=12, digits=3, print=TRUE) {
 	
 	attr(weibull.tbl, "units") <- c("m/s", "-", attr(mast$sets[[v.set]]$data$v.avg, "unit"), "%")
 	attr(weibull.tbl, "call") <- list(func="weibull", mast=deparse(substitute(mast)), v.set=v.set, dir.set=dir.set, num.sectors=num.sectors, digits=digits, print=print)
-	class(weibull.tbl) <- "weibull"
 	
 	weibull.tbl <- round(weibull.tbl, digits)
 	if(print) printObject(weibull.tbl)

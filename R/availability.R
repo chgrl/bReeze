@@ -2,7 +2,8 @@ availability <-
 function(mast, v.set, dir.set, digits=1, print=TRUE) {
 ### check availability for pairs of windspeed and direction - effective data period
 	
-	if(class(mast)!="mast") stop(paste(substitute(mast), "is no mast object"))
+	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
+	if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
 	num.sets <- length(mast$sets)
 	if(missing(v.set) && missing(dir.set)) v.set <- "all"
 	if(!missing(v.set) && missing(dir.set)) dir.set <- v.set
@@ -108,7 +109,6 @@ function(mast, v.set, dir.set, digits=1, print=TRUE) {
 	}
 	
 	attr(avail, "call") <- list(func="availability", mast=deparse(substitute(mast)), v.set=v.set, dir.set=dir.set, digits=3, print=print)
-	class(avail) <- "availability"
 	
 	if(print) printObject(avail)
 	invisible(avail)

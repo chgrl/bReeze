@@ -2,7 +2,8 @@ plotProfile <-
 function(profile, sector, measured=TRUE, ...) {
 ###	plotting profile
 		
-	if(class(profile)!="profile") stop(paste(substitute(profile), "is no profile object\n"))
+	if(is.null(attr(profile, "call"))) stop(paste(substitute(profile), "is no profile object\n"))
+	if(attr(profile, "call")$func!="profile") stop(paste(substitute(profile), "is no profile object\n"))
 	
 	if(is.null(attr(profile, "call")$mast)) stop(paste("Source mast object of", substitute(profile), "could not be found\n"))
 	mast <- get(attr(profile, "call")$mast)

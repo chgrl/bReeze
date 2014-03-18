@@ -2,7 +2,7 @@ createMast <-
 function(time.stamp, ..., loc=NULL, desc=NULL) {
 ### creating met mast from several datasets
 
-	if(missing(time.stamp)) stop("'time.stamp' is mandatory")
+	if(missing(time.stamp)) stop("'time.stamp' is mandatory\n")
 	if(!is.null(loc)) {
 		if(!is.vector(loc)) stop("'location' must be a vector of latitude and longitude\n")
 		if(length(loc)!=2) stop("'location' must be a numeric vector of latitude and longitude\n")
@@ -14,13 +14,13 @@ function(time.stamp, ..., loc=NULL, desc=NULL) {
 	
 	# check sets and time stamp
 	num.sets <- length(l)
-	if(num.sets<1) stop("No data - please add at least one set created by createSet")
+	if(num.sets<1) stop("No data - please add at least one set created by createSet\n")
 	for(i in 1:num.sets) {
-		if(class(l[[i]])!="set") stop(paste(names(l)[i], "is no set object - please use createSet"))
+		if(class(l[[i]])!="set") stop(paste(names(l)[i], "is no set object - please use createSet\n"))
 		attr(l[[i]], "call") <- NULL
 	}
 	if(any(class(time.stamp)=="POSIXt")==FALSE) stop("'time.stamp' must be given in POSIXlt format - for reformating use formatTS\n")
-	if(length(time.stamp)!=length(l[[1]]$data[,1])) stop("Different length of time.stamp and sets")
+	if(length(time.stamp)!=length(l[[1]]$data[,1])) stop("Different length of time.stamp and sets\n")
 	
 	# check units
 	var.names <- NULL
@@ -60,7 +60,6 @@ function(time.stamp, ..., loc=NULL, desc=NULL) {
 		else r <- list(time.stamp=time.stamp, location=loc, description=desc, sets=l)
 	}
 	attr(r, "call") <- list(func="createMast")
-	class(r) <- "mast"
 	
 	return(r)
 }

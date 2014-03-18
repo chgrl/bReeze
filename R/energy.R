@@ -2,7 +2,8 @@ energy <-
 function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 ###	calculating wind energy per sector
 	
-	if(class(wb)!="weibull") stop(paste(substitute(wb), "is no weibull object\n"))
+	if(is.null(attr(wb, "call"))) stop(paste(substitute(wb), "is no weibull object\n"))
+	if(attr(wb, "call")$func!="weibull") stop(paste(substitute(wb), "is no weibull object\n"))
 	if(any(bins<0)) stop("'bins' must be NULL or a vector of positives\n")
 
 	if(is.null(attr(wb, "call")$mast)) stop(paste("Source mast object of", substitute(wb), "could not be found\n"))
@@ -57,7 +58,6 @@ function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 	
 	attr(energy.tbl, "unit") <- "kWh/m^2/a"	
 	attr(energy.tbl, "call") <- list(func="energy", wb=deparse(substitute(wb)), rho=rho, bins=bins, digits=digits, print=print)
-	class(energy.tbl) <- "energy"
 	
 	energy.tbl <- round(energy.tbl, digits)
 	if(print) printObject(energy.tbl)

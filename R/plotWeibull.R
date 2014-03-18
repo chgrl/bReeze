@@ -2,7 +2,8 @@ plotWeibull <-
 function(wb, show.ak=FALSE, ...) {
 ### plotting fitted weibull distribution from weibull object
 	
-	if(class(wb)!="weibull") stop(paste(substitute(wb), "is no weibull object\n"))
+	if(is.null(attr(wb, "call"))) stop(paste(substitute(wb), "is no weibull object\n"))
+	if(attr(wb, "call")$func!="weibull") stop(paste(substitute(wb), "is no weibull object\n"))
 	
 	if(is.null(attr(wb, "call")$mast)) stop(paste("Source mast object of", substitute(wb), "could not be found\n"))
 	mast <- get(attr(wb, "call")$mast)

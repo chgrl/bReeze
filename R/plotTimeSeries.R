@@ -1,8 +1,9 @@
 plotTimeSeries <-
-function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), start, end, ...) {
+function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 ### plotting time series of mast data
 		
-	if(class(mast)!="mast") stop(paste(substitute(mast), "is no mast object"))
+	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
+	if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
 	num.sets <- length(mast$sets)
 	time.stamp <- mast$time.stamp
 	num.samples <- length(time.stamp)
@@ -11,12 +12,14 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), start, end, ...) {
 	if(!is.numeric(set)) set <- match(set, names(mast$sets))
 	if(any(is.na(set))) stop("'set' not found\n")
 	if(any(set<1) || any(set>num.sets)) stop("'set' not found\n")
-	if(missing(start)) start <- as.character(time.stamp[1])
-	if(missing(end)) end <- as.character(time.stamp[num.samples])
-	start <- strptime(start, "%Y-%m-%d %H:%M:%S")
-	end <- strptime(end, "%Y-%m-%d %H:%M:%S")
-	if(is.na(start)) stop("Specified 'start' not correctly formated\n")
-	if(is.na(end)) stop("Specified 'end' not correctly formated\n")
+	if(missing(subset)) subset <- c(NA, NA)
+	if((!any(is.character(subset)) && !any(is.na(subset))) || length(subset)!=2) stop("Please specify 'subset' as vector of start and end time stamp\n")
+	if(is.na(subset[1])) subset[1] <- as.character(time.stamp[1])
+	if(is.na(subset[2])) subset[2] <- as.character(time.stamp[num.samples])
+	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
+	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
+	if(is.na(start)) stop("Specified start time stamp in 'subset' not correctly formated\n")
+	if(is.na(end)) stop("Specified end time stamp in 'subset' not correctly formated\n")
 
 	# match start and end date
 	if(start<time.stamp[1] || start>time.stamp[num.samples]) stop("Specified 'start' not in period\n")

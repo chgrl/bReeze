@@ -6,7 +6,8 @@ function(uncertainty, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
 	if(missing(type)) type <- "prob"
 	type <- match.arg(type)
 	
-	if(class(uncertainty)!="uncertainty") stop(paste(substitute(uncertainty), "is no uncertainty object\n"))
+	if(is.null(attr(uncertainty, "call"))) stop(paste(substitute(uncertainty), "is no uncertainty object\n"))
+	if(attr(uncertainty, "call")$func!="uncertainty") stop(paste(substitute(uncertainty), "is no uncertainty object\n"))
 	if(!is.numeric(p.values)) stop("'p.values' must be numeric\n")
 	for(i in 1:length(p.values)) if(p.values[i]%%1!=0 || p.values[i]<1 || p.values[i]>=100) stop("Only positive 'p.values' between 1 and 100 allowed\n")
 	

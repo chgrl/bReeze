@@ -2,7 +2,8 @@ plotDay <-
 function(mast, set, dir.set=set, signal, num.sectors=NULL, ...) {
 ### plotting diurnal wind speed data
 	
-	if(class(mast)!="mast") stop(paste(substitute(mast), "is no mast object"))
+	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
+	if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
 	num.sets <- length(mast$sets)
 	if(missing(set)) set <- "all"
 	if(missing(signal)) stop("No signal to plot\n")

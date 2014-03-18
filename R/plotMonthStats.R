@@ -4,7 +4,8 @@ function(stats, set, ...) {
 		
 	if(is.data.frame(stats)) num.sets <- 1
 	else num.sets <- length(stats)
-	if(class(stats)!="stats") stop(paste(substitute(stats), "is no monthStats object\n"))
+	if(is.null(attr(stats, "call"))) stop(paste(substitute(stats), "is no monthStats object\n"))
+	if(attr(stats, "call")$func!="monthStats") stop(paste(substitute(stats), "is no monthStats object\n"))
 	if(missing(set)) set <- 1:num.sets
 	n.set <- length(set)
 	if(!is.numeric(set)) set <- match(set, names(stats))

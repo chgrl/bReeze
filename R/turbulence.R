@@ -2,7 +2,8 @@ turbulence <-
 function(mast, turb.set, dir.set, num.sectors=12, bins=c(5,10,15,20), digits=3, print=TRUE) {
 ### calculating mean wind speed and turbulence intensity of sectors
 
-	if(class(mast)!="mast") stop(paste(substitute(mast), "is no mast object"))
+	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
+	if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
 	num.sets <- length(mast$sets)
 	if(!missing(turb.set) && missing(dir.set)) dir.set <- turb.set
 	if(missing(turb.set) && !missing(dir.set)) turb.set <- dir.set
@@ -91,7 +92,6 @@ function(mast, turb.set, dir.set, num.sectors=12, bins=c(5,10,15,20), digits=3, 
 	if(sum(turb.tbl[,length(turb.tbl)], na.rm=TRUE)==0) turb.tbl[,length(turb.tbl)] <- NULL
 	
 	attr(turb.tbl, "call") <- list(func="turbulence", mast=deparse(substitute(mast)), turb.set=turb.set, dir.set=dir.set, num.sectors=num.sectors, bins=bins, digits=digits, print=print)
-	class(turb.tbl) <- "turbulence"
 	
 	turb.tbl <- round(turb.tbl, digits)
 	if(print) printObject(turb.tbl)

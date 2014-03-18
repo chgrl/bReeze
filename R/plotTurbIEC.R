@@ -2,7 +2,8 @@ plotTurbIEC <-
 function(mast, set, ...) {
 ### plotting turbulence intesity and site classification after IEC from mast object
 		
-	if(class(mast)!="mast") stop(paste(substitute(mast), "is no mast object"))
+	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
+	if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
 	num.sets <- length(mast$sets)
 	if(!is.numeric(set)) set <- match(set, names(mast$sets))
 	if(is.na(set)) stop("'set' not found\n")

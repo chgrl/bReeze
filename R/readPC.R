@@ -26,7 +26,6 @@ function(file, ex=FALSE) {
 		desc <- pow[1,1]
 		r <- createPC(v, p, rho=1.225, desc=desc)
 		attr(r, "call") <- list(func="readPC", file=file)
-		class(r) <- "pc"
 	} else if(type==".wtg") {
 		wtg <- xmlTreeParse(file, asTree=TRUE)
 		if(is.null(wtg$doc$children$WindTurbineGenerator)) stop("Cannot handle file\n")
@@ -47,8 +46,7 @@ function(file, ex=FALSE) {
 		}
 		desc <- xmlAttrs(xmlRoot(wtg))[["Description"]]
 		r <- createPC(v=v, p=p, ct=ct, rho=rho, desc=desc)
-		attr(r, "call") <- list(func="readPC", file=file)
-		class(r) <- "pc"
+		attr(r, "call") <- list(func="readPC", file=file, ex=ex)
 	}
 		
 	return(r)

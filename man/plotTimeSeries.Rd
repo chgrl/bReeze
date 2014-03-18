@@ -6,16 +6,15 @@
 \description{Plots time series of one or more signals of a given met mast object.}
 \usage{
 plotTimeSeries(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), 
-  start, end, ...)
+  subset, ...)
 plts(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), 
-  start, end, ...)
+  subset, ...)
 }
 \arguments{
   \item{mast}{Met mast object created by \code{\link{createMast}}.}
   \item{set}{Set used for plotting specified as set number or set name. Argument is optional -- if missing, all sets containing the given \code{signal}(s) are used.}
   \item{signal}{Signal(s) to be plotted as vector of strings giving the signal names.}
-  \item{start}{Date and time the plot starts at, as string.}
-  \item{end}{Date and time the plot ends at, as string.}
+  \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55".}
   \item{\dots}{Optional graphical parameters, see below for details.}
 }
 \section{Optional graphical parameters}{
@@ -69,11 +68,11 @@ plotTimeSeries(mast=neubuerg, signal=c("turb.int"))
 plotTimeSeries(mast=neubuerg, set=1, signal=c("v.avg", "dir.avg"))
 
 # change time scale
-plotTimeSeries(mast=neubuerg, start="2010-01-01 00:10:00")
-plotTimeSeries(mast=neubuerg, start="2009-10-11 00:10:00", 
-  end="2009-10-11 23:50:00")
+plotTimeSeries(mast=neubuerg, subset=c("2010-01-01 00:10:00", NA))
+plotTimeSeries(mast=neubuerg, subset=c("2009-10-11 00:10:00", 
+  "2009-10-11 23:50:00"))
 plotTimeSeries(mast=neubuerg, set=1, signal="v.max", 
-  start="2009-12-27 16:30:00", end="2009-12-27 18:30:00")
+  subset=c(NA, "2009-12-27 18:30:00")
 
 # customize plot
 plotTimeSeries(mast=neubuerg, bty="n", bty.leg="o", cex.axis=1.2, 
