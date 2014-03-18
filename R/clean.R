@@ -14,11 +14,13 @@ function(mast, set, v.avg.min=0.4, v.avg.max=50, dir.clean=TRUE, turb.clean=4, i
 	if(!is.null(rep) && is.null(n.rep)) stop("Please specify n.rep")
 	if(!is.null(rep)) if(!is.null(n.rep)) if(!is.numeric(n.rep)) stop("n.rep must be numeric or NULL") 
 	if(missing(mast) && !missing(set)) { # set
-		if(class(set)!="set") stop(paste(substitute(set), "is no set object"))
+		if(is.null(attr(set, "call"))) stop(paste(substitute(set), "is no set object\n"))
+		if(attr(set, "call")$func!="createSet") stop(paste(substitute(set), "is no set object\n"))
 		set$data <- cleanInt(set$data, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep+1)
 		r <- set
 	} else if(!missing(mast) && missing(set)) { # mast
-		if(class(mast)!="mast") stop(paste(substitute(mast), "is no mast object"))
+		if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
+		if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
 		num.sets <- length(mast$sets)
 		for(s in 1:num.sets) {
 			cat(paste("Cleaning set", s, "...\n"))
@@ -26,7 +28,8 @@ function(mast, set, v.avg.min=0.4, v.avg.max=50, dir.clean=TRUE, turb.clean=4, i
 		}
 		r <- mast
 	} else if(!is.null(mast) && !is.null(set)) { # set of mast
-		if(class(mast)!="mast") stop(paste(substitute(mast), "is no mast object"))
+		if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
+		if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
 		num.sets <- length(mast$sets)
 		if(!is.numeric(set)) set <- match(set, names(mast$sets))
 		if(is.na(set)) stop("Set not found\n")
