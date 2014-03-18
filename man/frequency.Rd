@@ -6,9 +6,9 @@
 \description{Calculates the frequency of occurrence and mean wind speed per wind direction sector.}
 \usage{
 frequency(mast, v.set, dir.set, num.sectors=12, 
-  bins=c(5, 10, 15, 20), digits=3, print=TRUE)
+  bins=c(5, 10, 15, 20), subset, digits=3, print=TRUE)
 freq(mast, v.set, dir.set, num.sectors=12, 
-  bins=c(5, 10, 15, 20), digits=3, print=TRUE)
+  bins=c(5, 10, 15, 20), subset, digits=3, print=TRUE)
 }
 \arguments{
   \item{mast}{Met mast object created by \code{\link{createMast}}.}
@@ -16,6 +16,7 @@ freq(mast, v.set, dir.set, num.sectors=12,
   \item{dir.set}{Set used for wind direction, specified as set number or set name (optional, if \code{v.set} is given).}
   \item{num.sectors}{Number of wind direction sectors as integer value greater 1. Default is \code{12}.}
   \item{bins}{Wind speed bins as numeric vector or \code{NULL} if no classification is desired.}
+  \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55".}
   \item{digits}{Number of decimal places to be used for results as numeric value. Default is \code{3}.}
   \item{print}{If \code{TRUE}, results are printed directly.}
 }

@@ -50,8 +50,8 @@ forts <- function(time.stamp, pattern) {
 	formatTS(time.stamp, pattern)
 }
 
-freq <- function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), digits=3, print=TRUE) {
-	frequency(mast, v.set, dir.set, num.sectors, bins, digits, print)
+freq <- function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digits=3, print=TRUE) {
+	frequency(mast, v.set, dir.set, num.sectors, bins, subset, digits, print)
 }
 
 map <- function(mast, type=c("satellite", "terrain", "hybrid", "roadmap"), zoom, label, ...) {
@@ -70,8 +70,8 @@ plavail <- function(avail, set, ...) {
 	plotAvailability(avail, set, ...)
 }
 
-plday <- function(mast, set, signal, ...) {
-	plotDay(mast, set, signal, ...)
+plday <- function(mast, set, dir.set=set, signal, num.sectors=NULL, ...) {
+	plotDay(mast, set, dir.set, signal, num.sectors, ...)
 }
 
 plen <- function(energy, show.total=TRUE, ...) {
@@ -98,8 +98,8 @@ plpro <- function(profile, sector, measured=TRUE, ...) {
 	plotProfile(profile, sector, measured, ...)
 }
 
-plts <- function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), start, end, ...) {
-	plotTimeSeries(mast, set, signal, start, end, ...)
+plts <- function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
+	plotTimeSeries(mast, set, signal, subset, ...)
 }
 
 pliec <- function(mast, set, ...) {
