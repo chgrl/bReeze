@@ -6,10 +6,10 @@
 \description{Calculates monthly statistics.}
 \usage{
 monthStats(mast, set, signal="v.avg", 
-  fun=c("mean", "median", "min", "max", "sd"), 
+  fun=c("mean", "median", "min", "max", "sd"), subset, 
   digits=3, print=TRUE)
 ms(mast, set, signal="v.avg", 
-  fun=c("mean", "median", "min", "max", "sd"), 
+  fun=c("mean", "median", "min", "max", "sd"), subset, 
   digits=3, print=TRUE)
 }
 \arguments{
@@ -17,6 +17,7 @@ ms(mast, set, signal="v.avg",
   \item{set}{Set used for calculation specified as set number or set name. If missing, the calculation is carried out for all datasets that contain the specified \code{signal}.}
   \item{signal}{The signal to be used, as string value. Default is \code{"v.avg"}.}
   \item{fun}{Statistical function, as string value -- one of \code{"mean"} (arithmetic mean), \code{"median"}, \code{"min"} (minimum), \code{"max"} (maximum) or \code{"sd"} (standard deviation).}
+  \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
   \item{digits}{Number of decimal places to be used for results as numeric value. Default is \code{3}.}
   \item{print}{If \code{TRUE}, results are printed directly.}
 }
@@ -55,6 +56,14 @@ monthStats(mast=neubuerg, fun="median")
 monthStats(mast=neubuerg, fun="min")
 monthStats(mast=neubuerg, fun="max")
 monthStats(mast=neubuerg, fun="sd")
+
+# data subsets
+monthStats(mast=neubuerg, 
+  subset=c("2009-12-01 00:00:00", "2009-12-31 23:50:00"))
+monthStats(mast=neubuerg, 
+  subset=c("2010-01-01 00:00:00", NA)) # just 'start' time stamp
+monthStats(mast=neubuerg, 
+  subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
 
 # change number of digits and hide results
 monthStats(mast=neubuerg, digits=2)
