@@ -16,7 +16,8 @@ function(time.stamp, ..., loc=NULL, desc=NULL) {
 	num.sets <- length(l)
 	if(num.sets<1) stop("No data - please add at least one set created by createSet\n")
 	for(i in 1:num.sets) {
-		if(class(l[[i]])!="set") stop(paste(names(l)[i], "is no set object - please use createSet\n"))
+		if(is.null(attr(l[[i]], "call"))) stop(paste(names(l)[i], "is no set object - please use createSet\n"))
+		if(attr(l[[i]], "call")$func!="createSet") stop(paste(names(l)[i], "is no set object - please use createSet\n"))
 		attr(l[[i]], "call") <- NULL
 	}
 	if(any(class(time.stamp)=="POSIXt")==FALSE) stop("'time.stamp' must be given in POSIXlt format - for reformating use formatTS\n")
