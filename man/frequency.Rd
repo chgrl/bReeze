@@ -16,7 +16,7 @@ freq(mast, v.set, dir.set, num.sectors=12,
   \item{dir.set}{Set used for wind direction, specified as set number or set name (optional, if \code{v.set} is given).}
   \item{num.sectors}{Number of wind direction sectors as integer value greater 1. Default is \code{12}.}
   \item{bins}{Wind speed bins as numeric vector or \code{NULL} if no classification is desired.}
-  \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55".}
+  \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
   \item{digits}{Number of decimal places to be used for results as numeric value. Default is \code{3}.}
   \item{print}{If \code{TRUE}, results are printed directly.}
 }
@@ -65,6 +65,14 @@ frequency(mast=neubuerg, v.set=1, num.sectors=16)
 frequency(mast=neubuerg, v.set=1, bins=1:25)
 frequency(mast=neubuerg, v.set=1, bins=0:25)	# same as above
 frequency(mast=neubuerg, v.set=1, bins=NULL)
+
+# data subsets
+frequency(mast=neubuerg, v.set=1, 
+  subset=c("2009-12-01 00:00:00", "2009-12-31 23:50:00"))
+frequency(mast=neubuerg, v.set=1, 
+  subset=c("2010-01-01 00:00:00", NA)) # just 'start' time stamp
+frequency(mast=neubuerg, v.set=1, 
+  subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
 
 # change number of digits and hide results
 frequency(mast=neubuerg, v.set=1, digits=2)

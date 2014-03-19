@@ -45,6 +45,10 @@ function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digit
 	if(is.na(subset[2])) subset[2] <- as.character(mast$time.stamp[num.samples])
 	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
 	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
 	if(is.na(start)) stop("Specified start time stamp in 'subset' not correctly formated\n")
 	if(is.na(end)) stop("Specified end time stamp in 'subset' not correctly formated\n")
 	if(start<mast$time.stamp[1] || start>mast$time.stamp[num.samples]) stop("Specified 'start' not in period\n")
@@ -65,7 +69,7 @@ function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digit
 		if(low<high) idx.dir <- mast$sets[[dir.set]]$data$dir.avg[start:end]>=low & mast$sets[[dir.set]]$data$dir.avg[start:end]<high
 		else idx.dir <- mast$sets[[dir.set]]$data$dir.avg[start:end]>=low | mast$sets[[dir.set]]$data$dir.avg[start:end]<high
 		
-		freq.tbl[s,1] <- mean(mast$sets[[v.set]]$data$v.avg[idx.val & idx.dir])
+		freq.tbl[s,1] <- mean(mast$sets[[v.set]]$data$v.avg[idx.val & idx.dir], na.rm=TRUE)
 		freq.tbl[s,2] <- length(mast$sets[[v.set]]$data$v.avg[idx.val & idx.dir]) * 100 / length(mast$sets[[dir.set]]$data$dir.avg[idx.val])
 		if(!is.null(bins)) {
 			for(c in 1:(num.classes-1)) {
@@ -75,7 +79,7 @@ function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digit
 			}
 		}
 		if(!is.null(bins)) {
-			freq.tbl[s,num.classes+2] <- length(mast$sets[[v.set]]$data$v.avg[idx.val & idx.dir & mast$sets[[v.set]]$data$v.avg>=bins[num.classes]]) * 100 / length(mast$sets[[dir.set]]$data$dir.avg[idx.val])
+			freq.tbl[s,num.classes+2] <- length(mast$sets[[v.set]]$data$v.avg[idx.val & idx.dir & mast$sets[[v.set]]$data$v.avg[start:end]>=bins[num.classes]]) * 100 / length(mast$sets[[dir.set]]$data$dir.avg[idx.val])
 		}
 	}
 	freq.tbl[num.sectors+1,1] <- mean(mast$sets[[v.set]]$data$v.avg[start:end], na.rm=TRUE)
