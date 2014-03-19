@@ -58,8 +58,8 @@ map <- function(mast, type=c("satellite", "terrain", "hybrid", "roadmap"), zoom,
 	plotMap(mast, type, zoom, label, ...)
 }
 
-ms <- function(mast, set, signal="v.avg", fun=c("mean", "median", "min", "max", "sd"), digits=3, print=TRUE) {
-	monthStats(mast, set, signal, fun, digits, print)
+ms <- function(mast, set, signal="v.avg", fun=c("mean", "median", "min", "max", "sd"), subset, digits=3, print=TRUE) {
+	monthStats(mast, set, signal, fun, subset, digits, print)
 }
 
 plaep <- function(aep, show.total=TRUE, ...) {
