@@ -134,8 +134,8 @@ rpc <- function(file, ex=FALSE) {
 	readPC(file, ex)
 }
 
-turb <- function(mast, turb.set, dir.set, num.sectors=12, bins=c(5,10,15,20), digits=3, print=TRUE) {
-	turbulence(mast, turb.set, dir.set, num.sectors, bins, digits, print)
+turb <- function(mast, turb.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digits=3, print=TRUE) {
+	turbulence(mast, turb.set, dir.set, num.sectors, bins, subset, digits, print)
 }
 
 uc <- function(aep, uc.values, uc.names, prob=seq(5,95,5), digits=c(0,0), print=TRUE) {
