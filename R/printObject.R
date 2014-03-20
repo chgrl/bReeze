@@ -170,7 +170,7 @@ printObject <- function(object) {
 		}
 		if(attr(object, "call")$v.set=="all") attr(object, "call")$v.set <- "\"all\""
 		if(attr(object, "call")$dir.set=="all") attr(object, "call")$dir.set <- "\"all\""
-		cat("call: availability(mast=", attr(object, "call")$mast, ", v.set=", attr(object, "call")$v.set, ", dir.set=", attr(object, "call")$dir.set, ", digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
+		cat("call: availability(mast=", attr(object, "call")$mast, ", v.set=", attr(object, "call")$v.set, ", dir.set=", attr(object, "call")$dir.set, ", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\"), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
 	} else if(attr(object, "call")$func=="monthStats") { # month stats object
 		cat("\n\tMonthly statistics\n\n")
 		cat(names(object)[1], "\n")

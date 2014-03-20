@@ -5,13 +5,14 @@
 \title{Calculate availability for pairs of wind speed and direction}
 \description{Calculates the availability for pairs of wind speed and wind direction of a met mast.}
 \usage{
-availability(mast, v.set, dir.set, digits=1, print=TRUE)
-avail(mast, v.set, dir.set, digits=1, print=TRUE)
+availability(mast, v.set, dir.set, subset, digits=1, print=TRUE)
+avail(mast, v.set, dir.set, subset, digits=1, print=TRUE)
 }
 \arguments{
   \item{mast}{Met mast object created by \code{\link{createMast}}.}
   \item{v.set}{Set(s) to be used for wind speed, specified as set number(s) or set name(s). Argument is optional -- if missing, all sets containing wind speed and wind direction data are used.}
   \item{dir.set}{Set(s) to be used for wind direction, specified as set number(s) or set name(s). Argument is optional -- if missing, the set(s) used for wind speed data will also be used for wind direction.}
+  \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
   \item{digits}{Number of decimal places to be used for results as numeric value. Default is \code{1}.}
   \item{print}{If \code{TRUE}, results are printed directly.}
 }
@@ -66,6 +67,14 @@ set20.avail <- availability(mast=neubuerg, v.set="set20", dir.set="set40")
 
 # calculate availability for all sets using wind direction data from 'set40'
 neubuerg.avail <- availability(mast=neubuerg, v.set=c(1,2,3), dir.set=1)
+
+# data subsets
+availability(mast=neubuerg, v.set=1, 
+  subset=c("2009-12-01 00:10:00", "2009-12-31 23:50:00"))
+availability(mast=neubuerg, v.set=1, 
+  subset=c("2010-01-01 00:10:00", NA)) # just 'start' time stamp
+availability(mast=neubuerg, v.set=1, 
+  subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
 }
 }
 \keyword{methods}

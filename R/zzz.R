@@ -22,8 +22,8 @@ function(pkg="bReeze") {
 
 ### short name wrapper functions
 
-avail <- function(mast, v.set, dir.set, digits=1, print=TRUE) {
-	availability(mast, v.set, dir.set, digits, print)
+avail <- function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
+	availability(mast, v.set, dir.set, subset, digits, print)
 }
 
 cln <- function(mast, set, v.avg.min=0.4, v.avg.max=50, dir.clean=TRUE, turb.clean=4, icing=FALSE, rep=NULL, n.rep=5) {
