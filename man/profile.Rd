@@ -7,10 +7,10 @@
 \usage{
 profile(mast, v.set, dir.set, num.sectors=12, 
   method=c("hellman", "loglm", "fixed"), alpha=NULL,
-  digits=3, print=TRUE)
+  subset, digits=3, print=TRUE)
 pro(mast, v.set, dir.set, num.sectors=12, 
   method=c("hellman", "loglm", "fixed"), alpha=NULL,
-  digits=3, print=TRUE)
+  subset, digits=3, print=TRUE)
 }
 \arguments{
   \item{mast}{Met mast object created by \code{\link{createMast}}.}
@@ -19,6 +19,7 @@ pro(mast, v.set, dir.set, num.sectors=12,
   \item{num.sectors}{Number of wind direction sectors as integer value greater 1. Default is \code{12}.}
   \item{method}{Method to be used for the calculation. One of \code{"hellman"}, \code{"loglm"} or \code{"fixed"} (see Details section). Optional argument: \code{"fixed"} is used if \code{v.set} is a single dataset, \code{"hellman"} is used if \code{v.set} specifies two, \code{"loglm"} if \code{v.set} specifies three datasets.}
   \item{alpha}{Hellman exponent. Optional and only used if the choosen \code{method} is \code{"fixed"}. If \code{alpha} is \code{NULL}, \code{0.2} is used as default.}
+  \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
   \item{digits}{Number of decimal places to be used for results as numeric value. Default is \code{3}.}
   \item{print}{If \code{TRUE}, results are printed directly.}
 }
@@ -81,9 +82,16 @@ profile(mast=neubuerg, v.set=c(1,2,3), dir.set=1)
 # note: negative alphas!
 profile(mast=neubuerg, v.set=c(1,2), dir.set=1, method="loglm")
 
-
 # change number of direction sectors
 profile(mast=neubuerg, v.set=c(1,2), dir.set=1, num.sectors=8)
+
+# data subsets
+profile(mast=neubuerg, v.set=1, dir.set=1, 
+  subset=c("2009-12-01 00:00:00", "2009-12-31 23:50:00"))
+profile(mast=neubuerg, v.set=c(1,2), dir.set=1, 
+  subset=c("2010-01-01 00:00:00", NA)) # just 'start' time stamp
+profile(mast=neubuerg, v.set=c(1:3), dir.set=1, 
+  subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
 
 # change number of digits and hide results
 profile(mast=neubuerg, v.set=1, dir.set=1, digits=2)

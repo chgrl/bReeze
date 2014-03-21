@@ -245,7 +245,7 @@ printObject <- function(object) {
 		print(rbind(tbl.units, obj), quote=FALSE)
 		cat("\nreference height:", object$h.ref, attr(object$h.ref, "unit"), "\n")
 		if(is.null(attr(object, "call")$alpha)) attr(object, "call")$alpha <- "NULL"
-		cat("\ncall: profile(mast=", attr(object, "call")$mast, ", v.set=c(", paste(attr(object, "call")$v.set, collapse=", "), "), dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", method=\"", attr(object, "call")$method, "\", alpha=", attr(object, "call")$alpha, ", digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
+		cat("\ncall: profile(mast=", attr(object, "call")$mast, ", v.set=c(", paste(attr(object, "call")$v.set, collapse=", "), "), dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", method=\"", attr(object, "call")$method, "\", alpha=", attr(object, "call")$alpha, ", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\"), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
 	} else if(attr(object, "call")$func=="aep") { # aep object
 		cat("\n\tAnnual energy production\n\n")
 		tbl.units <- data.frame(t(names(object$aep)))

@@ -1,5 +1,5 @@
 profile <-
-function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fixed"), alpha=NULL, digits=3, print=TRUE) {
+function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fixed"), alpha=NULL, subset, digits=3, print=TRUE) {
 ###	computing profile from mast data
 	
 	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
@@ -22,6 +22,27 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 		else method <- "loglm"
 	}
 	
+	# subset
+	num.samples <- length(mast$time.stamp)
+	if(missing(subset)) subset <- c(NA, NA)
+	if((!any(is.character(subset)) && !any(is.na(subset))) || length(subset)!=2) stop("Please specify 'subset' as vector of start and end time stamp\n")
+	if(is.na(subset[1])) subset[1] <- as.character(mast$time.stamp[1])
+	if(is.na(subset[2])) subset[2] <- as.character(mast$time.stamp[num.samples])
+	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
+	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
+	if(is.na(start)) stop("Specified start time stamp in 'subset' not correctly formated\n")
+	if(is.na(end)) stop("Specified end time stamp in 'subset' not correctly formated\n")
+	if(start<mast$time.stamp[1] || start>mast$time.stamp[num.samples]) stop("Specified 'start' not in period\n")
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	if(end<mast$time.stamp[1] || end>mast$time.stamp[num.samples]) stop("Specified 'end' not in period\n")
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	
 	sector.width <- 360/num.sectors
 	sectors <- seq(0, 360-sector.width, by=sector.width)
 	sector.edges <- c(sectors-sector.width/2, tail(sectors, n=1)+sector.width/2)%%360
@@ -32,13 +53,12 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 	if(num.sectors==16) r.names <- c("n","nne","ne","ene","e","ese","se","sse","s","ssw","sw","wsw","w","wnw","nw","nnw","all")
 	
 	profile <- NULL
-	v1 <- mast$sets[[v.set[1]]]$data$v.avg
+	v1 <- mast$sets[[v.set[1]]]$data$v.avg[start:end]
 	h1 <- mast$sets[[v.set[1]]]$height
-	dir <- mast$sets[[dir.set]]$data$dir.avg
+	dir <- mast$sets[[dir.set]]$data$dir.avg[start:end]
 	
 	if(method=="fixed") {	# fixed alpha
 		if(is.null(alpha)) alpha <- 0.2
-		dir <- mast$sets[[dir.set]]$data$dir.avg
 		profile <- data.frame(matrix(NA, nrow=num.sectors+1, ncol=2))
 		
 		for(i in 1:num.sectors) {
@@ -62,7 +82,7 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 			v.set <- v.set[1:2]
 		}
 		
-		v2 <- mast$sets[[v.set[2]]]$data$v.avg
+		v2 <- mast$sets[[v.set[2]]]$data$v.avg[start:end]
 		h2 <- mast$sets[[v.set[2]]]$height
 		
 		if(h1==h2) stop("Sets have the same height - no extrapolation possible\n")
@@ -93,8 +113,8 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 		v <- v1
 		h <- rep(h1, length(v))
 		for(i in 2:length(v.set)) {
-			v <- append(v, mast$sets[[v.set[i]]]$data$v.avg)
-			h <- append(h, rep(mast$sets[[v.set[i]]]$height, length(mast$sets[[v.set[i]]]$data$v.avg)))
+			v <- append(v, mast$sets[[v.set[i]]]$data$v.avg[start:end])
+			h <- append(h, rep(mast$sets[[v.set[i]]]$height, length(mast$sets[[v.set[i]]]$data$v.avg[start:end])))
 		}
 		
 		if(length(unique(h))!=length(v.set)) stop("Sets have the same height - no extrapolation possible\n")
@@ -134,7 +154,7 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 	}
 	
 	profile <- list(profile=round(profile, digits), h.ref=h1)
-	attr(profile, "call") <- list(func="profile", mast=deparse(substitute(mast)), v.set=v.set, dir.set=dir.set, num.sectors=num.sectors, method=method, alpha=alpha, digits=digits, print=print)
+	attr(profile, "call") <- list(func="profile", mast=deparse(substitute(mast)), v.set=v.set, dir.set=dir.set, num.sectors=num.sectors, method=method, alpha=alpha, subset=subset, digits=digits, print=print)
 	
 	if(print) printObject(profile)
 	invisible(profile)
