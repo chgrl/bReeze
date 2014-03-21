@@ -82,7 +82,7 @@ function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digit
 			freq.tbl[s,num.classes+2] <- length(mast$sets[[v.set]]$data$v.avg[idx.val & idx.dir & mast$sets[[v.set]]$data$v.avg[start:end]>=bins[num.classes]]) * 100 / length(mast$sets[[dir.set]]$data$dir.avg[idx.val])
 		}
 	}
-	freq.tbl[num.sectors+1,1] <- mean(mast$sets[[v.set]]$data$v.avg[start:end], na.rm=TRUE)
+	freq.tbl[num.sectors+1,1] <- mean(mast$sets[[v.set]]$data$v.avg[start:end], na.rm=TRUE) # idx.val instead of start:end?
 	freq.tbl[num.sectors+1,2] <- sum(freq.tbl[1:num.sectors,2], na.rm=TRUE)
 	
 	if(!is.null(bins)) for(i in 3:(num.classes+2)) freq.tbl[num.sectors+1,i] <- sum(freq.tbl[1:num.sectors,i], na.rm=TRUE)
