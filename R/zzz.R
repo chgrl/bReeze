@@ -142,6 +142,6 @@ uc <- function(aep, uc.values, uc.names, prob=seq(5,95,5), digits=c(0,0), print=
 	uncertainty(aep, uc.values, uc.names, prob, digits, print)
 }
 
-wb <- function(mast, v.set, dir.set, num.sectors=12, digits=3, print=TRUE) {
-	weibull(mast, v.set, dir.set, num.sectors, digits, print)
+wb <- function(mast, v.set, dir.set, num.sectors=12, subset, digits=3, print=TRUE) {
+	weibull(mast, v.set, dir.set, num.sectors, subset, digits, print)
 }

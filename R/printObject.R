@@ -224,7 +224,7 @@ printObject <- function(object) {
 		row.names(tbl.units) <- " "
 		row.names(obj) <- c(toupper(head(row.names(object), -1)), tail(row.names(object), 1))
 		print(rbind(tbl.units, obj), quote=FALSE)
-		cat("\ncall: weibull(mast=", attr(object, "call")$mast, ", v.set=", attr(object, "call")$v.set, ", dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
+		cat("\ncall: weibull(mast=", attr(object, "call")$mast, ", v.set=", attr(object, "call")$v.set, ", dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\"), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
 	} else if(attr(object, "call")$func=="energy") { # energy object
 		cat("\n\tWind energy content\n\n")
 		row.names(object) <- c(toupper(head(row.names(object), -1)), tail(row.names(object), 1))

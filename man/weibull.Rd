@@ -5,9 +5,9 @@
 \title{Calculation of Weibull parameters}
 \description{Calculates the shape parameters (k) and scale parameters (A) of the Weibull distribution per direction sector.}
 \usage{
-weibull(mast, v.set, dir.set, num.sectors=12,
+weibull(mast, v.set, dir.set, num.sectors=12, subset, 
   digits=3, print=TRUE)
-wb(mast, v.set, dir.set, num.sectors=12,
+wb(mast, v.set, dir.set, num.sectors=12, subset, 
   digits=3, print=TRUE)
 }
 \arguments{
@@ -15,6 +15,7 @@ wb(mast, v.set, dir.set, num.sectors=12,
   \item{v.set}{Set used for wind speed, specified as set number or set name (optional, if dir.set is given).}
   \item{dir.set}{Set used for wind direction, specified as set number or set name (optional, if \code{v.set} is given).}
   \item{num.sectors}{Number of wind direction sectors as integer value greater 1. Default is \code{12}.}
+  \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
   \item{digits}{Number of decimal places to be used for results as numeric value. Default is \code{3}.}
   \item{print}{If \code{TRUE}, results are printed directly.}
 }
@@ -63,6 +64,14 @@ weibull(mast=neubuerg, dir.set="set1")
 
 # change number of direction sectors
 weibull(mast=neubuerg, v.set=1, num.sectors=16)
+
+# data subsets
+weibull(mast=neubuerg, v.set=1, 
+  subset=c("2009-12-01 00:00:00", "2009-12-31 23:50:00"))
+weibull(mast=neubuerg, v.set=1, 
+  subset=c("2010-01-01 00:00:00", NA)) # just 'start' time stamp
+weibull(mast=neubuerg, v.set=1, 
+  subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
 
 # change number of digits and hide results
 weibull(mast=neubuerg, v.set=1, digits=2)
