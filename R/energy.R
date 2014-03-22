@@ -11,11 +11,26 @@ function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 	v.set <- attr(wb, "call")$v.set
 	dir.set <- attr(wb, "call")$dir.set
 	num.sectors <- attr(wb, "call")$num.sectors
-	lim <- c(0, 5*(trunc(ceiling(max(mast$sets[[v.set]]$data$v.avg, na.rm=TRUE))/5)+1))
+	subset <- attr(wb, "call")$subset
+	
+	# subset
+	num.samples <- length(mast$time.stamp)
+	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
+	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	
+	lim <- c(0, 5*(trunc(ceiling(max(mast$sets[[v.set]]$data$v.avg[start:end], na.rm=TRUE))/5)+1))
 	
 	if(!is.null(bins)) if(head(bins, 1)!=0) bins <- c(0, bins)
 	num.classes <- length(bins)
-	v.max <- max(mast$sets[[v.set]]$data$v.avg, na.rm=TRUE)
+	v.max <- max(mast$sets[[v.set]]$data$v.avg[start:end], na.rm=TRUE)
 	if(num.classes>2) {
 		for(i in (num.classes-1):2) {
 			if(bins[i+1]>=v.max && bins[i]>=v.max) {
@@ -40,7 +55,7 @@ function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 	}
 	names(energy.tbl) <- c.names
 	
-	freq <- frequency(mast, v.set, dir.set, num.sectors, bins, print=FALSE)[,-1]
+	freq <- frequency(mast, v.set, dir.set, num.sectors, bins, subset, print=FALSE)[,-1]
 	
 	for(i in 1:num.sectors) {
 		if(!is.null(bins)) {
