@@ -1,5 +1,5 @@
 plotTurbIEC <-
-function(mast, set, ...) {
+function(mast, set, subset, ...) {
 ### plotting turbulence intesity and site classification after IEC from mast object
 		
 	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
@@ -11,10 +11,31 @@ function(mast, set, ...) {
 	if(is.null(mast$sets[[set]]$data$turb.int)) stop("Specified set does not contain turbulence intensity data\n")
 	unit <- attr(mast$sets[[set]]$data$v.avg, "unit")
 	
-	vmax <- ceiling(max(mast$sets[[set]]$data$v.avg, na.rm=TRUE))
+	# subset
+	num.samples <- length(mast$time.stamp)
+	if(missing(subset)) subset <- c(NA, NA)
+	if((!any(is.character(subset)) && !any(is.na(subset))) || length(subset)!=2) stop("Please specify 'subset' as vector of start and end time stamp\n")
+	if(is.na(subset[1])) subset[1] <- as.character(mast$time.stamp[1])
+	if(is.na(subset[2])) subset[2] <- as.character(mast$time.stamp[num.samples])
+	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
+	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
+	if(is.na(start)) stop("Specified start time stamp in 'subset' not correctly formated\n")
+	if(is.na(end)) stop("Specified end time stamp in 'subset' not correctly formated\n")
+	if(start<mast$time.stamp[1] || start>mast$time.stamp[num.samples]) stop("Specified 'start' not in period\n")
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	if(end<mast$time.stamp[1] || end>mast$time.stamp[num.samples]) stop("Specified 'end' not in period\n")
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	
+	vmax <- ceiling(max(mast$sets[[set]]$data$v.avg[start:end], na.rm=TRUE))
 	site.turb <- c()
 	for(i in 0:(vmax-1)) {
-		site.turb <- append(site.turb, mean(mast$sets[[set]]$data$turb.int[mast$sets[[set]]$data$v.avg>=i & mast$sets[[set]]$data$v.avg<i+1], na.rm=TRUE))
+		site.turb <- append(site.turb, mean(mast$sets[[set]]$data$turb.int[mast$sets[[set]]$data$v.avg[start:end]>=i & mast$sets[[set]]$data$v.avg[start:end]<i+1], na.rm=TRUE))
 	}
 	
 	plot.param <- list(...)

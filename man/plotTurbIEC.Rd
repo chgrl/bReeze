@@ -5,12 +5,13 @@
 \title{Plot turbulence intensity site classification}
 \description{Plots the turbulence intensity and site classification after IEC.}
 \usage{
-plotTurbIEC(mast, set, ...)
-pliec(mast, set, ...)
+plotTurbIEC(mast, set, subset, ...)
+pliec(mast, set, subset, ...)
 }
 \arguments{
   \item{mast}{Met mast object created by \code{createMast}.}
   \item{set}{Set used for plotting specified as set number or set name.}
+  \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
   \item{\dots}{Optional graphical parameters, see below for details.}
 }
 \section{Optional graphical parameters}{
@@ -78,6 +79,14 @@ neubuerg <- clean(mast=neubuerg)
 # plot
 plotTurbIEC(mast=neubuerg, set=1)
 plotTurbIEC(mast=neubuerg, set="set1")	# same as above
+
+# data subsets
+plotTurbIEC(mast=neubuerg, set=1, 
+  subset=c("2009-12-01 00:00:00", "2009-12-31 23:50:00"))
+plotTurbIEC(mast=neubuerg, set=1,  
+  subset=c("2010-01-01 00:00:00", NA)) # just 'start' time stamp
+plotTurbIEC(mast=neubuerg, set=1, 
+  subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
 
 # customize plot
 plotTurbIEC(mast=neubuerg, set=1, bty="l", cex.axis=0.8, cex.lab=0.9, 

@@ -1,5 +1,5 @@
 plotPolar <-
-function(mast, v.set=1, dir.set=1, ...) {
+function(mast, v.set=1, dir.set=1, subset, ...) {
 ### plotting wind speed vs. wind direction in polar plot
 	
 	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
@@ -16,9 +16,30 @@ function(mast, v.set=1, dir.set=1, ...) {
 	if(dir.set<=0 || dir.set>num.sets) stop("Specified 'dir.set' could not be found\n")
 	if(is.null(mast$sets[[dir.set]]$data$dir.avg)) stop("Specified 'dir.set' does not contain average wind direction data\n")
 	
-	ws <- mast$sets[[v.set]]$data$v.avg[!is.na(mast$sets[[v.set]]$data$v.avg) & !is.na(mast$sets[[dir.set]]$data$dir.avg)]
-	wd <- mast$sets[[dir.set]]$data$dir.avg[!is.na(mast$sets[[v.set]]$data$v.avg) & !is.na(mast$sets[[dir.set]]$data$dir.avg)]*-pi/180+pi/2
-	v.max <- max(mast$sets[[v.set]]$data$v.avg, na.rm=TRUE)
+	# subset
+	num.samples <- length(mast$time.stamp)
+	if(missing(subset)) subset <- c(NA, NA)
+	if((!any(is.character(subset)) && !any(is.na(subset))) || length(subset)!=2) stop("Please specify 'subset' as vector of start and end time stamp\n")
+	if(is.na(subset[1])) subset[1] <- as.character(mast$time.stamp[1])
+	if(is.na(subset[2])) subset[2] <- as.character(mast$time.stamp[num.samples])
+	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
+	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
+	if(is.na(start)) stop("Specified start time stamp in 'subset' not correctly formated\n")
+	if(is.na(end)) stop("Specified end time stamp in 'subset' not correctly formated\n")
+	if(start<mast$time.stamp[1] || start>mast$time.stamp[num.samples]) stop("Specified 'start' not in period\n")
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	if(end<mast$time.stamp[1] || end>mast$time.stamp[num.samples]) stop("Specified 'end' not in period\n")
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	
+	ws <- mast$sets[[v.set]]$data$v.avg[!is.na(mast$sets[[v.set]]$data$v.avg[start:end]) & !is.na(mast$sets[[dir.set]]$data$dir.avg[start:end])]
+	wd <- mast$sets[[dir.set]]$data$dir.avg[!is.na(mast$sets[[v.set]]$data$v.avg[start:end]) & !is.na(mast$sets[[dir.set]]$data$dir.avg[start:end])]*-pi/180+pi/2
+	v.max <- max(mast$sets[[v.set]]$data$v.avg[start:end], na.rm=TRUE)
 	unit <- attr(mast$sets[[v.set]]$data$v.avg, "unit")
 	
 	# prepare plot

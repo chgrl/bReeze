@@ -1,5 +1,5 @@
 plotDay <-
-function(mast, set, dir.set=set, signal, num.sectors=NULL, ...) {
+function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 ### plotting diurnal wind speed data
 	
 	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
@@ -13,6 +13,28 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, ...) {
 		if(!is.numeric(num.sectors)) stop("num.sectors must be numeric or NULL\n")
 		if(num.sectors<=1) stop("num.sectors must be greater 1\n")
 	}
+	
+	# subset
+	num.samples <- length(mast$time.stamp)
+	if(missing(subset)) subset <- c(NA, NA)
+	if((!any(is.character(subset)) && !any(is.na(subset))) || length(subset)!=2) stop("Please specify 'subset' as vector of start and end time stamp\n")
+	if(is.na(subset[1])) subset[1] <- as.character(mast$time.stamp[1])
+	if(is.na(subset[2])) subset[2] <- as.character(mast$time.stamp[num.samples])
+	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
+	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
+	if(is.na(start)) stop("Specified start time stamp in 'subset' not correctly formated\n")
+	if(is.na(end)) stop("Specified end time stamp in 'subset' not correctly formated\n")
+	if(start<mast$time.stamp[1] || start>mast$time.stamp[num.samples]) stop("Specified 'start' not in period\n")
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	if(end<mast$time.stamp[1] || end>mast$time.stamp[num.samples]) stop("Specified 'end' not in period\n")
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	
 	h.unit <- attr(mast$sets[[1]]$height, "unit")
 	unit <- NULL
 	for(i in 1:num.sets) {
@@ -117,7 +139,7 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, ...) {
 		if(is.na(set)) stop("'set' not found\n")
 		if(set<0 || set>num.sets) stop("'set' not found\n")
 		if(!any(names(mast$sets[[set]]$data)==signal)) stop("Specified set does not contain the choosen signal\n")
-		dat <- mast$sets[[set]]$data[,which(names(mast$sets[[set]]$data)==signal)]
+		dat <- mast$sets[[set]]$data[,which(names(mast$sets[[set]]$data)==signal)][start:end]
 		if(!is.numeric(dir.set)) dir.set <- match(dir.set, names(mast$sets))
 		if(is.na(dir.set)) stop("'dir.set' not found\n")
 		if(dir.set<0 || dir.set>num.sets) stop("'dir.set' not found\n")
@@ -134,7 +156,7 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, ...) {
 		# mean diurnal
 		diurnal <- NULL
 		for(i in 0:23) {
-			hour.idx <- mast$time.stamp$hour==i
+			hour.idx <- mast$time.stamp[start:end]$hour==i
 			hour.values <- dat[hour.idx]
 			hour.values <- hour.values[!is.na(hour.values)]
 			if(length(hour.values)>0) diurnal <- append(diurnal, mean(hour.values))
@@ -145,11 +167,11 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, ...) {
 			for(sec in 1:num.sectors) {
 				low <- sector.edges[sec]
 				high <- sector.edges[sec+1]
-				if(low<high) idx.dir <- mast$sets[[dir.set]]$data$dir.avg>=low & mast$sets[[dir.set]]$data$dir.avg<high
-				else idx.dir <- mast$sets[[dir.set]]$data$dir.avg>=low | mast$sets[[dir.set]]$data$dir.avg<high
+				if(low<high) idx.dir <- mast$sets[[dir.set]]$data$dir.avg[start:end]>=low & mast$sets[[dir.set]]$data$dir.avg[start:end]<high
+				else idx.dir <- mast$sets[[dir.set]]$data$dir.avg[start:end]>=low | mast$sets[[dir.set]]$data$dir.avg[start:end]<high
 				diurnal.s <- NULL
 				for(i in 0:23) {
-					hour.idx <- mast$time.stamp$hour==i
+					hour.idx <- mast$time.stamp[start:end]$hour==i
 					hour.values <- dat[hour.idx & idx.dir]
 					hour.values <- hour.values[!is.na(hour.values)]
 					if(length(hour.values)>0) diurnal.s <- append(diurnal.s, mean(hour.values))
@@ -218,7 +240,7 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, ...) {
 		
 		diurnal <- NULL
 		for(i in 0:23) {
-			hour.idx = mast$time.stamp$hour==i
+			hour.idx = mast$time.stamp[start:end]$hour==i
 			hour.values <- mast$sets[[set.index[1]]]$data[hour.idx,which(names(mast$sets[[set.index[1]]]$data)==signal)]
 			hour.values <- hour.values[!is.na(hour.values)]
 			if(length(hour.values)>0) diurnal <- append(diurnal, mean(hour.values))
@@ -234,7 +256,7 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, ...) {
 			for(s in 2:length(set.index)) {
 				diurnal <- NULL
 				for(i in 0:23) {
-					hour.idx <- mast$time.stamp$hour==i
+					hour.idx <- mast$time.stamp[start:end]$hour==i
 					hour.values <- mast$sets[[set.index[s]]]$data[hour.idx,which(names(mast$sets[[set.index[s]]]$data)==signal)]
 					hour.values <- hour.values[!is.na(hour.values)]
 					if(length(hour.values)>0) diurnal <- append(diurnal, mean(hour.values))

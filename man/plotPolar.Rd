@@ -5,13 +5,14 @@
 \title{Plot wind speed vs. direction}
 \description{Plots wind speeds against directions in a polar plot.}
 \usage{
-plotPolar(mast, v.set=1, dir.set=1, ...)
-plpol(mast, v.set=1, dir.set=1, ...)
+plotPolar(mast, v.set=1, dir.set=1, subset, ...)
+plpol(mast, v.set=1, dir.set=1, subset, ...)
 }
 \arguments{
   \item{mast}{Met mast object created by \code{\link{createMast}}.}
   \item{v.set}{Set used for wind speed values, specified as set number or set name.}
   \item{dir.set}{Set used for wind direction values, specified as set number or set name.}
+  \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
   \item{\dots}{Optional graphical parameters, see below for details.}
 }
 \section{Optional graphical parameters}{
@@ -53,6 +54,14 @@ neubuerg <- clean(mast=neubuerg)
 plotPolar(mast=neubuerg)
 plotPolar(mast=neubuerg, v.set=3, dir.set=2)
 plotPolar(mast=neubuerg, v.set="set3", dir.set="set2")	# same as above
+
+# data subsets
+plotPolar(mast=neubuerg, 
+  subset=c("2009-12-01 00:00:00", "2009-12-31 23:50:00"))
+plotPolar(mast=neubuerg,  
+  subset=c("2010-01-01 00:00:00", NA)) # just 'start' time stamp
+plotPolar(mast=neubuerg, 
+  subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
 
 # customize plot
 plotPolar(mast=neubuerg, cex.axis=1.2, cex.lab=1.5, cex.pts=0.8, 
