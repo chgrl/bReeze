@@ -8,7 +8,21 @@ function(wb, show.ak=FALSE, ...) {
 	if(is.null(attr(wb, "call")$mast)) stop(paste("Source mast object of", substitute(wb), "could not be found\n"))
 	mast <- get(attr(wb, "call")$mast)
 	v.set <- attr(wb, "call")$v.set
+	subset <- attr(wb, "call")$subset
 	num.sectors <- dim(wb)[1]-1
+	
+	# subset
+	num.samples <- length(mast$time.stamp)
+	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
+	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
 	
 	# prepare plot
 	old.par <- par(no.readonly=TRUE)
@@ -52,7 +66,7 @@ function(wb, show.ak=FALSE, ...) {
 	if(any(names(plot.param)=="cex.leg")) cex.leg <- plot.param$cex.leg
 	else cex.leg <- cex-0.2
 	if(any(names(plot.param)=="xlim")) xlim <- plot.param$xlim
-	else xlim <- c(0, ceiling(max(mast$sets[[v.set]]$data$v.avg, na.rm=TRUE)))
+	else xlim <- c(0, ceiling(max(mast$sets[[v.set]]$data$v.avg[start:end], na.rm=TRUE)))
 	if(any(names(plot.param)=="ylim")) ylim <- plot.param$ylim
 	else ylim <- NULL
 	if(any(names(plot.param)=="x.intersp")) x.intersp <- plot.param$x.intersp
