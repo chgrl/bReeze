@@ -2,8 +2,8 @@ plotFrequency <-
 function(freq, ...) {
 ### plotting frequency from frequency object
 	
-	if(is.null(attr(frequency, "call"))) stop(paste(substitute(frequency), "is no frequency object\n"))
-	if(attr(frequency, "call")$func!="frequency") stop(paste(substitute(frequency), "is no frequency object\n"))
+	if(is.null(attr(freq, "call"))) stop(paste(substitute(freq), "is no frequency object\n"))
+	if(attr(freq, "call")$func!="frequency") stop(paste(substitute(freq), "is no frequency object\n"))
 	 
 	dim.data <- dim(freq)
 	num.sectors <- dim.data[1] - 1
