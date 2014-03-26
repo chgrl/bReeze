@@ -58,20 +58,21 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 	dir <- mast$sets[[dir.set]]$data$dir.avg[start:end]
 	
 	if(method=="fixed") {	# fixed alpha
+		idx.val <- !is.na(v1) & !is.na(dir) & v1>0
 		if(is.null(alpha)) alpha <- 0.2
 		profile <- data.frame(matrix(NA, nrow=num.sectors+1, ncol=2))
 		
 		for(i in 1:num.sectors) {
 			low <- sector.edges[i]
-			high <- sector.edges[i+1]
+			high <- sector.edges[i+1]			
 			if(low<high) sector.idx <- dir>=low & dir<high
 			else sector.idx <- dir>=low | dir<high
 			
 			profile[i,1] <- alpha
-			profile[i,2] <- mean(v1[sector.idx], na.rm=TRUE)
+			profile[i,2] <- mean(v1[idx.val & sector.idx], na.rm=TRUE)
 		}
 		profile[num.sectors+1,1] <- alpha
-		profile[num.sectors+1,2] <- mean(v1, na.rm=TRUE)
+		profile[num.sectors+1,2] <- mean(v1[idx.val], na.rm=TRUE)	# idx.val???
 		names(profile) <- c("alpha", "v.ref")
 		row.names(profile) <- r.names
 		attr(profile, "units") <- c("-", attr(mast$sets[[v.set[1]]]$data$v.avg, "unit"))
@@ -87,6 +88,8 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 		
 		if(h1==h2) stop("Sets have the same height - no extrapolation possible\n")
 		
+		idx.val1 <- !is.na(v1) & !is.na(dir) & v1>0
+		idx.val2 <- !is.na(v2) & !is.na(dir) & v2>0
 		profile <- data.frame(matrix(NA, ncol=num.sectors+1, nrow=length(v1)))
 		v.ref <- NULL
 		for(i in 1:num.sectors) {
@@ -95,15 +98,13 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 			if(low<high) sector.idx <- dir>=low & dir<high
 			else sector.idx <- dir>=low | dir<high
 		
-			idx <- !is.na(v1) & v1>0 & !is.na(v2) & v2>0 & sector.idx
-			profile[idx,i] <- log(v2[idx] / v1[idx]) / log(h2 / h1)
-			v.ref <- append(v.ref, mean(v1[sector.idx], na.rm=TRUE))
+			profile[idx.val1 & idx.val2 & sector.idx,i] <- log(v2[idx.val1 & idx.val2 & sector.idx] / v1[idx.val1 & idx.val2 & sector.idx]) / log(h2 / h1)
+			v.ref <- append(v.ref, mean(v1[idx.val1 & sector.idx], na.rm=TRUE))
 		}
 		
 		profile <- data.frame(cbind(colMeans(profile, na.rm=TRUE), c(v.ref, NA)))
-		idx <- !is.na(v1) & v1>0 & !is.na(v2) & v2>0
-		profile[num.sectors+1,1] <- mean(log(v2[idx] / v1[idx]) / log(h2 / h1), na.rm=TRUE)
-		profile[num.sectors+1,2] <- mean(v1, na.rm=TRUE)
+		profile[num.sectors+1,1] <- mean(log(v2[idx.val1 & idx.val2] / v1[idx.val1 & idx.val2]) / log(h2 / h1), na.rm=TRUE)
+		profile[num.sectors+1,2] <- mean(v1[idx.val1], na.rm=TRUE)	# idx.val1???
 		names(profile) <- c("alpha", "v.ref")
 		row.names(profile) <- r.names
 		attr(profile, "units") <- c("-", attr(mast$sets[[v.set[1]]]$data$v.avg, "unit"))
@@ -121,33 +122,36 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 		
 		profile <- data.frame(matrix(NA, ncol=2, nrow=num.sectors+1))
 		v.ref <- NULL
+		idx.val <- !is.na(v1) & !is.na(dir) & v1>0
+		d <- rep(dir, length(v.set))
 		
 		for(i in 1:num.sectors) {			
 			low <- sector.edges[i]
 			high <- sector.edges[i+1]
 			if(low<high) sector.idx <- dir>=low & dir<high
 			else sector.idx <- dir>=low | dir<high
+			sector.idx.1 <- sector.idx
+			sector.idx <- rep(sector.idx, length(v.set))
 			
-			sector.idx <- sec.idx.1 <- rep(sector.idx, length(v.set))
-			
-			idx <- !is.na(v) & v>0 & sector.idx
+			idx <- !is.na(v) & !is.na(d) & v>0 & sector.idx
 			loglm <- lm(log(v[idx]) ~ log(h[idx]))
 			slp <- loglm$coefficients[2]
 			if(slp<0 && length(v.set)==2) {	# prevent some negative alphas
 				h.1 <- mast$sets[[v.set[1]]]$height
 				h.2 <- mast$sets[[v.set[2]]]$height
-				v.1 <- mean(mast$sets[[v.set[1]]]$data$v.avg[sec.idx.1], na.rm=TRUE)
-				v.2 <- mean(mast$sets[[v.set[2]]]$data$v.avg[sec.idx.1], na.rm=TRUE)
+				v.1 <- mean(mast$sets[[v.set[1]]]$data$v.avg[start:end][sector.idx.1], na.rm=TRUE)
+				v.2 <- mean(mast$sets[[v.set[2]]]$data$v.avg[start:end][sector.idx.1], na.rm=TRUE)
 				if((h.1>h.2 && v.1>v.2) || (h.1<h.2 && v.1<v.2)) slp <- abs(slp)
 			}
+			if(round(slp, digits)==0 && digits>=2) slp <- 10^-digits
 			profile[i,1] <- slp
-			profile[i,2] <- mean(v1[sec.idx.1], na.rm=TRUE)
+			profile[i,2] <- mean(v1[idx.val & sector.idx.1], na.rm=TRUE)
 		}
 		
-		idx <- !is.na(v) & v>0
+		idx <- !is.na(v) & !is.na(d) & v>0
 		loglm <- lm(log(v[idx]) ~ log(h[idx]))
 		profile[num.sectors+1,1] <- loglm$coefficients[2]
-		profile[num.sectors+1,2] <- mean(v1, na.rm=TRUE)
+		profile[num.sectors+1,2] <- mean(v1[idx.val], na.rm=TRUE)	# idx.val???
 		names(profile) <- c("alpha", "v.ref")
 		row.names(profile) <- r.names
 		attr(profile, "units") <- c("-", attr(mast$sets[[v.set[1]]]$data$v.avg, "unit"))
