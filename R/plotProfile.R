@@ -10,6 +10,7 @@ function(profile, sector, measured=TRUE, ...) {
 	v.set <- attr(profile, "call")$v.set
 	dir.set <- attr(profile, "call")$dir.set
 	num.sectors <- attr(profile, "call")$num.sectors
+	subset <- attr(profile, "call")$subset
 	h.ref <- profile$h.ref
 	sector.names <- row.names(profile$profile)
 	
@@ -23,6 +24,19 @@ function(profile, sector, measured=TRUE, ...) {
 	} else {
 		if(!is.null(sector)) stop("Sector not found - please choose 'sector' by name or index\n")
 	}
+	
+	# subset
+	num.samples <- length(mast$time.stamp)
+	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
+	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
+	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
+	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
+	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
 	
 	# prepare plot
 	old.par <- par(no.readonly=TRUE)
@@ -79,7 +93,7 @@ function(profile, sector, measured=TRUE, ...) {
 	if(any(names(plot.param)=="pch")) pch <- plot.param$pch
 	else pch <- 0
 	if(any(names(plot.param)=="xlim")) xlim <- plot.param$xlim
-	else xlim <- c(0, 1.75*ceiling(max(frequency(mast, v.set=v.set[1], dir.set=dir.set, num.sectors=num.sectors, bins=NULL, print=FALSE)$wind.speed, na.rm=TRUE)))
+	else xlim <- c(0, 1.75*ceiling(max(frequency(mast, v.set=v.set[1], dir.set=dir.set, num.sectors=num.sectors, bins=NULL, subset=subset, print=FALSE)$wind.speed, na.rm=TRUE)))
 	if(any(names(plot.param)=="ylim")) ylim <- plot.param$ylim
 	else ylim <- c(0,200)
 	if(any(names(plot.param)=="x.intersp")) x.intersp <- plot.param$x.intersp
@@ -112,8 +126,8 @@ function(profile, sector, measured=TRUE, ...) {
 	h <- NULL
 	if(measured) {		
 		for(i in 1:length(v.set)) {
-			if(!is.null(mast$sets[[v.set[i]]]$data$v.avg)) {
-				v.mean <- data.frame(v.mean, cbind(frequency(mast, v.set=v.set[i], dir.set=dir.set, num.sectors=num.sectors, bins=NULL, print=FALSE)$wind.speed))
+			if(!is.null(mast$sets[[v.set[i]]]$data$v.avg[start:end])) {
+				v.mean <- data.frame(v.mean, cbind(frequency(mast, v.set=v.set[i], dir.set=dir.set, num.sectors=num.sectors, bins=NULL, subset=subset, print=FALSE)$wind.speed))
 				h <- append(h, mast$sets[[v.set[i]]]$height)
 				names(v.mean)[i] <- names(mast$sets)[v.set[i]]
 			}
