@@ -20,22 +20,6 @@ function(mast, turb.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, di
 	if(is.null(mast$sets[[dir.set]]$data$dir.avg)) stop("Specified set does not contain wind direction data\n")
 	if(any(bins<0)) stop("'bins' must be NULL or a vector of positives\n")
 	
-	sector.width <- 360/num.sectors
-	sectors <- seq(0, 360-sector.width, by=sector.width)
-	sector.edges <- c(sectors-sector.width/2, tail(sectors, n=1)+sector.width/2)%%360
-	if(!is.null(bins)) if(head(bins, 1)!=0) bins <- c(0, bins)
-	num.classes <- length(bins)
-	v.max <- max(mast$sets[[turb.set]]$data$v.avg, na.rm=TRUE)
-	if(num.classes>2) {
-		for(i in (num.classes-1):2) {
-			if(bins[i+1]>=v.max & bins[i]>=v.max) {
-				bins <- head(bins, -1)
-				num.classes <- length(bins)
-			}
-		}
-	}
-	if(!is.null(bins)) if(num.classes==2 && bins[num.classes]>=v.max) stop("Only one wind class found\n")
-	
 	# subset
 	num.samples <- length(mast$time.stamp)
 	if(missing(subset)) subset <- c(NA, NA)
@@ -56,44 +40,63 @@ function(mast, turb.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, di
 	if(end<mast$time.stamp[1] || end>mast$time.stamp[num.samples]) stop("Specified 'end' not in period\n")
 	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
 	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	v <- mast$sets[[turb.set]]$data$v.avg[start:end]
+	tu <- mast$sets[[turb.set]]$data$turb.int[start:end]
+	d <- mast$sets[[dir.set]]$data$dir.avg[start:end]
+	
+	sector.width <- 360/num.sectors
+	sectors <- seq(0, 360-sector.width, by=sector.width)
+	sector.edges <- c(sectors-sector.width/2, tail(sectors, n=1)+sector.width/2)%%360
+	if(!is.null(bins)) if(head(bins, 1)!=0) bins <- c(0, bins)
+	num.classes <- length(bins)
+	v.max <- max(v, na.rm=TRUE)
+	if(num.classes>2) {
+		for(i in (num.classes-1):2) {
+			if(bins[i+1]>=v.max & bins[i]>=v.max) {
+				bins <- head(bins, -1)
+				num.classes <- length(bins)
+			}
+		}
+	}
+	if(!is.null(bins)) if(num.classes==2 && bins[num.classes]>=v.max) stop("Only one wind class found\n")
 	
 	turb.tbl <- matrix(NA, nrow=num.sectors+1, ncol=num.classes+1)
 	# indices for valid data
-	idx.val <- !is.na(mast$sets[[turb.set]]$data$turb.int[start:end]) & !is.na(mast$sets[[dir.set]]$data$dir.avg[start:end])
-	idx.v <- !is.na(mast$sets[[turb.set]]$data$v.avg[start:end])
+	idx.val <- !is.na(tu) & !is.na(d)
+	idx.v <- !is.na(v)
 	
 	for(s in 1:num.sectors) {
 		# index for direction
 		low <- sector.edges[s]
 		high <- sector.edges[s+1]
-		if(low<high) idx.dir <- mast$sets[[dir.set]]$data$dir.avg[start:end]>=low & mast$sets[[dir.set]]$data$dir.avg[start:end]<high
-		else idx.dir <- mast$sets[[dir.set]]$data$dir.avg[start:end]>=low | mast$sets[[dir.set]]$data$dir.avg[start:end]<high
+		if(low<high) idx.dir <- d>=low & d<high
+		else idx.dir <- d>=low | d<high
 		
-		if(length(mast$sets[[turb.set]]$data$turb.int[idx.val & idx.dir])<3) turb.tbl[s,1] <- NA
-		else turb.tbl[s,1] <- mean(mast$sets[[turb.set]]$data$turb.int[idx.val & idx.dir])
+		if(length(tu[idx.val & idx.dir])<3) turb.tbl[s,1] <- NA
+		else turb.tbl[s,1] <- mean(tu[idx.val & idx.dir])
 		if(!is.null(bins)) {
 			for(c in 1:(num.classes-1)) {
 				# index for wind class
-				idx.class <- mast$sets[[turb.set]]$data$v.avg[start:end]>=bins[c] & mast$sets[[turb.set]]$data$v.avg[start:end]<bins[c+1]
-				if(length(mast$sets[[turb.set]]$data$turb.int[idx.val & idx.v & idx.dir & idx.class])<3) turb.tbl[s,c+1] <- NA
-				else turb.tbl[s,c+1] <- mean(mast$sets[[turb.set]]$data$turb.int[idx.val & idx.v & idx.dir & idx.class])
+				idx.class <- v>=bins[c] & v[start:end]<bins[c+1]
+				if(length(tu[idx.val & idx.v & idx.dir & idx.class])<3) turb.tbl[s,c+1] <- NA
+				else turb.tbl[s,c+1] <- mean(tu[idx.val & idx.v & idx.dir & idx.class])
 			}
-			if(length(mast$sets[[turb.set]]$data$turb.int[idx.val & idx.v & idx.dir & mast$sets[[turb.set]]$data$v.avg[start:end]>=bins[num.classes]])<3) turb.tbl[s,num.classes+1] <- NA
-			else turb.tbl[s,num.classes+1] <- mean(mast$sets[[turb.set]]$data$turb.int[idx.val & idx.v & idx.dir & mast$sets[[turb.set]]$data$v.avg[start:end]>=bins[num.classes]])
+			if(length(tu[idx.val & idx.v & idx.dir & v>=bins[num.classes]])<3) turb.tbl[s,num.classes+1] <- NA
+			else turb.tbl[s,num.classes+1] <- mean(tu[idx.val & idx.v & idx.dir & v>=bins[num.classes]])
 		}
 	}
-	if(length(mast$sets[[turb.set]]$data$turb.int[start:end])<3) turb.tbl[num.sectors+1,1] <- NA
-	else turb.tbl[num.sectors+1,1] <- mean(mast$sets[[turb.set]]$data$turb.int[start:end], na.rm=TRUE)
+	if(length(tu[start:end])<3) turb.tbl[num.sectors+1,1] <- NA
+	else turb.tbl[num.sectors+1,1] <- mean(tu, na.rm=TRUE)
 	
 	if(!is.null(bins)) {
 		for(i in 1:(num.classes-1)) {
 			# index for wind class
-			idx.class <- mast$sets[[turb.set]]$data$v.avg[start:end]>=bins[i] & mast$sets[[turb.set]]$data$v.avg[start:end]<bins[i+1]
-			if(length(mast$sets[[turb.set]]$data$turb.int[idx.val & idx.v & idx.class])<3) turb.tbl[num.sectors+1,i+1] <- NA
-			else turb.tbl[num.sectors+1,i+1] <- mean(mast$sets[[turb.set]]$data$turb.int[idx.val & idx.v & idx.class], na.rm=TRUE)
+			idx.class <- v>=bins[i] & v<bins[i+1]
+			if(length(tu[idx.val & idx.v & idx.class])<3) turb.tbl[num.sectors+1,i+1] <- NA
+			else turb.tbl[num.sectors+1,i+1] <- mean(tu[idx.val & idx.v & idx.class], na.rm=TRUE)
 		}
-		if(length(mast$sets[[turb.set]]$data$turb.int[idx.val & idx.v & mast$sets[[turb.set]]$data$v.avg[start:end]>=bins[num.classes]])<3) turb.tbl[num.sectors+1,num.classes+1] <- NA
-		else turb.tbl[num.sectors+1,num.classes+1] <- mean(mast$sets[[turb.set]]$data$turb.int[idx.val & idx.v & mast$sets[[turb.set]]$data$v.avg[start:end]>=bins[num.classes]])
+		if(length(tu[idx.val & idx.v & v>=bins[num.classes]])<3) turb.tbl[num.sectors+1,num.classes+1] <- NA
+		else turb.tbl[num.sectors+1,num.classes+1] <- mean(tu[idx.val & idx.v & v>=bins[num.classes]])
 	}
 	
 	r.names <- c(paste("s", 1:num.sectors, sep=""),"all")

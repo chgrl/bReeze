@@ -40,6 +40,8 @@ function(mast, v.set, dir.set, num.sectors=12, subset, digits=3, print=TRUE) {
 	if(end<mast$time.stamp[1] || end>mast$time.stamp[num.samples]) stop("Specified 'end' not in period\n")
 	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
 	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	v <- mast$sets[[v.set]]$data$v.avg[start:end]
+	d <- mast$sets[[dir.set]]$data$dir.avg[start:end]
 	
 	sector.width <- 360/num.sectors
 	sectors <- seq(0, 360-sector.width, by=sector.width)
@@ -49,14 +51,14 @@ function(mast, v.set, dir.set, num.sectors=12, subset, digits=3, print=TRUE) {
 	for(s in 1:num.sectors) {
 		low <- sector.edges[s]
 		high <- sector.edges[s+1]
-		if(low<high) sector.idx <- mast$sets[[dir.set]]$data$dir.avg[start:end]>=low & mast$sets[[dir.set]]$data$dir.avg[start:end]<high
-		else sector.idx <- mast$sets[[dir.set]]$data$dir.avg[start:end]>=low | mast$sets[[dir.set]]$data$dir.avg[start:end]<high
-		
-		weibull.param <- weibullInt(mast$sets[[v.set]]$data$v.avg[sector.idx], FALSE)
+		if(low<high) sector.idx <- d>=low & d<high
+		else sector.idx <- d>=low | d<high
+
+		weibull.param <- weibullInt(v[sector.idx], FALSE)
 		weibull.tbl[s,1] <- weibull.param$A
 		weibull.tbl[s,2] <- weibull.param$k
 	}
-	weibull.param <- weibullInt(mast$sets[[v.set]]$data$v.avg[start:end], TRUE)
+	weibull.param <- weibullInt(v, TRUE)
 	weibull.tbl[num.sectors+1,1] <- weibull.param$A
 	weibull.tbl[num.sectors+1,2] <- weibull.param$k
 	
