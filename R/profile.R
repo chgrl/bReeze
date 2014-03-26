@@ -60,6 +60,8 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 	if(method=="fixed") {	# fixed alpha
 		idx.val <- !is.na(v1) & !is.na(dir) & v1>0
 		if(is.null(alpha)) alpha <- 0.2
+		if(length(alpha)!=1 && length(alpha)!=num.sectors) stop("Please specify one alpha per sector or a general alpha\n")
+		if(length(alpha)==1) alpha <- rep(alpha, num.sectors)
 		profile <- data.frame(matrix(NA, nrow=num.sectors+1, ncol=2))
 		
 		for(i in 1:num.sectors) {
@@ -68,10 +70,10 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 			if(low<high) sector.idx <- dir>=low & dir<high
 			else sector.idx <- dir>=low | dir<high
 			
-			profile[i,1] <- alpha
+			profile[i,1] <- alpha[i]
 			profile[i,2] <- mean(v1[idx.val & sector.idx], na.rm=TRUE)
 		}
-		profile[num.sectors+1,1] <- alpha
+		profile[num.sectors+1,1] <- mean(alpha)
 		profile[num.sectors+1,2] <- mean(v1[idx.val], na.rm=TRUE)	# idx.val???
 		names(profile) <- c("alpha", "v.ref")
 		row.names(profile) <- r.names

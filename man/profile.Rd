@@ -18,7 +18,7 @@ pro(mast, v.set, dir.set, num.sectors=12,
   \item{dir.set}{Set to be used for wind direction, specified as set number or set name.}
   \item{num.sectors}{Number of wind direction sectors as integer value greater 1. Default is \code{12}.}
   \item{method}{Method to be used for the calculation. One of \code{"hellman"}, \code{"loglm"} or \code{"fixed"} (see Details section). Optional argument: \code{"fixed"} is used if \code{v.set} is a single dataset, \code{"hellman"} is used if \code{v.set} specifies two, \code{"loglm"} if \code{v.set} specifies three datasets.}
-  \item{alpha}{Hellman exponent. Optional and only used if the choosen \code{method} is \code{"fixed"}. If \code{alpha} is \code{NULL}, \code{0.2} is used as default.}
+  \item{alpha}{Hellman exponent -- one general exponent or a vector of exponents (one per sector). Optional and only used if the choosen \code{method} is \code{"fixed"}. If \code{alpha} is \code{NULL}, \code{0.2} is used as default.}
   \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
   \item{digits}{Number of decimal places to be used for results as numeric value. Default is \code{3}.}
   \item{print}{If \code{TRUE}, results are printed directly.}
