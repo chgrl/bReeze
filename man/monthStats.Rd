@@ -2,7 +2,7 @@
 \name{monthStats}
 \alias{monthStats}
 \alias{ms}
-\title{Calculation of monthly means}
+\title{Calculation of monthly statistics}
 \description{Calculates monthly statistics.}
 \usage{
 monthStats(mast, set, signal="v.avg", 
