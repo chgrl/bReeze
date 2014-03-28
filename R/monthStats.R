@@ -7,7 +7,7 @@ function(mast, set, signal="v.avg", fun=c("mean", "median", "min", "max", "sd"),
 	if(missing(set)) set <- "all"
 	if(is.null(signal)) stop("Please choose signal\n")
 	if(length(signal)>1) stop("Please choose only one signal\n")
-	if(missing(fun)) fun <- "mean"
+	if(missing(fun) || length(fun)!=1) fun <- "mean"
 	
 	# subset
 	num.samples <- length(mast$time.stamp)
