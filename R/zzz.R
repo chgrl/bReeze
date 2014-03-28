@@ -31,7 +31,7 @@ cln <- function(mast, set, v.avg.min=0.4, v.avg.max=50, dir.clean=TRUE, turb.cle
 }
 
 mast <- function(time.stamp, ..., loc=NULL, desc=NULL) {
-	createMast(time.stamp, ..., loc, desc)
+	createMast(time.stamp=time.stamp, loc=loc, desc=desc, ...)
 }
 
 pc <- function(v, p, cp, ct, rho=1.225, rated.p, desc) {
