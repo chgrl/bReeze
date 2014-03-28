@@ -46,7 +46,7 @@ en <- function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 	energy(wb, rho, bins, digits, print)
 }
 
-forts <- function(time.stamp, pattern) {
+fts <- function(time.stamp, pattern) {
 	formatTS(time.stamp, pattern)
 }
 
