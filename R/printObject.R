@@ -168,9 +168,13 @@ printObject <- function(object) {
 				cat("\n")
 			}
 		}
-		if(attr(object, "call")$v.set=="all") attr(object, "call")$v.set <- "\"all\""
-		if(attr(object, "call")$dir.set=="all") attr(object, "call")$dir.set <- "\"all\""
-		cat("call: availability(mast=", attr(object, "call")$mast, ", v.set=", attr(object, "call")$v.set, ", dir.set=", attr(object, "call")$dir.set, ", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\"), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
+		if(attr(object, "call")$v.set[1]=="all") attr(object, "call")$v.set[1] <- "\"all\""
+		if(attr(object, "call")$dir.set[1]=="all") attr(object, "call")$dir.set[1] <- "\"all\""
+		if(length(attr(object, "call")$v.set)==1) vset <- paste0(", v.set=", attr(object, "call")$v.set)
+		else vset <- paste0(", v.set=c(", paste0(attr(object, "call")$v.set, collapse=", "), ")")
+		if(length(attr(object, "call")$dir.set)==1) dirset <- paste0(", dir.set=", attr(object, "call")$dir.set)
+		else dirset <- paste0(", dir.set=c(", paste0(attr(object, "call")$dir.set, collapse=", "), ")")
+		cat("call: availability(mast=", attr(object, "call")$mast, vset, dirset, ", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\"), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
 	} else if(attr(object, "call")$func=="monthStats") { # month stats object
 		cat("\n\tMonthly statistics\n\n")
 		cat(names(object)[1], "\n")
