@@ -59,9 +59,9 @@ monthStats(mast=neubuerg, fun="sd")
 
 # data subsets
 monthStats(mast=neubuerg, 
-  subset=c("2009-12-01 00:00:00", "2009-12-31 23:50:00"))
+  subset=c("2009-12-01 00:10:00", "2009-12-31 23:50:00"))
 monthStats(mast=neubuerg, 
-  subset=c("2010-01-01 00:00:00", NA)) # just 'start' time stamp
+  subset=c("2010-01-01 00:10:00", NA)) # just 'start' time stamp
 monthStats(mast=neubuerg, 
   subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
 
