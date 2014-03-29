@@ -3,13 +3,12 @@ function(pc, cp=TRUE, ct=TRUE, ...) {
 ###	plotting power curve
 	
 	pc.list <- FALSE
-	if(is.null(attr(pc, "call"))) stop(paste(substitute(pc), "is no power curve object - use createPC to create a power curve or readPC to import from file\n"))
-	if(attr(pc, "call")$func!="createPC" && attr(pc, "call")$func!="readPC") {
+	if(is.null(attr(pc, "call"))) {
 		if(!is.list(pc)) stop(paste(substitute(pc), "is no power curve object - use createPC to create a power curve or readPC to import from file\n"))
 		else {
 			pc.list <- TRUE
 			for(i in 1:length(pc)) {
-				if(attr(pc, "call")$func!="createPC" && attr(pc, "call")$func!="readPC") stop("At least one object of ", paste(substitute(pc), "is not a power curve object\n"))
+				if(attr(pc[[i]], "call")$func!="createPC" && attr(pc[[i]], "call")$func!="readPC") stop("At least one object of ", paste(substitute(pc), "is not a power curve object\n"))
 			}
 		}
 	}
