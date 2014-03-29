@@ -67,7 +67,7 @@ plotPolar(mast=neubuerg,
 plotPolar(mast=neubuerg, cex.axis=1.2, cex.lab=1.5, cex.pts=0.8, 
   circles=c(10,20,5), col="red3", col.axis=gray(0.2), col.circle=gray(0.3), 
   col.cross=gray(0.3), col.lab=gray(0.2), fg=TRUE, lty.circle="dotted", 
-  lty.cross="longdash", lwd.circle=1.2, lwd.cross=1.2, pch="+", pos.axis=135)
+  lty.cross="longdash", lwd.circle=1.2, lwd.cross=1.2, pch=1, pos.axis=135)
 }
 }
 \keyword{methods}

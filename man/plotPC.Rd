@@ -70,7 +70,7 @@ vestas.v80 <- readPC(file="Vestas_V80_2.0MW.wtg")
 vestas.v90 <- readPC(file="Vestas_V90_2.0MW.wtg")
 pc.2mw <- list(V80=vestas.v80, E82=enercon.e82, G83=gamesa.g83)
 plotPC(pc.2mw, ct=FALSE)
-plotPC(list(v80, v90))
+plotPC(list(vestas.v80, vestas.v90))
 
 # customize plot
 plotPC(pc=my.pc, bty="u", bty.leg="o", cex.axis=0.8, cex.lab=0.9, 

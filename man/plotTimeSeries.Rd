@@ -72,7 +72,7 @@ plotTimeSeries(mast=neubuerg, subset=c("2010-01-01 00:10:00", NA))
 plotTimeSeries(mast=neubuerg, subset=c("2009-10-11 00:10:00", 
   "2009-10-11 23:50:00"))
 plotTimeSeries(mast=neubuerg, set=1, signal="v.max", 
-  subset=c(NA, "2009-12-27 18:30:00")
+  subset=c(NA, "2009-12-27 18:30:00"))
 
 # customize plot
 plotTimeSeries(mast=neubuerg, bty="n", bty.leg="o", cex.axis=1.2, 

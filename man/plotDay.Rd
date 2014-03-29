@@ -78,7 +78,7 @@ plotDay(mast=neubuerg, signal="v.avg",
   subset=c("2009-12-01 00:00:00", "2009-12-31 23:50:00"))
 plotDay(mast=neubuerg, signal="v.avg",  
   subset=c("2010-01-01 00:00:00", NA)) # just 'start' time stamp
-plotDay(mast=neubuerg, signal="v.avg", num.sectors=4, 
+plotDay(mast=neubuerg, set=1, signal="v.avg", num.sectors=4, 
   subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
 
 # customize plot
