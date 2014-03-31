@@ -1,9 +1,15 @@
-bReeze 0.3-1 [2014-01-13]
+bReeze 0.3-1 [2014-03-31]
 -------------------------
+
+* availability, frequency, monthStats, plotDay, plotPolar, 
+  plotTurbIEC, profile, turbulence, weibull: specify data subsets
+  by date
 
 * plotDay: sectoral plotting for single data sets added
 
-* some small improvements of code and documentation
+* profile: alpha as single value or vector (one per sector)
+
+* several improvements/fixes of code and documentation
 
 
 bReeze 0.3-0 [2014-01-13]
