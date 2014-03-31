@@ -248,9 +248,14 @@ printObject <- function(object) {
 		row.names(obj) <- c(toupper(head(row.names(object$profile), -1)), tail(row.names(object$profile), 1))
 		print(rbind(tbl.units, obj), quote=FALSE)
 		cat("\nreference height:", object$h.ref, attr(object$h.ref, "unit"), "\n")
-		if(is.null(attr(object, "call")$alpha)) attr(object, "call")$alpha <- "NULL"
-		if(length(attr(object, "call")$v.set)==1) cat("\ncall: profile(mast=", attr(object, "call")$mast, ", v.set=", attr(object, "call")$v.set, ",  dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", method=\"", attr(object, "call")$method, "\", alpha=", attr(object, "call")$alpha, ", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\"), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
-		else cat("\ncall: profile(mast=", attr(object, "call")$mast, ", v.set=c(", paste(attr(object, "call")$v.set, collapse=", "), "), dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", method=\"", attr(object, "call")$method, "\", alpha=c(", paste(attr(object, "call")$alpha, collapse=", "), "), subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\"), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
+		if(is.null(attr(object, "call")$alpha)) alph <- ", alpha=NULL"
+		else {
+			if(length(attr(object, "call")$alpha)==1) alph <- paste0(", alpha=", attr(object, "call")$alpha)
+			else  alph <- paste0(", alpha=c(", paste0(attr(object, "call")$alpha, collapse=", "), ")")
+		}
+		if(length(attr(object, "call")$v.set)==1) vset <- paste0(", v.set=", attr(object, "call")$v.set)
+		else vset <- paste0(", v.set=c(", paste0(attr(object, "call")$v.set, collapse=", "), ")")
+		cat("\ncall: profile(mast=", attr(object, "call")$mast, vset, ", dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", method=\"", attr(object, "call")$method, "\"", alph, ", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\"), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
 	} else if(attr(object, "call")$func=="aep") { # aep object
 		cat("\n\tAnnual energy production\n\n")
 		tbl.units <- data.frame(t(names(object$aep)))
