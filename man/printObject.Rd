@@ -42,8 +42,7 @@ ts <- formatTS(time.stamp=winddata[,1])
 neubuerg <- createMast(time.stamp=ts, set40=set40, set30=set30, 
   set20=set20, loc=c(49.8909,11.4017), desc="Site #247 - Neubuerg")
 neubuerg.wp <- profile(mast=neubuerg, v.set=c(1,2), dir.set=1, print=FALSE)
-pw.56 <- readPC(file=system.file(package="bReeze", "powercurves", 
-  "PowerWind_56_900kW.wtg"))
+pw.56 <- readPC(file="PowerWind_56_900kW.wtg")
 neubuerg.aep <- aep(profile=neubuerg.wp, pc=pw.56, hub.h=71, print=FALSE)
 
 # print met masts
