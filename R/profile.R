@@ -16,7 +16,7 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 	if(is.null(mast$sets[[dir.set]]$data$dir.avg)) stop(paste("'dir.set' does not contain average wind direction data\n"))
 	if(!is.numeric(num.sectors)) stop("'num.sectors' must be numeric\n")
 	if(num.sectors<=1) stop("There must be at least 2 sectors\n")
-	if(missing(method)) {
+	if(missing(method) || length(method)!=1) {
 		if(length(v.set)==1) method <- "fixed"
 		else if(length(v.set)==2) method <- "hellman"
 		else method <- "loglm"
