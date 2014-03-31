@@ -52,7 +52,7 @@ neubuerg <- clean(mast=neubuerg)
 nb.wp <- profile(mast=neubuerg, v.set=c(1,2), dir.set=1, 
   print=FALSE)
 pw.56 <- readPC(file="PowerWind_56_900kW.wtg")
-nb.aep <- aep(profile=nb.wp, pc=pw.56, hub.h=71)
+nb.aep <- aep(profile=nb.wp, pc=pw.56, hub.h=71, print=FALSE)
 
 # calculate uncertainty
 uncertainty(nb.aep, uc.values=c(5,10,5,5), 

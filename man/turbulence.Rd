@@ -50,33 +50,29 @@ set30 <- createSet(height=30, v.avg=winddata[,6], v.std=winddata[,9],
 set20 <- createSet(height=20, v.avg=winddata[,10], v.std=winddata[,13])
 ts <- formatTS(time.stamp=winddata[,1])
 neubuerg <- createMast(time.stamp=ts, set40, set30, set20)
-nb.clean <- clean(mast=neubuerg)
+neubuerg <- clean(mast=neubuerg)
 
 # calculate turbulence intensity
-turbulence(mast=nb.clean, turb.set=1)
+turbulence(mast=neubuerg, turb.set=1)
 
 # use different datasets for turb.set and dir.set
-turbulence(mast=nb.clean, turb.set=1, dir.set=2)
-turbulence(mast=nb.clean, turb.set="set1", dir.set="set2")	# same as above
+turbulence(mast=neubuerg, turb.set=1, dir.set=2)
+turbulence(mast=neubuerg, turb.set="set1", dir.set="set2")	# same as above
 
 # change number of direction sectors
-turbulence(mast=nb.clean, turb.set=1, num.sectors=4)
+turbulence(mast=neubuerg, turb.set=1, num.sectors=4)
 
 # calculate turbulence intensity for 1 m/s speed bins and without binning
-turbulence(mast=nb.clean, turb.set=1, bins=1:25)
-turbulence(mast=nb.clean, turb.set=1, bins=NULL)
+turbulence(mast=neubuerg, turb.set=1, bins=1:25)
+turbulence(mast=neubuerg, turb.set=1, bins=NULL)
 
-# data subsets
+# data subset
 turbulence(mast=neubuerg, turb.set=1, 
-  subset=c("2009-12-01 00:00:00", "2009-12-31 23:50:00"))
-turbulence(mast=neubuerg, turb.set=1, 
-  subset=c("2010-01-01 00:00:00", NA)) # just 'start' time stamp
-turbulence(mast=neubuerg, turb.set=1, 
-  subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
+  subset=c(NA, "2010-01-01 00:00:00"))
 
 # change number of digits and hide results
-turbulence(mast=nb.clean, turb.set=1, digits=2)
-turbulence(mast=nb.clean, turb.set=1, print=FALSE)
+turbulence(mast=neubuerg, turb.set=1, digits=2)
+turbulence(mast=neubuerg, turb.set=1, print=FALSE)
 }
 }
 \keyword{methods}
