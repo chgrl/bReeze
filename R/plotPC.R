@@ -63,9 +63,9 @@ function(pc, cp=TRUE, ct=TRUE, ...) {
 	if(any(names(plot.param)=="pos.leg")) pos.leg <- plot.param$pos.leg
 	else pos.leg <- "topleft"
 	if(any(names(plot.param)=="xlab")) xlab <- plot.param$xlab
-	else xlab <- paste("Wind speed [", unit[1], "]", sep="")
+	else xlab <- paste0("Wind speed [", unit[1], "]")
 	if(any(names(plot.param)=="ylab")) ylab <- plot.param$ylab
-	else ylab <- paste("Power [", unit[2], "]", sep="")
+	else ylab <- paste0("Power [", unit[2], "]")
 	if(any(names(plot.param)=="ylim")) ylim <- plot.param$ylim
 	else ylim <- NULL
 	if(any(names(plot.param)=="xlim")) xlim <- plot.param$xlim

@@ -8,7 +8,7 @@ function(v.avg, dir.avg, ts, start.year, start.month, num.months, period.days, d
 	yr <- start.year
 	mon <- start.month
 	for(i in 1:num.months) {
-		if(mon<10) row.names(avail)[i] <- paste(yr, paste("0", mon, sep=""), sep="-")
+		if(mon<10) row.names(avail)[i] <- paste(yr, paste0("0", mon), sep="-")
 		if(mon>=10) row.names(avail)[i] <- paste(yr, mon, sep="-")
 		mon <- mon+1
 		if(mon==13) {
