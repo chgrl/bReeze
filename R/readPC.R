@@ -19,9 +19,7 @@ function(file, ex=FALSE) {
 		if(is.na(cut.out) || is.null(cut.out)) stop("Cannot handle file")
 		v <- seq(1, cut.out, 1)
 		p <- tail(pow, -1)
-		options(warn=-1)
-		if(is.na(as.numeric(tail(p, 1)))) p <- head(p, -1)
-		options(warn=1)
+		suppressWarnings(if(is.na(as.numeric(tail(p, 1)))) p <- head(p, -1))
 		p <- as.numeric(p[5:(cut.out+4),1])
 		desc <- pow[1,1]
 		r <- createPC(v, p, rho=1.225, desc=desc)
