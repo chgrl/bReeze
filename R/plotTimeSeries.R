@@ -16,6 +16,8 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 	if((!any(is.character(subset)) && !any(is.na(subset))) || length(subset)!=2) stop("Please specify 'subset' as vector of start and end time stamp\n")
 	if(is.na(subset[1])) subset[1] <- as.character(time.stamp[1])
 	if(is.na(subset[2])) subset[2] <- as.character(time.stamp[num.samples])
+	if(nchar(subset[1])==10) subset[1] <- paste(subset[1], "00:00:00")
+	if(nchar(subset[2])==10) subset[2] <- paste(subset[2], "00:00:00")
 	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
 	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
 	if(is.na(start)) stop("Specified start time stamp in 'subset' not correctly formated\n")
@@ -96,12 +98,12 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 	else {
 		ylab <- NULL
 		for(i in 1:n.sig) {
-			if(signal[i]=="v.avg") ylab <- append(ylab, paste("Wind speed [", units[i], "]", sep=""))
-			else if(signal[i]=="v.max") ylab <- append(ylab, paste("Max wind speed [", units[i], "]", sep=""))
-			else if(signal[i]=="v.min") ylab <- append(ylab, paste("Min wind speed [", units[i], "]", sep=""))
-			else if(signal[i]=="dir.avg") ylab <- append(ylab, paste("Wind direction [", units[i], "]", sep=""))
-			else if(signal[i]=="turb.int") ylab <- append(ylab, paste("Turbulence intensity [", units[i], "]", sep=""))
-			else ylab <- append(ylab, paste(signal[i], " [", units[i], "]", sep=""))
+			if(signal[i]=="v.avg") ylab <- append(ylab, paste0("Wind speed [", units[i], "]"))
+			else if(signal[i]=="v.max") ylab <- append(ylab, paste0("Max wind speed [", units[i], "]"))
+			else if(signal[i]=="v.min") ylab <- append(ylab, paste0("Min wind speed [", units[i], "]"))
+			else if(signal[i]=="dir.avg") ylab <- append(ylab, paste0("Wind direction [", units[i], "]"))
+			else if(signal[i]=="turb.int") ylab <- append(ylab, paste0("Turbulence intensity [", units[i], "]"))
+			else ylab <- append(ylab, paste0(signal[i], " [", units[i], "]"))
 		}
 	}
 	for(i in 1:length(ylab)) if(substr(ylab[i], nchar(ylab[i])-2, nchar(ylab[i]))==" []") ylab[i] <- substr(ylab[i], 1, nchar(ylab[i])-3)
@@ -150,5 +152,5 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 	plot(0, type="n", axes=FALSE, xlab="", ylab="")
 	par(mar=c(0,5,0,1))
 	plot(0, type="n", axes=FALSE, xlab="", ylab="")
-	if(legend) legend("center", legend=paste(names, " (", heights, h.unit, ")", sep=""), col=col[set.idx], lty=lty[set.idx], ncol=length(set.idx), bty=bty.leg, cex=cex.leg, text.col=col.leg, x.intersp=x.intersp)
+	if(legend) legend("center", legend=paste0(names, " (", heights, h.unit, ")"), col=col[set.idx], lty=lty[set.idx], ncol=length(set.idx), bty=bty.leg, cex=cex.leg, text.col=col.leg, x.intersp=x.intersp)
 }

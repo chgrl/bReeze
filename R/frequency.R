@@ -27,12 +27,10 @@ function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digit
 	if((!any(is.character(subset)) && !any(is.na(subset))) || length(subset)!=2) stop("Please specify 'subset' as vector of start and end time stamp\n")
 	if(is.na(subset[1])) subset[1] <- as.character(mast$time.stamp[1])
 	if(is.na(subset[2])) subset[2] <- as.character(mast$time.stamp[num.samples])
+	if(nchar(subset[1])==10) subset[1] <- paste0(subset[1], " 00:00:00")
+	if(nchar(subset[2])==10) subset[2] <- paste0(subset[2], " 00:00:00")
 	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
 	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
-	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
-	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
-	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
-	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
 	if(is.na(start)) stop("Specified start time stamp in 'subset' not correctly formated\n")
 	if(is.na(end)) stop("Specified end time stamp in 'subset' not correctly formated\n")
 	if(start<mast$time.stamp[1] || start>mast$time.stamp[num.samples]) stop("Specified 'start' not in period\n")
@@ -90,7 +88,7 @@ function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digit
 	
 	if(!is.null(bins)) for(i in 3:(num.classes+2)) freq.tbl[num.sectors+1,i] <- sum(freq.tbl[1:num.sectors,i], na.rm=TRUE)
 	
-	r.names <- c(paste("s", 1:num.sectors, sep=""),"all")
+	r.names <- c(paste0("s", 1:num.sectors),"all")
 	if(num.sectors==4) r.names <- c("n","e","s","w","all")
 	if(num.sectors==8) r.names <- c("n","ne","e","se","s","sw","w","nw","all")
 	if(num.sectors==12) r.names <- c("n","nne","ene","e","ese","sse","s","ssw","wsw","w","wnw","nnw","all")
@@ -99,7 +97,7 @@ function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digit
 	c.names <- c("wind.speed","total")
 	if(!is.null(bins)) {
 		for(i in 1:(num.classes-1)) c.names <- append(c.names, paste(bins[i], bins[i+1], sep="-"))
-		c.names <- append(c.names, paste(">", bins[num.classes], sep=""))
+		c.names <- append(c.names, paste0(">", bins[num.classes]))
 	}
 	names(freq.tbl) <- c.names
 	

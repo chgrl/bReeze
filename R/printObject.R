@@ -18,6 +18,8 @@ printObject <- function(object) {
 		if(attr(interval, "units")=="secs") daily.samples <- 24*60*60/as.numeric(interval)
 		period.start <- object$time.stamp[1]
 		period.end <- object$time.stamp[num.samples]
+		if(nchar(period.start)==10) period.start <- paste(period.start, "00:00:00")
+		if(nchar(period.end)==10) period.end <- paste(period.end, "00:00:00")
 		period.days <- as.numeric(period.end-period.start)
 		signals <- names(object$sets[[1]]$data)
 		if(is.null(object$sets[[1]]$data$v.avg)) wind.speed <- 0

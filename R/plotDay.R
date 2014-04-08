@@ -20,12 +20,10 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 	if((!any(is.character(subset)) && !any(is.na(subset))) || length(subset)!=2) stop("Please specify 'subset' as vector of start and end time stamp\n")
 	if(is.na(subset[1])) subset[1] <- as.character(mast$time.stamp[1])
 	if(is.na(subset[2])) subset[2] <- as.character(mast$time.stamp[num.samples])
+	if(nchar(subset[1])==10) subset[1] <- paste(subset[1], "00:00:00")
+	if(nchar(subset[2])==10) subset[2] <- paste(subset[2], "00:00:00")
 	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
 	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
-	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
-	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
-	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
-	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
 	if(is.na(start)) stop("Specified start time stamp in 'subset' not correctly formated\n")
 	if(is.na(end)) stop("Specified end time stamp in 'subset' not correctly formated\n")
 	if(start<mast$time.stamp[1] || start>mast$time.stamp[num.samples]) stop("Specified 'start' not in period\n")
@@ -114,9 +112,9 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 	if(any(names(plot.param)=="ylab")) ylab <- plot.param$ylab
 	else {
 		ylab <- signal
-		if(signal=="v.avg" || signal=="v.max" || signal=="v.min") ylab <- paste("Wind speed [", unit, "]", sep="")
-		if(signal=="dir.avg") ylab <- paste("Wind direction [", unit, "]", sep="")
-		if(signal=="turb.int") ylab <- paste("Turbulence intensity [", unit, "]", sep="")
+		if(signal=="v.avg" || signal=="v.max" || signal=="v.min") ylab <- paste0("Wind speed [", unit, "]")
+		if(signal=="dir.avg") ylab <- paste0("Wind direction [", unit, "]")
+		if(signal=="turb.int") ylab <- paste0("Turbulence intensity [", unit, "]")
 	}
 	if(any(names(plot.param)=="ylim")) ylim <- plot.param$ylim
 	else ylim <- NULL
@@ -197,13 +195,13 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 		#mtext(xlab, 1, 2, cex=cex.lab, col=col.lab)
 		if(!is.null(pos.leg)) {
 			if(!is.null(num.sectors)) {
-				sec <- c(paste("s", 1:num.sectors, sep=""),"all")
+				sec <- c(paste0("s", 1:num.sectors),"all")
 				if(num.sectors==4) sec <- c("n","e","s","w","all")
 				if(num.sectors==8) sec <- c("n","ne","e","se","s","sw","w","nw","all")
 				if(num.sectors==12) sec <- c("n","nne","ene","e","ese","sse","s","ssw","wsw","w","wnw","nnw","all")
 				if(num.sectors==16) sec <- c("n","nne","ne","ene","e","ese","se","sse","s","ssw","sw","wsw","w","wnw","nw","nnw","all")
 				legend(pos.leg, legend=sec, col=col, lty=lty, lwd=lwd, bty=bty.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
-			} else legend(pos.leg, legend=paste(names(mast$sets)[set], " (", mast$sets[[set]]$height, h.unit, ")", sep=""), col=col[set], lty=lty[set], lwd=lwd[set], bty=bty.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
+			} else legend(pos.leg, legend=paste0(names(mast$sets)[set], " (", mast$sets[[set]]$height, h.unit, ")"), col=col[set], lty=lty[set], lwd=lwd[set], bty=bty.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
 		}
 	} else { # all sets
 		if(!is.null(num.sectors)) stop("Sectoral plot not available for multiple sets\n")
@@ -270,6 +268,6 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 			if(any(names(mast$sets[[s]]$data)==signal)	) heights <- append(heights, mast$sets[[s]]$height)
 		}
 		
-		if(!is.null(pos.leg)) legend(pos.leg, legend=paste(names(mast$sets)[set.index], " (", heights, h.unit, ")", sep=""), col=col[set.index], lty=lty[set.index], lwd=lwd[set.index], bty=bty.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
+		if(!is.null(pos.leg)) legend(pos.leg, legend=paste0(names(mast$sets)[set.index], " (", heights, h.unit, ")"), col=col[set.index], lty=lty[set.index], lwd=lwd[set.index], bty=bty.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
 	}
 }

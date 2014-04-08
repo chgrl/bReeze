@@ -28,12 +28,10 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 	if((!any(is.character(subset)) && !any(is.na(subset))) || length(subset)!=2) stop("Please specify 'subset' as vector of start and end time stamp\n")
 	if(is.na(subset[1])) subset[1] <- as.character(mast$time.stamp[1])
 	if(is.na(subset[2])) subset[2] <- as.character(mast$time.stamp[num.samples])
+	if(nchar(subset[1])==10) subset[1] <- paste(subset[1], "00:00:00")
+	if(nchar(subset[2])==10) subset[2] <- paste(subset[2], "00:00:00")
 	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
 	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
-	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
-	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
-	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
-	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
 	if(is.na(start)) stop("Specified start time stamp in 'subset' not correctly formated\n")
 	if(is.na(end)) stop("Specified end time stamp in 'subset' not correctly formated\n")
 	if(start<mast$time.stamp[1] || start>mast$time.stamp[num.samples]) stop("Specified 'start' not in period\n")
@@ -46,7 +44,7 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 	sector.width <- 360/num.sectors
 	sectors <- seq(0, 360-sector.width, by=sector.width)
 	sector.edges <- c(sectors-sector.width/2, tail(sectors, n=1)+sector.width/2)%%360
-	r.names <- c(paste("s", 1:num.sectors, sep=""),"all")
+	r.names <- c(paste0("s", 1:num.sectors),"all")
 	if(num.sectors==4) r.names <- c("n","e","s","w","all")
 	if(num.sectors==8) r.names <- c("n","ne","e","se","s","sw","w","nw","all")
 	if(num.sectors==12) r.names <- c("n","nne","ene","e","ese","sse","s","ssw","wsw","w","wnw","nnw","all")

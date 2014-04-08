@@ -29,10 +29,6 @@ function(profile, sector, measured=TRUE, ...) {
 	num.samples <- length(mast$time.stamp)
 	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
 	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
-	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
-	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
-	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
-	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
 	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
 	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
 	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
@@ -105,7 +101,7 @@ function(profile, sector, measured=TRUE, ...) {
 	if(any(names(plot.param)=="pos.leg")) pos.leg <- plot.param$pos.leg
 	else pos.leg <- "topright"
 	if(any(names(plot.param)=="xlab")) xlab <- plot.param$xlab
-	else xlab <- paste("Wind speed [m/s]", sep="")
+	else xlab <- "Wind speed [m/s]"
 	if(any(names(plot.param)=="ylab")) ylab <- plot.param$ylab
 	else ylab <- "Height [m]"
 	if(any(names(plot.param)=="mar")) mar <- plot.param$mar

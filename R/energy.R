@@ -17,10 +17,6 @@ function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 	num.samples <- length(mast$time.stamp)
 	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
 	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
-	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
-	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
-	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
-	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
 	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
 	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
 	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
@@ -42,7 +38,7 @@ function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 	if(!is.null(bins)) if(num.classes==2 && bins[num.classes]>=v.max) stop("Only one wind class found\n")
 
 	energy.tbl <- data.frame(matrix(NA, nrow=num.sectors+1, ncol=num.classes+1))
-	r.names <- c(paste("s", 1:num.sectors, sep=""),"all")
+	r.names <- c(paste0("s", 1:num.sectors),"all")
 	if(num.sectors==4) r.names <- c("n","e","s","w","all")
 	if(num.sectors==8) r.names <- c("n","ne","e","se","s","sw","w","nw","all")
 	if(num.sectors==12) r.names <- c("n","nne","ene","e","ese","sse","s","ssw","wsw","w","wnw","nnw","all")
@@ -51,7 +47,7 @@ function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 	c.names <- c("total")
 	if(!is.null(bins)) {
 		for(i in 1:(num.classes-1)) c.names <- append(c.names, paste(bins[i], bins[i+1], sep="-"))
-		c.names <- append(c.names, paste(">", bins[num.classes], sep=""))
+		c.names <- append(c.names, paste0(">", bins[num.classes]))
 	}
 	names(energy.tbl) <- c.names
 	

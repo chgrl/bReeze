@@ -20,12 +20,10 @@ function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
 	if((!any(is.character(subset)) && !any(is.na(subset))) || length(subset)!=2) stop("Please specify 'subset' as vector of start and end time stamp\n")
 	if(is.na(subset[1])) subset[1] <- as.character(mast$time.stamp[1])
 	if(is.na(subset[2])) subset[2] <- as.character(mast$time.stamp[num.samples])
+	if(nchar(subset[1])==10) subset[1] <- paste(subset[1], "00:00:00")
+	if(nchar(subset[2])==10) subset[2] <- paste(subset[2], "00:00:00")
 	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
 	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
-	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H:%M")
-	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H:%M")
-	if(is.na(start)) start <- strptime(subset[1], "%Y-%m-%d %H")
-	if(is.na(end)) end <- strptime(subset[2], "%Y-%m-%d %H")
 	if(is.na(start)) stop("Specified start time stamp in 'subset' not correctly formated\n")
 	if(is.na(end)) stop("Specified end time stamp in 'subset' not correctly formated\n")
 	if(start<mast$time.stamp[1] || start>mast$time.stamp[num.samples]) stop("Specified 'start' not in period\n")
@@ -55,7 +53,7 @@ function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
 			if(any(attr(mast$sets[[v.set]]$data, "clean")=="v.avg") && any(attr(mast$sets[[dir.set]]$data, "clean")=="dir.avg")) cat("Set(s) not cleaned - cleaning of wind speed v.avg and wind direction dir.avg using 'clean' is recommended to avoid overestimated availability\n")
 			avail <- list(availabilityInt(mast$sets[[v.set]]$data$v.avg[start:end], mast$sets[[dir.set]]$data$dir.avg[start:end], mast$time.stamp[start:end], start.year, start.month, num.months, period.days, digits))
 			if(v.set==dir.set) names(avail) <- names(mast$sets)[v.set]
-			else names(avail) <- paste(names(mast$sets)[v.set], "_", names(mast$sets)[dir.set], sep="")
+			else names(avail) <- paste0(names(mast$sets)[v.set], "_", names(mast$sets)[dir.set])
 		} else { # list of sets
 			if(length(v.set)==length(dir.set)) {
 				avail <- total <- NULL
@@ -73,7 +71,7 @@ function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
 					if(is.null(avail)) avail <- list(avail.s)
 					if(any(attr(mast$sets[[v.set[s]]]$data, "clean")=="v.avg") && any(attr(mast$sets[[v.set[s]]]$data, "clean")=="dir.avg")) uncleaned <- uncleaned+1
 					if(v.set[s]==dir.set[s]) names(avail)[s] <- names(mast$sets)[v.set[s]]
-					else names(avail)[s] <- paste(names(mast$sets)[v.set[s]], "_", names(mast$sets)[dir.set[s]], sep="")
+					else names(avail)[s] <- paste0(names(mast$sets)[v.set[s]], "_", names(mast$sets)[dir.set[s]])
 				}
 			} else if(length(v.set)!=length(dir.set) && (length(v.set)==1 || length(dir.set)==1)) { # x/1 or 1/x
 				avail <- total <- NULL
@@ -92,7 +90,7 @@ function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
 						if(is.null(avail)) avail <- list(avail.s)
 						if(any(attr(mast$sets[[v.set]]$data, "clean")=="v.avg") && any(attr(mast$sets[[v.set]]$data, "clean")=="dir.avg")) uncleaned <- uncleaned+1
 						if(v.set==dir.set[s]) names(avail)[s] <- names(mast$sets)[v.set]
-						else names(avail)[s] <- paste(names(mast$sets)[v.set], "_", names(mast$sets)[dir.set[s]], sep="")
+						else names(avail)[s] <- paste0(names(mast$sets)[v.set], "_", names(mast$sets)[dir.set[s]])
 					}
 				} else {
 					for(s in 1:length(v.set)) {
@@ -107,7 +105,7 @@ function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
 						if(is.null(avail)) avail <- list(avail.s)
 						if(any(attr(mast$sets[[v.set[s]]]$data, "clean")=="v.avg") && any(attr(mast$sets[[v.set[s]]]$data, "clean")=="dir.avg")) uncleaned <- uncleaned+1
 						if(v.set[s]==dir.set) names(avail)[s] <- names(mast$sets)[v.set[s]]
-						else names(avail)[s] <- paste(names(mast$sets)[v.set[s]], "_", names(mast$sets)[dir.set], sep="")
+						else names(avail)[s] <- paste0(names(mast$sets)[v.set[s]], "_", names(mast$sets)[dir.set])
 					}
 				}
 			}
