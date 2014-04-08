@@ -61,6 +61,8 @@ printObject <- function(object) {
 			cat("location: ", abs(object$location[1]), ns, abs(object$location[2]), we, "\n", sep="")
 		}
 		if(!is.null(object$description)) cat("description:", object$description, "\n\n")
+		per.start <- period.start
+		per.end <- period.end
 		if(nchar(as.character(period.start))==10) per.start <- paste(as.character(period.start), "00:00:00")
 		if(nchar(as.character(period.end))==10) per.end <- paste(as.character(period.end), "00:00:00")
 		cat(paste0("measuring period: from ", per.start, " to ", per.end, " (", round(period.days, 1), " days)\n"))
