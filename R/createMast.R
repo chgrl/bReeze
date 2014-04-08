@@ -20,7 +20,7 @@ function(time.stamp, ..., loc=NULL, desc=NULL) {
 		if(attr(l[[i]], "call")$func!="createSet") stop(paste(names(l)[i], "is no set object - please use createSet\n"))
 		attr(l[[i]], "call") <- NULL
 	}
-	if(any(class(time.stamp)=="POSIXt")==FALSE) stop("'time.stamp' must be given in POSIXlt format - for reformating use formatTS\n")
+	if(any(class(time.stamp)=="POSIXlt")==FALSE) stop("'time.stamp' must be given in POSIXlt format - for reformating use formatTS\n")
 	if(length(time.stamp)!=length(l[[1]]$data[,1])) stop("Different length of time.stamp and sets\n")
 	
 	# check units
