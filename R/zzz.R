@@ -2,14 +2,10 @@
 function(libname, pkgname) {
     ver <- read.dcf(file=system.file("DESCRIPTION", package=pkgname), fields="Version")
     packageStartupMessage(" ")
-    packageStartupMessage("********************")
-    packageStartupMessage(" ")
     packageStartupMessage(paste("This is", pkgname, ver))
     packageStartupMessage(" ")
     packageStartupMessage("Type changes(\"bReeze\") to see changes/bug fixes, help(bReeze) for documentation")
     packageStartupMessage("or citation(\"bReeze\") for how to cite bReeze.")
-    packageStartupMessage(" ")
-    packageStartupMessage("********************")
     packageStartupMessage(" ")
 }
 
