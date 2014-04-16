@@ -2,7 +2,7 @@ formatTS <-
 function(time.stamp, pattern) {
 ### formatting time stamp (lookup or with given pattern)
 	
-	if(anyDuplicated(time.stamp)) if(any(duplicated(time.stamp)==TRUE)) stop("'time.stamp' contains duplicates\n") # sometimes anyDuplicated() founds duplicates although there are no duplicates
+	if(anyDuplicated(time.stamp)) if(any(duplicated(time.stamp)==TRUE)) stop("'time.stamp' contains duplicates") # sometimes anyDuplicated() founds duplicates although there are no duplicates
 	ts <- nts <- NULL
 		
 	if(missing(pattern)) { # search for pattern
@@ -22,20 +22,20 @@ function(time.stamp, pattern) {
 					if(substr(pattern[i], nchar(pattern[i]), nchar(pattern[i]))=="M") nts[which(is.na(nts)==TRUE)] <- strptime(paste(time.stamp[which(is.na(nts)==TRUE)], "00:00"), pattern[i])
 				}
 				if(!any(is.na(nts)==TRUE)) {
-					cat(paste("Pattern found:", pattern[i], "\n"))
+					message("Pattern found: ", pattern[i])
 					break
 				}
 			}
 		}
 				
-		if(length(nts)==1) stop("No pattern found\n")
+		if(length(nts)==1) stop("No pattern found")
 	} else { # pattern specified
 		nts <- strptime(time.stamp, pattern)
 		if(any(is.na(nts)==TRUE)) {
 			if(substr(pattern, nchar(pattern), nchar(pattern))=="S") nts[which(is.na(nts)==TRUE)] <- strptime(paste(time.stamp[which(is.na(nts)==TRUE)], "00:00:00"), pattern)
 			if(substr(pattern, nchar(pattern), nchar(pattern))=="M") nts[which(is.na(nts)==TRUE)] <- strptime(paste(time.stamp[which(is.na(nts)==TRUE)], "00:00"), pattern)
 		}
-		if(any(is.na(nts)==TRUE) || substr(nts[1],1,2)=="00") stop("Pattern does not match\n")
+		if(any(is.na(nts)==TRUE) || substr(nts[1],1,2)=="00") stop("Pattern does not match")
 	}
 	
 	return(nts)

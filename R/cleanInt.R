@@ -7,28 +7,28 @@ function(dat, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep) {
 		if(dir.clean && !is.null(dat$dir.avg)) dat$dir.avg[dat$v.avg<v.avg.min] <- NA
 		if(!is.null(dat$turb.int)) dat$turb.int[dat$v.avg<v.avg.min] <- NA
 		dat$v.avg[dat$v.avg<v.avg.min] <- NA
-		if(replaced>0) cat(replaced, "samples lower than", v.avg.min, "replaced by 'NA' in average wind speed\n")
+		if(replaced>0) message(replaced, " samples lower than ", v.avg.min, " replaced by 'NA' in average wind speed")
 	}
 	if(!is.null(v.avg.max) && !is.null(dat$v.avg)) {
 		replaced <- length(dat$v.avg[dat$v.avg>v.avg.max & !is.na(dat$v.avg)])
 		#if(dir.clean && !is.null(dat$dir.avg)) dat$dir.avg[dat$v.avg>v.avg.max] <- NA
 		dat$v.avg[dat$v.avg>v.avg.max] <- NA
-		if(replaced>0) cat(replaced, "samples higher than", v.avg.max, "replaced by 'NA' in average wind speed\n")
+		if(replaced>0) message(replaced, " samples higher than ", v.avg.max, " replaced by 'NA' in average wind speed")
 	}
 	if(dir.clean && !is.null(dat$dir.avg)) {
 		replaced <- length(dat$dir.avg[(dat$dir.avg<0 | dat$dir.avg>360) & !is.na(dat$dir.avg)])
 		dat$dir.avg[dat$dir.avg<0 | dat$dir.avg>360] <- NA
-		if(replaced>0) cat(replaced, "samples outside the range of 0-360 replaced by 'NA' in average wind direction\n")
+		if(replaced>0) message(replaced, " samples outside the range of 0-360 replaced by 'NA' in average wind direction")
 	}
 	if(!is.null(turb.clean) && !is.null(dat$turb.int)) {
 		replaced <- length(dat$turb.int[dat$v.avg<turb.clean & !is.na(dat$v.avg) & !is.na(dat$turb.int)])
 		dat$turb.int[dat$v.avg<turb.clean] <- NA
-		if(replaced>0) cat(replaced, "samples with average wind speed lower than", turb.clean, "m/s replaced by 'NA' in turbulence intensity\n")
+		if(replaced>0) message(replaced, " samples with average wind speed lower than ", turb.clean, " m/s replaced by 'NA' in turbulence intensity")
 	}
 	if(icing && !is.null(dat$dir.avg) && !is.null(dat$dir.std)) {
 		replaced <- length(dat$dir.avg[dat$dir.std==0])
 		dat$dir.avg[dat$dir.std==0] <- NA
-		if(replaced>0) cat(replaced, "samples with wind direction standard deviation = 0 replaced by 'NA' in average wind direction assuming icing\n")
+		if(replaced>0) message(replaced, " samples with wind direction standard deviation = 0 replaced by 'NA' in average wind direction assuming icing")
 	}
 	if(!is.null(rep)) {
 		replaced <- 0
@@ -36,7 +36,7 @@ function(dat, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep) {
 			if(any(names(dat)==rep[i])) {
 				clmn <- which(names(dat)==rep[i])
 				l <- length(dat[,clmn])
-				if(n.rep>l) cat("Cannot clean repetitions - n.rep too large\n")
+				if(n.rep>l) warning("Cannot clean repetitions - 'n.rep' too large", call.=FALSE)
 				else {
 					for(n in 1:(l-n.rep+1)) {
 						if(!is.na(dat[n,clmn]) && !is.na(dat[n+1,clmn])) if(dat[n,clmn]==dat[n+1,clmn]) {
@@ -54,7 +54,7 @@ function(dat, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep) {
 					}
 				}		
 			}
-			if(replaced>0) cat(replaced, "repetitions replaced by 'NA' in", rep[i], "\n")
+			if(replaced>0) message(replaced, " repetitions replaced by 'NA' in ", rep[i])
 		}
 	}
 	

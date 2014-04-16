@@ -4,37 +4,37 @@ function(mast, set, v.avg.min=0.4, v.avg.max=50, dir.clean=TRUE, turb.clean=4, i
 	
 	r <- NULL
 		
-	if(missing(mast) && missing(set)) stop("No data to clean - please specify mast and/or set\n")
-	if(!is.null(v.avg.min)) if(!is.numeric(v.avg.min)) stop("v.avg.min must be numeric or NULL")
-	if(!is.null(v.avg.max)) if(!is.numeric(v.avg.max)) stop("v.avg.max must be numeric or NULL")
-	if(is.null(dir.clean)) stop("dir.clean must be specified as TRUE or FALSE")
-	if(!is.null(turb.clean)) if(!is.numeric(turb.clean)) stop("turb.clean must be numeric or NULL")
-	if(is.null(icing)) stop("icing must be specified as TRUE or FALSE")
-	if(!is.null(rep)) if(any(is.character(rep)==FALSE)) stop("rep must be a vector of characters or NULL")
-	if(!is.null(rep) && is.null(n.rep)) stop("Please specify n.rep")
-	if(!is.null(rep)) if(!is.null(n.rep)) if(!is.numeric(n.rep)) stop("n.rep must be numeric or NULL") 
+	if(missing(mast) && missing(set)) stop("No data to clean - please specify mast and/or set")
+	if(!is.null(v.avg.min)) if(!is.numeric(v.avg.min)) stop("'v.avg.min' must be numeric or NULL")
+	if(!is.null(v.avg.max)) if(!is.numeric(v.avg.max)) stop("'v.avg.max' must be numeric or NULL")
+	if(is.null(dir.clean)) stop("'dir.clean' must be specified as TRUE or FALSE")
+	if(!is.null(turb.clean)) if(!is.numeric(turb.clean)) stop("'turb.clean' must be numeric or NULL")
+	if(is.null(icing)) stop("'icing' must be specified as TRUE or FALSE")
+	if(!is.null(rep)) if(any(is.character(rep)==FALSE)) stop("'rep' must be a vector of characters or NULL")
+	if(!is.null(rep) && is.null(n.rep)) stop("Please specify 'n.rep'")
+	if(!is.null(rep)) if(!is.null(n.rep)) if(!is.numeric(n.rep)) stop("'n.rep' must be numeric or NULL") 
 	if(missing(mast) && !missing(set)) { # set
-		if(is.null(attr(set, "call"))) stop(paste(substitute(set), "is no set object\n"))
-		if(attr(set, "call")$func!="createSet") stop(paste(substitute(set), "is no set object\n"))
+		if(is.null(attr(set, "call"))) stop(substitute(set), " is no set object")
+		if(attr(set, "call")$func!="createSet") stop(substitute(set), " is no set object")
 		set$data <- cleanInt(set$data, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep+1)
 		r <- set
 	} else if(!missing(mast) && missing(set)) { # mast
-		if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
-		if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
+		if(is.null(attr(mast, "call"))) stop(substitute(mast), " is no mast object")
+		if(attr(mast, "call")$func!="createMast") stop(substitute(mast), " is no mast object")
 		num.sets <- length(mast$sets)
 		for(s in 1:num.sets) {
-			cat(paste("Cleaning set", s, "...\n"))
+			message("Cleaning set ", s, "...")
 			mast$sets[[s]]$data <- cleanInt(mast$sets[[s]]$data, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep+1)
 		}
 		r <- mast
 	} else if(!is.null(mast) && !is.null(set)) { # set of mast
-		if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
-		if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
+		if(is.null(attr(mast, "call"))) stop(substitute(mast), " is no mast object")
+		if(attr(mast, "call")$func!="createMast") stop(substitute(mast), " is no mast object")
 		num.sets <- length(mast$sets)
 		if(!is.numeric(set)) set <- match(set, names(mast$sets))
-		if(is.na(set)) stop("Set not found\n")
-		if(set<0 || set>num.sets) stop("Set not found\n")
-		cat("Cleaning set", set, "...\n")
+		if(is.na(set)) stop("Set not found")
+		if(set<0 || set>num.sets) stop("Set not found")
+		message("Cleaning set ", set, "...")
 		mast$sets[[set]]$data <- cleanInt(mast$sets[[set]]$data, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep+1)
 		r <- mast
 	}

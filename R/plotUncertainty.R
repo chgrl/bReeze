@@ -2,14 +2,14 @@ plotUncertainty <-
 function(uncertainty, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
 ###	uncertainty plots
 	
-	if(missing(uncertainty)) stop("uncertainty object 'uncertainty' is mandatory\n")
+	if(missing(uncertainty)) stop("uncertainty object 'uncertainty' is mandatory")
 	if(missing(type)) type <- "prob"
 	type <- match.arg(type)
 	
-	if(is.null(attr(uncertainty, "call"))) stop(paste(substitute(uncertainty), "is no uncertainty object\n"))
-	if(attr(uncertainty, "call")$func!="uncertainty") stop(paste(substitute(uncertainty), "is no uncertainty object\n"))
-	if(!is.numeric(p.values)) stop("'p.values' must be numeric\n")
-	for(i in 1:length(p.values)) if(p.values[i]%%1!=0 || p.values[i]<1 || p.values[i]>=100) stop("Only positive 'p.values' between 1 and 100 allowed\n")
+	if(is.null(attr(uncertainty, "call"))) stop(substitute(uncertainty), " is no uncertainty object")
+	if(attr(uncertainty, "call")$func!="uncertainty") stop(substitute(uncertainty), " is no uncertainty object")
+	if(!is.numeric(p.values)) stop("'p.values' must be numeric")
+	for(i in 1:length(p.values)) if(p.values[i]%%1!=0 || p.values[i]<1 || p.values[i]>=100) stop("Only positive 'p.values' between 1 and 100 allowed")
 	
 	# prepare plot
 	old.par <- par(no.readonly=TRUE)
@@ -71,7 +71,7 @@ function(uncertainty, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
 		if(any(names(plot.param)=="xlab")) xlab <- plot.param$xlab
 		else xlab <- "Probability [%]"
 		if(any(names(plot.param)=="ylab")) ylab <- plot.param$ylab
-		else ylab <- paste("Annual energy production [", attr(uncertainty$prob.exceedance$aep, "unit"), "]", sep="")
+		else ylab <- paste0("Annual energy production [", attr(uncertainty$prob.exceedance$aep, "unit"), "]")
 		if(any(names(plot.param)=="ylim")) ylim <- plot.param$ylim
 		else ylim <- NULL
 		if(any(names(plot.param)=="xlim")) xlim <- plot.param$xlim

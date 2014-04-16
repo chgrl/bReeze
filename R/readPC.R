@@ -10,7 +10,7 @@ function(file, ex=FALSE) {
 	}
 	
 	type <- substr(file, nchar(file)-3, nchar(file))
-	if(!any(c(".pow", ".wtg")==type)) stop("Cannot handle file - only WAsP .wtg files and WindPower program .pow files are supported\n")
+	if(!any(c(".pow", ".wtg")==type)) stop("Cannot handle file - only WAsP .wtg files and WindPower program .pow files are supported")
 	
 	r <- NULL
 	if(type==".pow") {
@@ -26,7 +26,7 @@ function(file, ex=FALSE) {
 		attr(r, "call") <- list(func="readPC", file=file)
 	} else if(type==".wtg") {
 		wtg <- xmlTreeParse(file, asTree=TRUE)
-		if(is.null(wtg$doc$children$WindTurbineGenerator)) stop("Cannot handle file\n")
+		if(is.null(wtg$doc$children$WindTurbineGenerator)) stop("Cannot handle file")
 		n <- length(wtg$doc$children$WindTurbineGenerator)
 		idx <- 3
 		if(n>4) {

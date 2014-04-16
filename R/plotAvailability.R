@@ -3,14 +3,14 @@ function(avail, set, ...) {
 ### plotting 	availability data
 		
 	num.sets <- length(avail)
-	if(is.null(attr(avail, "call")$func)) stop(paste(substitute(availability), "is no availability object\n"))
-	if(attr(avail, "call")$func!="availability") stop(paste(substitute(availability), "is no availability object\n"))
-	if(is.null(attr(avail[[1]]$daily, "num.daily.samples"))) stop("Cannot use 'avail' - please use output object of availability\n")
+	if(is.null(attr(avail, "call")$func)) stop(substitute(availability), " is no availability object")
+	if(attr(avail, "call")$func!="availability") stop(substitute(availability), " is no availability object")
+	if(is.null(attr(avail[[1]]$daily, "num.daily.samples"))) stop("Cannot use 'avail' - please use output object of availability")
 	if(missing(set)) set <- 1:num.sets
 	n.set <- length(set)
 	if(!is.numeric(set)) set <- match(set, names(avail))
-	if(any(is.na(set))) stop("'set' not found\n")
-	if(any(set<1) || any(set>num.sets)) stop("'set' not found\n")
+	if(any(is.na(set))) stop("'set' not found")
+	if(any(set<1) || any(set>num.sets)) stop("'set' not found")
 	
 	# prepare plot
 	old.par <- par(no.readonly=TRUE)

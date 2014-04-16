@@ -2,17 +2,17 @@ createPC <-
 function(v, p, cp, ct, rho=1.225, rated.p, desc) {
 ###	creating power curve object
 
-	if(missing(v)) stop("Wind speed 'v' is mandatory\n")
-	if(!is.vector(v)) stop("'v' requires numeric vector\n")
-	if(missing(p)) stop("Power 'p' is mandatory\n")
-	if(!is.vector(p)) stop("'p' requires numeric vector\n")
-	if(length(v)!=length(p)) stop("Different vector length of 'v' and 'p'\n")
+	if(missing(v)) stop("Wind speed 'v' is mandatory")
+	if(!is.vector(v)) stop("'v' requires numeric vector")
+	if(missing(p)) stop("Power 'p' is mandatory")
+	if(!is.vector(p)) stop("'p' requires numeric vector")
+	if(length(v)!=length(p)) stop("Different vector length of 'v' and 'p'")
 	if(missing(cp)) cp <- NULL
-	if(!is.null(cp)) if(!is.vector(cp)) stop("'cp' requires numeric vector\n")
-	if(!is.null(cp)) if(length(v)!=length(cp)) stop("Different vector length of 'v' and 'p'\n")
+	if(!is.null(cp)) if(!is.vector(cp)) stop("'cp' requires numeric vector")
+	if(!is.null(cp)) if(length(v)!=length(cp)) stop("Different vector length of 'v' and 'p'")
 	if(missing(ct)) ct <- NULL
-	if(!is.null(ct)) if(!is.vector(ct)) stop("'ct' requires numeric vector\n")
-	if(!is.null(ct)) if(length(v)!=length(ct)) stop("Different vector length of 'v' and 'cp'\n")
+	if(!is.null(ct)) if(!is.vector(ct)) stop("'ct' requires numeric vector")
+	if(!is.null(ct)) if(length(v)!=length(ct)) stop("Different vector length of 'v' and 'cp'")
 	if(missing(rated.p)) rated.p <- max(p, na.rm=TRUE)
 	if(missing(desc)) desc <- NULL
 	

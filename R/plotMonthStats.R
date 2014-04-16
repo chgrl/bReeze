@@ -4,13 +4,13 @@ function(stats, set, ...) {
 		
 	if(is.data.frame(stats)) num.sets <- 1
 	else num.sets <- length(stats)
-	if(is.null(attr(stats, "call"))) stop(paste(substitute(stats), "is no monthStats object\n"))
-	if(attr(stats, "call")$func!="monthStats") stop(paste(substitute(stats), "is no monthStats object\n"))
+	if(is.null(attr(stats, "call"))) stop(substitute(stats), " is no monthStats object")
+	if(attr(stats, "call")$func!="monthStats") stop(substitute(stats), " is no monthStats object")
 	if(missing(set)) set <- 1:num.sets
 	n.set <- length(set)
 	if(!is.numeric(set)) set <- match(set, names(stats))
-	if(any(is.na(set))) stop("'set' not found\n")
-	if(any(set<1) || any(set>num.sets)) stop("'set' not found\n")
+	if(any(is.na(set))) stop("'set' not found")
+	if(any(set<1) || any(set>num.sets)) stop("'set' not found")
 	unit <- attr(stats, "unit")
 	years <- length(stats[[1]])-2
 	

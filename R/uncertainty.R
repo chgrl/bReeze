@@ -2,17 +2,18 @@ uncertainty <-
 function(aep, uc.values, uc.names, prob=seq(5,95,5), digits=c(0,0), print=TRUE) {
 ###	uncertainty assessment of annual energy production
 	
-	if(missing(aep)) stop("AEP object 'aep' is mandatory\n")
-	if(missing(uc.values)) stop("Uncertainty values 'uc.values' is mandatory\n")
-	if(missing(uc.names)) stop("Uncertainty names 'uc.names' is mandatory\n")
-	if(is.null(attr(aep, "call"))) stop(paste(substitute(aep), "is no aep object\n"))
-	if(attr(aep, "call")$func!="aep") stop(paste(substitute(aep), "is no aep object\n"))
-	if(!is.numeric(uc.values)) stop("'uc.values' must be numeric\n")
-	for(i in 1:length(uc.values)) if(uc.values[i]<0) stop("Only positive 'uc.values' allowed\n")
-	if(!is.null(uc.names)) if(length(uc.names)!=length(uc.values) && length(uc.names)!=length(uc.values)+1) stop("'uc.names' and 'uc.values' must be vectors of the same length\n")
+	if(missing(aep)) stop("AEP object 'aep' is mandatory")
+	if(missing(uc.values)) stop("Uncertainty values 'uc.values' is mandatory")
+	if(missing(uc.names)) stop("Uncertainty names 'uc.names' is mandatory")
+	if(is.null(attr(aep, "call"))) stop(substitute(aep), " is no aep object")
+	if(attr(aep, "call")$func!="aep") stop(substitute(aep), " is no aep object")
+	if(!is.numeric(uc.values)) stop("'uc.values' must be numeric")
+	for(i in 1:length(uc.values)) if(uc.values[i]<0) stop("Only positive 'uc.values' allowed")
+	if(!is.null(uc.names)) if(length(uc.names)!=length(uc.values) && length(uc.names)!=length(uc.values)+1) stop("'uc.names' and 'uc.values' must be vectors of the same length")
 	if(length(digits)!=2) { 
-		digits <- rep(digits, 2)
-		cat("'digits' shall be a vector of two values (for uncertainty and AEP values)")
+		if(length(digits)<2) digits <- rep(digits, 2)
+		if(length(digits)>2) digits <- digits[1:2]
+		warning("'digits' shall be a vector of two values (for uncertainty and AEP values)", call.=FALSE)
 	}
 	
 	p50 <- tail(aep$aep$total, 1)

@@ -2,28 +2,28 @@ aep <-
 function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FALSE, digits=c(3,0,0,3), print=TRUE) {
 ###	calculating annual energy production
 	
-	if(missing(profile)) stop("Profile 'profile' is mandatory\n")
-	if(missing(pc)) stop("Power curve 'pc' is mandatory\n")
-	if(missing(hub.h)) stop("Hub heigth 'hub.h' is mandatory\n")
+	if(missing(profile)) stop("Profile 'profile' is mandatory")
+	if(missing(pc)) stop("Power curve 'pc' is mandatory")
+	if(missing(hub.h)) stop("Hub heigth 'hub.h' is mandatory")
 	if(missing(rho)) rho <- 1.225
 	if(missing(avail)) avail <- 1
 	if(missing(sectoral)) sectoral <- FALSE
 	
-	if(is.null(attr(profile, "call"))) stop(paste(substitute(profile), "is no profile object\n"))
-	if(attr(profile, "call")$func!="profile") stop(paste(substitute(profile), "is no profile object\n"))
-	if(is.null(attr(pc, "call"))) stop(paste(substitute(pc), "is no profile object\n"))
-	if(attr(pc, "call")$func!="createPC" && attr(pc, "call")$func!="readPC") stop(paste(substitute(pc), "is no power curve object - use createPC to create a power curve or readPC to import a power curve from file\n"))
-	if(!is.numeric(hub.h)) stop("'hub.h' must be numeric\n")
-	if(!is.numeric(rho)) stop("'rho' must be numeric\n")
-	if(!is.numeric(avail)) stop("'avail' must be numeric\n")
-	if(avail<0 || avail>1) stop("'avail' must be a numeric value between 0 and 1\n")
-	if(any(bins<0)) stop("'bins' must be NULL or a vector of positives\n")
+	if(is.null(attr(profile, "call"))) stop(substitute(profile), " is no profile object")
+	if(attr(profile, "call")$func!="profile") stop(substitute(profile), " is no profile object")
+	if(is.null(attr(pc, "call"))) stop(substitute(pc), " is no profile object")
+	if(attr(pc, "call")$func!="createPC" && attr(pc, "call")$func!="readPC") stop(substitute(pc), " is no power curve object - use createPC to create a power curve or readPC to import a power curve from file")
+	if(!is.numeric(hub.h)) stop("'hub.h' must be numeric")
+	if(!is.numeric(rho)) stop("'rho' must be numeric")
+	if(!is.numeric(avail)) stop("'avail' must be numeric")
+	if(avail<0 || avail>1) stop("'avail' must be a numeric value between 0 and 1")
+	if(any(bins<0)) stop("'bins' must be NULL or a vector of positives")
 	if(length(digits)!=4) { 
 		digits <- rep(digits, 4)
-		cat("'digits' shall be a vector of four values (for wind speed, operation, aep and capacity)")
+		warning("'digits' shall be a vector of four values (for wind speed, operation, aep and capacity)", call.=FALSE)
 	}
 	
-	if(is.null(attr(profile, "call")$mast)) stop(paste("Source mast object of", substitute(profile), "could not be found\n"))
+	if(is.null(attr(profile, "call")$mast)) stop("Source mast object of ", substitute(profile), " could not be found")
 	mast <- get(attr(profile, "call")$mast)
 	v.set <- attr(profile, "call")$v.set[1]
 	dir.set <- attr(profile, "call")$dir.set
@@ -33,13 +33,9 @@ function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FA
 	rated.p <- attr(pc, "rated.power")
 	
 	# subset
-	num.samples <- length(mast$time.stamp)
-	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
-	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
-	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
-	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
-	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
-	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	start.end <- subsetInt(mast$time.stamp, subset)
+	start <- start.end[1]
+	end <- start.end[2]
 	
 	sector.width <- 360/num.sectors
 	sectors <- seq(0, 360-sector.width, by=sector.width)
@@ -74,10 +70,10 @@ function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FA
 			}
 		}
 	}
-	if(!is.null(bins)) if(num.classes==2 && bins[num.classes]>=v.max) stop("Only one wind class found\n")
+	if(!is.null(bins)) if(num.classes==2 && bins[num.classes]>=v.max) stop("Only one wind class found")
 	
 	aep.tbl <- data.frame(matrix(NA, nrow=num.sectors+1, ncol=num.classes+3))
-	r.names <- c(paste("s", 1:num.sectors, sep=""),"all")
+	r.names <- c(paste0("s", 1:num.sectors),"all")
 	if(num.sectors==4) r.names <- c("n","e","s","w","total")
 	if(num.sectors==8) r.names <- c("n","ne","e","se","s","sw","w","nw","total")
 	if(num.sectors==12) r.names <- c("n","nne","ene","e","ese","sse","s","ssw","wsw","w","wnw","nnw","total")
@@ -86,7 +82,7 @@ function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FA
 	c.names <- c("wind.speed", "operation", "total")
 	if(!is.null(bins)) {
 		for(i in 1:(num.classes-1)) c.names <- append(c.names, paste(bins[i], bins[i+1], sep="-"))
-		c.names <- append(c.names, paste(">", bins[num.classes], sep=""))
+		c.names <- append(c.names, paste0(">", bins[num.classes]))
 	}
 	names(aep.tbl) <- c.names
 	

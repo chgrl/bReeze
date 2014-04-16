@@ -5,12 +5,12 @@ function(v.dat, msg) {
  	if(any(is.na(v.dat)==TRUE)) {
  		n <- length(v.dat[is.na(v.dat)==TRUE])
  		v.dat<- v.dat[!is.na(v.dat)]
- 		if(msg) cat(paste(n, "NA found and excluded from calculation\n"))
+ 		if(msg) message(n, " NA found and excluded from calculation")
  	}
 	if(any(v.dat<=0)) {
 		n <- length(v.dat[v.dat<=0])
  		v.dat<- v.dat[!is.na(v.dat)]
-		if(msg) cat(paste(n, "none-positives found and excluded from calculation\n"))
+		if(msg) message(n, " none-positives found and excluded from calculation")
 	}
 	m1 <- mean(v.dat)
 	m3 <- mean(v.dat^3)

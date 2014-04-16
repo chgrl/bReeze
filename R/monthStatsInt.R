@@ -73,8 +73,8 @@ function(data, fun, ts, years, digits) {
 		m.stats[13,length(years)+1] <- sd(data, na.rm=TRUE)
 	}
 	
-	m.stats.df <- data.frame(m.stats, row.names=c("jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec",fun,paste(fun, ".of.months", sep="")))
-	names(m.stats.df) <- c(years, fun, paste(fun, ".of.months", sep=""))
+	m.stats.df <- data.frame(m.stats, row.names=c("jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec",fun,paste0(fun, ".of.months")))
+	names(m.stats.df) <- c(years, fun, paste0(fun, ".of.months"))
 	
 	if(fun=="min" || fun=="max" || fun=="sd") m.stats.df <- m.stats.df[1:13,1:(y+1)]
 

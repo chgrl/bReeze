@@ -2,9 +2,9 @@ createSet <-
 function(height, desc, v.avg, v.max, v.min, v.std, dir.avg, dir.std, tmp, ...) {
 ### creating dataset in particular height
 
-	if(missing(height)) stop("'height' is mandatory\n")
-	if(!is.numeric(height)) stop("'height' must be numeric\n")
-	if(missing(v.avg) && missing(v.max) && missing(v.min) && missing(v.std) && missing(dir.avg) && missing(dir.std) && missing(...)) stop("No data\n")
+	if(missing(height)) stop("'height' is mandatory")
+	if(!is.numeric(height)) stop("'height' must be numeric")
+	if(missing(v.avg) && missing(v.max) && missing(v.min) && missing(v.std) && missing(dir.avg) && missing(dir.std) && missing(...)) stop("No data")
 	if(missing(desc)) desc <- NULL
 	if(missing(v.avg)) v.avg <- NULL
 	if(missing(v.max)) v.max <- NULL

@@ -1,7 +1,7 @@
 printObject <- function(object) {
 ### summarising object information
 	
-	if(is.null(attr(object, "call"))) stop(paste(substitute(object), "seems not to be a bReeze object\n"))
+	if(is.null(attr(object, "call"))) stop(substitute(object), " seems not to be a bReeze object")
 	
 	if(attr(object, "call")$func=="createMast") { # mast object
 		if(!is.null(object$location)) loc <- object$location
@@ -11,13 +11,15 @@ printObject <- function(object) {
 		heights <- object$sets[[1]]$height
 		h.unit <- attr(object$sets[[1]]$height, "unit")
 		interval <- object$time.stamp[2]-object$time.stamp[1]
-		if(attr(interval, "units")=="days" && interval>1) cat("Availability cannot be calculated - time interval longer than 1 day\n")
+		if(attr(interval, "units")=="days" && interval>1) warning("Availability cannot be calculated - time interval longer than 1 day", call.=FALSE)
 		if(attr(interval, "units")=="days") daily.samples <- interval
 		if(attr(interval, "units")=="hours") daily.samples <- 24/as.numeric(interval)
 		if(attr(interval, "units")=="mins") daily.samples <- 24*60/as.numeric(interval)
 		if(attr(interval, "units")=="secs") daily.samples <- 24*60*60/as.numeric(interval)
 		period.start <- object$time.stamp[1]
 		period.end <- object$time.stamp[num.samples]
+		if(nchar(period.start)==10) period.start <- paste(period.start, "00:00:00")
+		if(nchar(period.end)==10) period.end <- paste(period.end, "00:00:00")
 		period.days <- as.numeric(period.end-period.start)
 		signals <- names(object$sets[[1]]$data)
 		if(is.null(object$sets[[1]]$data$v.avg)) wind.speed <- 0
@@ -61,11 +63,7 @@ printObject <- function(object) {
 			cat("location: ", abs(object$location[1]), ns, abs(object$location[2]), we, "\n", sep="")
 		}
 		if(!is.null(object$description)) cat("description:", object$description, "\n\n")
-		per.start <- period.start
-		per.end <- period.end
-		if(nchar(as.character(period.start))==10) per.start <- paste(as.character(period.start), "00:00:00")
-		if(nchar(as.character(period.end))==10) per.end <- paste(as.character(period.end), "00:00:00")
-		cat(paste0("measuring period: from ", per.start, " to ", per.end, " (", round(period.days, 1), " days)\n"))
+		cat(paste0("measuring period: from ", period.start, " to ", period.end, " (", round(period.days, 1), " days)\n"))
 		cat("samples:", num.samples, "\n\n")
 		cat("datasets (", num.sets, "):\n", sep="")
 		det <- data.frame(cbind(heights, round(wind.speed, 2), round(avail, 1)))
@@ -298,5 +296,5 @@ printObject <- function(object) {
 		row.names(pe) <- row.names(pe)
 		print(rbind(pe.units, pe), quote=FALSE)
 		cat("\ncall: uncertainty(aep=", attr(object, "call")$aep, ", uc.values=c(", paste(attr(object, "call")$uc.values, collapse=", "), "), uc.names=c(\"", paste(attr(object, "call")$uc.names, collapse="\", \""), "\"), prob=c(", paste(attr(object, "call")$prob, collapse=", "), "), digits=c(", paste(attr(uc, "call")$digits, collapse=", "), "), print=", attr(object, "call")$print, ")\n\n", sep="")
-	} else stop(paste(substitute(object), "seems not to be a bReeze object"))
+	} else stop(substitute(object), " seems not to be a bReeze object")
 }

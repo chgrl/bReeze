@@ -2,8 +2,8 @@ plotEnergy <-
 function(energy, show.total=TRUE, ...) {
 ###	plotting wind energy rose
 	
-	if(is.null(attr(energy, "call"))) stop(paste(substitute(energy), "is no energy object\n"))
-	if(attr(energy, "call")$func!="energy") stop(paste(substitute(energy), "is no energy object\n"))
+	if(is.null(attr(energy, "call"))) stop(substitute(energy), " is no energy object")
+	if(attr(energy, "call")$func!="energy") stop(substitute(energy), " is no energy object")
 	
 	dim.data <- dim(energy)
 	num.sectors <- dim.data[1] - 1
