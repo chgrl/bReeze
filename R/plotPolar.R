@@ -2,38 +2,25 @@ plotPolar <-
 function(mast, v.set=1, dir.set=1, subset, ...) {
 ### plotting wind speed vs. wind direction in polar plot
 	
-	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
-	if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
+	if(is.null(attr(mast, "call"))) stop(substitute(mast), " is no mast object")
+	if(attr(mast, "call")$func!="createMast") stop(substitute(mast), " is no mast object")
 	num.sets <- length(mast$sets)
 	
 	if(!is.numeric(v.set)) v.set <- match(v.set, names(mast$sets))
-	if(is.na(v.set)) stop("'v.set' not found\n")
+	if(is.na(v.set)) stop("'v.set' not found")
 	if(!is.numeric(dir.set)) dir.set <- match(dir.set, names(mast$sets))
-	if(is.na(dir.set)) stop("'dir.set' not found\n")
+	if(is.na(dir.set)) stop("'dir.set' not found")
 	
-	if(v.set<=0 || v.set>num.sets) stop("Specified 'v.set' could not be found\n")
-	if(is.null(mast$sets[[v.set]]$data$v.avg)) stop("Specified 'v.set' does not contain average wind speed data\n")
-	if(dir.set<=0 || dir.set>num.sets) stop("Specified 'dir.set' could not be found\n")
-	if(is.null(mast$sets[[dir.set]]$data$dir.avg)) stop("Specified 'dir.set' does not contain average wind direction data\n")
+	if(v.set<=0 || v.set>num.sets) stop("'v.set' could not be found")
+	if(is.null(mast$sets[[v.set]]$data$v.avg)) stop("'v.set' does not contain average wind speed data")
+	if(dir.set<=0 || dir.set>num.sets) stop("'dir.set' could not be found")
+	if(is.null(mast$sets[[dir.set]]$data$dir.avg)) stop("'dir.set' does not contain average wind direction data")
 	
 	# subset
-	num.samples <- length(mast$time.stamp)
 	if(missing(subset)) subset <- c(NA, NA)
-	if((!any(is.character(subset)) && !any(is.na(subset))) || length(subset)!=2) stop("Please specify 'subset' as vector of start and end time stamp\n")
-	if(is.na(subset[1])) subset[1] <- as.character(mast$time.stamp[1])
-	if(is.na(subset[2])) subset[2] <- as.character(mast$time.stamp[num.samples])
-	if(nchar(subset[1])==10) subset[1] <- paste(subset[1], "00:00:00")
-	if(nchar(subset[2])==10) subset[2] <- paste(subset[2], "00:00:00")
-	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
-	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
-	if(is.na(start)) stop("Specified start time stamp in 'subset' not correctly formated\n")
-	if(is.na(end)) stop("Specified end time stamp in 'subset' not correctly formated\n")
-	if(start<mast$time.stamp[1] || start>mast$time.stamp[num.samples]) stop("Specified 'start' not in period\n")
-	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
-	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
-	if(end<mast$time.stamp[1] || end>mast$time.stamp[num.samples]) stop("Specified 'end' not in period\n")
-	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
-	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	start.end <- subsetInt(mast$time.stamp, subset)
+	start <- start.end[1]
+	end <- start.end[2]
 	
 	ws <- mast$sets[[v.set]]$data$v.avg[!is.na(mast$sets[[v.set]]$data$v.avg[start:end]) & !is.na(mast$sets[[dir.set]]$data$dir.avg[start:end])]
 	wd <- mast$sets[[dir.set]]$data$dir.avg[!is.na(mast$sets[[v.set]]$data$v.avg[start:end]) & !is.na(mast$sets[[dir.set]]$data$dir.avg[start:end])]*-pi/180+pi/2

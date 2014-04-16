@@ -2,8 +2,8 @@ plotAep <-
 function(aep, show.total=TRUE, ...) {
 ###	plotting annual energy production rose
 	
-	if(is.null(attr(aep, "call")$func)) stop(paste(substitute(aep), "is no aep object\n"))
-	if(attr(aep, "call")$func!="aep") stop(paste(substitute(aep), "is no aep object\n"))
+	if(is.null(attr(aep, "call")$func)) stop(substitute(aep), " is no aep object")
+	if(attr(aep, "call")$func!="aep") stop(substitute(aep), " is no aep object")
 	
 	aep <- aep$aep
 	dim.data <- dim(aep)

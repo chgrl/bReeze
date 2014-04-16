@@ -2,20 +2,20 @@ profile <-
 function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fixed"), alpha=NULL, subset, digits=3, print=TRUE) {
 ###	computing profile from mast data
 	
-	if(is.null(attr(mast, "call"))) stop(paste(substitute(mast), "is no mast object\n"))
-	if(attr(mast, "call")$func!="createMast") stop(paste(substitute(mast), "is no mast object\n"))
+	if(is.null(attr(mast, "call"))) stop(substitute(mast), " is no mast object")
+	if(attr(mast, "call")$func!="createMast") stop(substitute(mast), " is no mast object")
 	num.sets <- length(mast$sets)
-	if(missing(v.set)) stop("Please choose one or two sets in 'v.set'\n")
+	if(missing(v.set)) stop("Please choose one or two sets in 'v.set'")
 	if(!is.numeric(v.set)) if(!(length(v.set)==1 && any(v.set=="all"))) v.set <- match(v.set, names(mast$sets))
-	if(any(is.na(v.set))) stop("'v.set' not found\n")
-	if(any(v.set<=0) || any(v.set>num.sets)) stop("'v.set' not found\n")
-	for(i in 1:length(v.set)) if(is.null(mast$sets[[v.set[i]]]$data$v.avg)) stop(paste("Set", v.set[i], "does not contain average wind speed data\n"))
+	if(any(is.na(v.set))) stop("'v.set' not found")
+	if(any(v.set<=0) || any(v.set>num.sets)) stop("'v.set' not found")
+	for(i in 1:length(v.set)) if(is.null(mast$sets[[v.set[i]]]$data$v.avg)) stop("Set ", v.set[i], " does not contain average wind speed data")
 	if(!is.numeric(dir.set)) dir.set <- match(dir.set, names(mast$sets))
-	if(is.na(dir.set)) stop("'dir.set' not found\n")
-	if(dir.set<=0 || dir.set>num.sets) stop("'dir.set' not found\n")
-	if(is.null(mast$sets[[dir.set]]$data$dir.avg)) stop(paste("'dir.set' does not contain average wind direction data\n"))
-	if(!is.numeric(num.sectors)) stop("'num.sectors' must be numeric\n")
-	if(num.sectors<=1) stop("There must be at least 2 sectors\n")
+	if(is.na(dir.set)) stop("'dir.set' not found")
+	if(dir.set<=0 || dir.set>num.sets) stop("'dir.set' not found")
+	if(is.null(mast$sets[[dir.set]]$data$dir.avg)) stop("'dir.set' does not contain average wind direction data")
+	if(!is.numeric(num.sectors)) stop("'num.sectors' must be numeric")
+	if(num.sectors<=1) stop("There must be at least 2 sectors")
 	if(missing(method) || length(method)!=1) {
 		if(length(v.set)==1) method <- "fixed"
 		else if(length(v.set)==2) method <- "hellman"
@@ -23,24 +23,11 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 	}
 	
 	# subset
-	num.samples <- length(mast$time.stamp)
 	if(missing(subset)) subset <- c(NA, NA)
-	if((!any(is.character(subset)) && !any(is.na(subset))) || length(subset)!=2) stop("Please specify 'subset' as vector of start and end time stamp\n")
-	if(is.na(subset[1])) subset[1] <- as.character(mast$time.stamp[1])
-	if(is.na(subset[2])) subset[2] <- as.character(mast$time.stamp[num.samples])
-	if(nchar(subset[1])==10) subset[1] <- paste(subset[1], "00:00:00")
-	if(nchar(subset[2])==10) subset[2] <- paste(subset[2], "00:00:00")
-	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
-	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
-	if(is.na(start)) stop("Specified start time stamp in 'subset' not correctly formated\n")
-	if(is.na(end)) stop("Specified end time stamp in 'subset' not correctly formated\n")
-	if(start<mast$time.stamp[1] || start>mast$time.stamp[num.samples]) stop("Specified 'start' not in period\n")
-	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
-	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
-	if(end<mast$time.stamp[1] || end>mast$time.stamp[num.samples]) stop("Specified 'end' not in period\n")
-	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
-	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
-	
+	start.end <- subsetInt(mast$time.stamp, subset)
+	start <- start.end[1]
+	end <- start.end[2]
+		
 	sector.width <- 360/num.sectors
 	sectors <- seq(0, 360-sector.width, by=sector.width)
 	sector.edges <- c(sectors-sector.width/2, tail(sectors, n=1)+sector.width/2)%%360
@@ -58,7 +45,7 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 	if(method=="fixed") {	# fixed alpha
 		idx.val <- !is.na(v1) & !is.na(dir) & v1>0
 		if(is.null(alpha)) alpha <- 0.2
-		if(length(alpha)!=1 && length(alpha)!=num.sectors) stop("Please specify one alpha per sector or a general alpha\n")
+		if(length(alpha)!=1 && length(alpha)!=num.sectors) stop("Please specify one alpha per sector or a general alpha")
 		if(length(alpha)==1) alpha <- rep(alpha, num.sectors)
 		profile <- data.frame(matrix(NA, nrow=num.sectors+1, ncol=2))
 		
@@ -79,14 +66,14 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 	} else if(method=="hellman") {	# hellmann
 		if(length(v.set)<2) stop("Hellman method requires two datasets")
 		if(length(v.set)>2) {
-			cat("Hellman method requires two datasets - only the first two sets from 'v.set' are used\n")
+			warning("Hellman method requires two datasets - only the first two sets from 'v.set' are used", call.=FALSE)
 			v.set <- v.set[1:2]
 		}
 		
 		v2 <- mast$sets[[v.set[2]]]$data$v.avg[start:end]
 		h2 <- mast$sets[[v.set[2]]]$height
 		
-		if(h1==h2) stop("Sets have the same height - no extrapolation possible\n")
+		if(h1==h2) stop("Sets have the same height - no extrapolation possible")
 		
 		idx.val1 <- !is.na(v1) & !is.na(dir) & v1>0
 		idx.val2 <- !is.na(v2) & !is.na(dir) & v2>0
@@ -118,7 +105,7 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 			h <- append(h, rep(mast$sets[[v.set[i]]]$height, length(mast$sets[[v.set[i]]]$data$v.avg[start:end])))
 		}
 		
-		if(length(unique(h))!=length(v.set)) stop("Sets have the same height - no extrapolation possible\n")
+		if(length(unique(h))!=length(v.set)) stop("Sets have the same height - no extrapolation possible")
 		
 		profile <- data.frame(matrix(NA, ncol=2, nrow=num.sectors+1))
 		v.ref <- NULL

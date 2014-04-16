@@ -2,11 +2,11 @@ energy <-
 function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 ###	calculating wind energy per sector
 	
-	if(is.null(attr(wb, "call"))) stop(paste(substitute(wb), "is no weibull object\n"))
-	if(attr(wb, "call")$func!="weibull") stop(paste(substitute(wb), "is no weibull object\n"))
-	if(any(bins<0)) stop("'bins' must be NULL or a vector of positives\n")
+	if(is.null(attr(wb, "call"))) stop(substitute(wb), " is no weibull object")
+	if(attr(wb, "call")$func!="weibull") stop(substitute(wb), " is no weibull object")
+	if(any(bins<0)) stop("'bins' must be NULL or a vector of positives")
 
-	if(is.null(attr(wb, "call")$mast)) stop(paste("Source mast object of", substitute(wb), "could not be found\n"))
+	if(is.null(attr(wb, "call")$mast)) stop("Source mast object of ", substitute(wb), " could not be found")
 	mast <- get(attr(wb, "call")$mast)
 	v.set <- attr(wb, "call")$v.set
 	dir.set <- attr(wb, "call")$dir.set
@@ -14,13 +14,9 @@ function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 	subset <- attr(wb, "call")$subset
 	
 	# subset
-	num.samples <- length(mast$time.stamp)
-	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
-	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
-	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
-	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
-	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
-	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	start.end <- subsetInt(mast$time.stamp, subset)
+	start <- start.end[1]
+	end <- start.end[2]
 	
 	lim <- c(0, 5*(trunc(ceiling(max(mast$sets[[v.set]]$data$v.avg[start:end], na.rm=TRUE))/5)+1))
 	
@@ -35,7 +31,7 @@ function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 			}
 		}
 	}
-	if(!is.null(bins)) if(num.classes==2 && bins[num.classes]>=v.max) stop("Only one wind class found\n")
+	if(!is.null(bins)) if(num.classes==2 && bins[num.classes]>=v.max) stop("Only one wind class found")
 
 	energy.tbl <- data.frame(matrix(NA, nrow=num.sectors+1, ncol=num.classes+1))
 	r.names <- c(paste0("s", 1:num.sectors),"all")

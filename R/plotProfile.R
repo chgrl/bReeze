@@ -2,10 +2,10 @@ plotProfile <-
 function(profile, sector, measured=TRUE, ...) {
 ###	plotting profile
 		
-	if(is.null(attr(profile, "call"))) stop(paste(substitute(profile), "is no profile object\n"))
-	if(attr(profile, "call")$func!="profile") stop(paste(substitute(profile), "is no profile object\n"))
+	if(is.null(attr(profile, "call"))) stop(substitute(profile), " is no profile object")
+	if(attr(profile, "call")$func!="profile") stop(substitute(profile), " is no profile object")
 	
-	if(is.null(attr(profile, "call")$mast)) stop(paste("Source mast object of", substitute(profile), "could not be found\n"))
+	if(is.null(attr(profile, "call")$mast)) stop("Source mast object of ", substitute(profile), " could not be found")
 	mast <- get(attr(profile, "call")$mast)
 	v.set <- attr(profile, "call")$v.set
 	dir.set <- attr(profile, "call")$dir.set
@@ -15,24 +15,20 @@ function(profile, sector, measured=TRUE, ...) {
 	sector.names <- row.names(profile$profile)
 	
 	if(missing(sector)) sector <- NULL
-	if(length(sector)>1) stop("Please choose only one 'sector' by name or index\n")
+	if(length(sector)>1) stop("Please choose only one 'sector' by name or index")
 	if(is.numeric(sector)) {
-		if(sector<1 || sector>num.sectors+1) stop("Sector not found\n")
+		if(sector<1 || sector>num.sectors+1) stop("Sector not found")
 	} else if(is.character(sector)) {
 		sector <- match(sector, sector.names)
-		if(is.na(sector)) stop("Sector not found\n")
+		if(is.na(sector)) stop("Sector not found")
 	} else {
-		if(!is.null(sector)) stop("Sector not found - please choose 'sector' by name or index\n")
+		if(!is.null(sector)) stop("Sector not found - please choose 'sector' by name or index")
 	}
 	
 	# subset
-	num.samples <- length(mast$time.stamp)
-	start <- strptime(subset[1], "%Y-%m-%d %H:%M:%S")
-	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S")
-	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
-	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
-	match.date <- difftime(mast$time.stamp, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days") - difftime(end, ISOdatetime(1,1,1,0,0,0), tz="GMT", units="days")
-	end <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))
+	start.end <- subsetInt(mast$time.stamp, subset)
+	start <- start.end[1]
+	end <- start.end[2]
 	
 	# prepare plot
 	old.par <- par(no.readonly=TRUE)
