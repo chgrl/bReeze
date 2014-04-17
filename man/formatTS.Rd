@@ -5,12 +5,13 @@
 \title{Format time stamps}
 \description{Converts time stamps from string to \code{POSIXlt}. The conversion specification (pattern) is looked up if not given as argument.}
 \usage{
-formatTS(time.stamp, pattern)
-fts(time.stamp, pattern)
+formatTS(time.stamp, pattern, tz)
+fts(time.stamp, pattern, tz)
 }
 \arguments{
   \item{time.stamp}{Time stamp as string vector.}
   \item{pattern}{Conversion specification of time stamp as string (optional). See Details for usage.}
+  \item{tz}{Optional character string specifying the time zone to be used for the conversion. System-specific (see \code{\link{as.POSIXlt}}), but \code{""} is the current time zone (used as default). Use \code{"?"} to check \code{time.stamp} for time zone abbreviation.}
 }
 \details{
 If the time stamp is already formatted as \code{POSIXlt}, the usage of \code{formatTS} is not necessary. \code{\link{strptime}} can also be used to create an applicable time stamp. Usage of \code{formatTS} is recommeded, since it checks the created time stamp, thus faulty time stamps are avoided.
@@ -52,6 +53,10 @@ ts <- c("TS 08/2012-10 8h10m30s", "TS 08/2012-10 8h20m30s",
   "TS 08/2012-10 8h30m30s")
 time.stamp.3 <- formatTS(time.stamp=ts)	# pattern not found
 time.stamp.3 <- formatTS(time.stamp=ts, "TS \%m/\%Y-\%d \%Hh\%Mm\%Ss")
+
+# time zone
+time.stamp.4 <- formatTS(time.stamp=winddata[,1], tz="CEST")
+time.stamp.5 <- formatTS(time.stamp="2012-08-08 22:55 GMT", tz="?")
 }
 }
 \keyword{methods}

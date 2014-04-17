@@ -7,6 +7,11 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 	num.sets <- length(mast$sets)
 	time.stamp <- mast$time.stamp
 	
+	if(missing(set)) set <- 1:num.sets
+	if(!is.numeric(set)) set <- match(set, names(mast$sets))
+	if(any(is.na(set))) stop("'set' not found\n")
+	if(any(set<1) || any(set>num.sets)) stop("'set' not found\n")
+	
 	# subset
 	if(missing(subset)) subset <- c(NA, NA)
 	start.end <- subsetInt(time.stamp, subset)

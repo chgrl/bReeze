@@ -42,8 +42,8 @@ en <- function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 	energy(wb, rho, bins, digits, print)
 }
 
-fts <- function(time.stamp, pattern) {
-	formatTS(time.stamp, pattern)
+fts <- function(time.stamp, pattern, tz) {
+	formatTS(time.stamp, pattern, tz)
 }
 
 freq <- function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digits=3, print=TRUE) {
