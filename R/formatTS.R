@@ -9,7 +9,7 @@ function(time.stamp, pattern, tz) {
 	if(tz=="?") {
 		tz <- ""
 		if(grepl("\ [A-Z]+$", time.stamp[1])) {
-			tz <- tail(strsplit(time.stamp[1], " ")[[1]], 1)
+			tz <- tail(strsplit(as.character(time.stamp[1]), " ")[[1]], 1)
 			message("Time zone found: ", tz)
 		}
 		else warning("Time zone not recognized - using 'tz=\"\"'", call.=FALSE)
