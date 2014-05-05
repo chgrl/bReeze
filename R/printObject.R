@@ -274,7 +274,7 @@ printObject <- function(object) {
 		tbl.units[,] <- paste0("[", attr(object$aep[,3], "unit"), "]")
 		tbl.units[,1] <- paste0("[", attr(object$aep[,1], "unit"), "]")
 		tbl.units[,2] <- paste0("[", attr(object$aep[,2], "unit"), "]")
-		object$aep[is.na(object$aep)] <- ""
+		object$aep[object$aep==0] <- ""
 		obj <- as.data.frame(lapply(object$aep, as.character))
 		names(object$aep)[1] <- "wind speed"
 		names(tbl.units) <- names(obj) <- names(object$aep)

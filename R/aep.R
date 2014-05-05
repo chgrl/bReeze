@@ -108,7 +108,7 @@ function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FA
 	aep.tbl$operation[num.sectors+1] <- 8760
 	
 	for(i in 3:(num.classes+3)) aep.tbl[num.sectors+1,i] <- sum(aep.tbl[1:num.sectors,i], na.rm=TRUE)
-	for(i in 1:length(aep.tbl)) aep.tbl[,i][is.nan(aep.tbl[,i]) | aep.tbl[,i]==0] <- NA
+	for(i in 1:length(aep.tbl)) aep.tbl[,i][is.nan(aep.tbl[,i]) | is.na(aep.tbl[,i])] <- 0
 	
 	if(!is.null(bins)) if(tail(bins,1)>=v.max) aep.tbl[,length(aep.tbl)] <- NULL
 	if(sum(aep.tbl[,length(aep.tbl)], na.rm=TRUE)==0) aep.tbl[,length(aep.tbl)] <- NULL
