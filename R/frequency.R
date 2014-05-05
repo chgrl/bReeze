@@ -45,7 +45,7 @@ function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digit
 	}
 	if(!is.null(bins)) if(num.classes==2 && bins[num.classes]>=v.max) stop("Only one wind class found")
 		
-	freq.tbl <- matrix(0, nrow=num.sectors+1, ncol=num.classes+2)
+	freq.tbl <- matrix(NA, nrow=num.sectors+1, ncol=num.classes+2)
 	
 	# index for valid data
 	idx.val <- !is.na(v) & !is.na(d) & v>=0
@@ -88,7 +88,7 @@ function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digit
 	}
 	names(freq.tbl) <- c.names
 	
-	for(i in 1:length(freq.tbl)) freq.tbl[,i][is.nan(freq.tbl[,i])] <- 0
+	for(i in 1:length(freq.tbl)) freq.tbl[,i][is.nan(freq.tbl[,i]) | is.na(freq.tbl[,i])] <- 0
 	if(sum(freq.tbl[,length(freq.tbl)], na.rm=TRUE)==0) freq.tbl[,length(freq.tbl)] <- NULL
 	
 	unit <- attr(freq.tbl, "units") <- c(attr(mast$sets[[v.set]]$data$v.avg, "unit"), "%")
