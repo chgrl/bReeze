@@ -58,7 +58,7 @@ function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 		}
 	}
 	for(i in 1:(num.classes+1)) energy.tbl[num.sectors+1,i] <- sum(energy.tbl[1:num.sectors,i], na.rm=TRUE)
-	for(i in 1:length(energy.tbl)) energy.tbl[,i][is.nan(energy.tbl[,i]) | energy.tbl[,i]==0] <- NA
+	for(i in 1:length(energy.tbl)) energy.tbl[,i][is.nan(energy.tbl[,i]) | is.na(energy.tbl[,i])] <- 0
 	
 	if(!is.null(bins)) if(tail(bins,1)>=v.max) energy.tbl[,length(energy.tbl)] <- NULL
 	if(sum(energy.tbl[,length(energy.tbl)], na.rm=TRUE)==0) energy.tbl[,length(energy.tbl)] <- NULL

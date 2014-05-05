@@ -242,7 +242,7 @@ printObject <- function(object) {
 	} else if(attr(object, "call")$func=="energy") { # energy object
 		cat("\n\tWind energy content\n\n")
 		row.names(object) <- c(toupper(head(row.names(object), -1)), tail(row.names(object), 1))
-		object[is.na(object)] <- ""
+		object[object==0] <- ""
 		print(object, quote=FALSE)
 		cat("\t(all values in ", attr(object, "unit"), ")\n", sep="")
 		cat("\ncall: energy(wb=", attr(object, "call")$wb, ", rho=", attr(object, "call")$rho, ", bins=c(", paste(attr(object, "call")$bins, collapse=", "), "), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
