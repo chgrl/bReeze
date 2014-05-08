@@ -1,3 +1,18 @@
+bReeze 0.3-2 [2014-05-08]
+-------------------------
+
+* availability, frequency, monthStats, plotDay, plotPolar, 
+  plotTimeSeries, plotTurbIEC, profile, turbulence, weibull:
+  time stamp issue fixed
+
+* aep, energy, frequency, turbulence: NA in output replaced by 0 
+  (NA is not really correct and may cause plotting problems)
+
+* formatTS: time zone support added
+  
+* messages/warnings cleaned up
+  
+
 bReeze 0.3-1 [2014-03-31]
 -------------------------
 
