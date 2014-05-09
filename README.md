@@ -11,3 +11,5 @@ bReeze is developed by Christian Graul, considerably based on the work of Carste
 Official release on CRAN: http://cran.r-project.org/package=bReeze
 
 Feel free to flattr, if you like bReeze: <a href="https://flattr.com/submit/auto?user_id=chgrl&amp;url=https%3A%2F%2Fgithub.com/chgrl/bReeze" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a>
+
+![](https://travis-ci.org/chgrl/bReeze.png?branch=master)
