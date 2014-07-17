@@ -58,10 +58,6 @@ ms <- function(mast, set, signal="v.avg", fun=c("mean", "median", "min", "max", 
 	monthStats(mast, set, signal, fun, subset, digits, print)
 }
 
-plaep <- function(aep, show.total=TRUE, ...) {
-	plotAep(aep, show.total, ...)
-}
-
 plavail <- function(avail, set, ...) {
 	plotAvailability(avail, set, ...)
 }
@@ -106,16 +102,8 @@ plturb <- function(turb, ...) {
 	plotTurbulence(turb, ...)
 }
 
-pluc <- function(uncertainty, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
-	plotUncertainty(uncertainty, type, p.values, ...)
-}
-
 plwbd <- function(wb, show.ak=FALSE, ...) {
 	plotWbDir(wb, show.ak, ...)
-}
-
-plwb <- function(wb, show.ak=FALSE, ...) {
-	plotWeibull(wb, show.ak, ...)
 }
 
 probj <- function(object) {

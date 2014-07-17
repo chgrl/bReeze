@@ -1,13 +1,11 @@
-plotUncertainty <-
-function(uncertainty, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
+plot.uncertainty <-
+function(x, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
 ###	uncertainty plots
 	
-	if(missing(uncertainty)) stop("uncertainty object 'uncertainty' is mandatory")
+	if(missing(x)) stop("uncertainty object 'uncertainty' is mandatory")
 	if(missing(type)) type <- "prob"
 	type <- match.arg(type)
 	
-	if(is.null(attr(uncertainty, "call"))) stop(substitute(uncertainty), " is no uncertainty object")
-	if(attr(uncertainty, "call")$func!="uncertainty") stop(substitute(uncertainty), " is no uncertainty object")
 	if(!is.numeric(p.values)) stop("'p.values' must be numeric")
 	for(i in 1:length(p.values)) if(p.values[i]%%1!=0 || p.values[i]<1 || p.values[i]>=100) stop("Only positive 'p.values' between 1 and 100 allowed")
 	
@@ -71,7 +69,7 @@ function(uncertainty, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
 		if(any(names(plot.param)=="xlab")) xlab <- plot.param$xlab
 		else xlab <- "Probability [%]"
 		if(any(names(plot.param)=="ylab")) ylab <- plot.param$ylab
-		else ylab <- paste0("Annual energy production [", attr(uncertainty$prob.exceedance$aep, "unit"), "]")
+		else ylab <- paste0("Annual energy production [", attr(x$prob.exceedance$aep, "unit"), "]")
 		if(any(names(plot.param)=="ylim")) ylim <- plot.param$ylim
 		else ylim <- NULL
 		if(any(names(plot.param)=="xlim")) xlim <- plot.param$xlim
@@ -83,17 +81,17 @@ function(uncertainty, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
 	} else { # uncertainties of methods
 		if(any(names(plot.param)=="border")) {
 			border <- plot.param$border
-			if(length(plot.param$border)==1) border <- rep(plot.param$border, length(uncertainty$uncertainty.meth$uncertainty))
-			else if(length(plot.param$border)==2) border <- c(rep(plot.param$border[1], length(uncertainty$uncertainty.meth$uncertainty)-1), plot.param$border[2])
-			else if(length(plot.param$border)==length(uncertainty$uncertainty.meth$uncertainty)) border <- plot.param$border
+			if(length(plot.param$border)==1) border <- rep(plot.param$border, length(x$uncertainty.meth$uncertainty))
+			else if(length(plot.param$border)==2) border <- c(rep(plot.param$border[1], length(x$uncertainty.meth$uncertainty)-1), plot.param$border[2])
+			else if(length(plot.param$border)==length(x$uncertainty.meth$uncertainty)) border <- plot.param$border
 			else stop("Wrong length of border colours")
 		} else border <- NA
 		if(any(names(plot.param)=="col")) {
-			if(length(plot.param$col)==1) col <- rep(plot.param$col, length(uncertainty$uncertainty.meth$uncertainty))
-			else if(length(plot.param$col)==2) col <- c(rep(plot.param$col[1], length(uncertainty$uncertainty.meth$uncertainty)-1), plot.param$col[2])
-			else if(length(plot.param$col)==length(uncertainty$uncertainty.meth$uncertainty)) col <- plot.param$col
+			if(length(plot.param$col)==1) col <- rep(plot.param$col, length(x$uncertainty.meth$uncertainty))
+			else if(length(plot.param$col)==2) col <- c(rep(plot.param$col[1], length(x$uncertainty.meth$uncertainty)-1), plot.param$col[2])
+			else if(length(plot.param$col)==length(x$uncertainty.meth$uncertainty)) col <- plot.param$col
 			else stop("Wrong length of colours")
-		} else col <- c(rep("#CB181D", length(uncertainty$uncertainty.meth$uncertainty)-1), "#940E13")
+		} else col <- c(rep("#CB181D", length(x$uncertainty.meth$uncertainty)-1), "#940E13")
 		if(any(names(plot.param)=="col.axis")) col.axis <- plot.param$col.axis
 		else col.axis <- "black"
 		if(any(names(plot.param)=="col.text")) col.text <- plot.param$col.text
@@ -106,7 +104,7 @@ function(uncertainty, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
 		else cex.text <- cex
 		if(any(names(plot.param)=="mar")) mar <- plot.param$mar
 		else {
-			un <- row.names(uncertainty$uncertainty.meth)
+			un <- row.names(x$uncertainty.meth)
 			l <- nchar(un[1])
 			for(n in 1:length(un)) if(nchar(un[n])>l) l <- nchar(un[n])
 			mar <- c(1,ceiling(l/2)+(2-round(l/10,1)),1,1)
@@ -119,8 +117,8 @@ function(uncertainty, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
 	
 	# plot
 	if(type=="prob") { # probability of exceedance
-		p50 <- attr(uncertainty$prob.exceedance$aep, "P50")
-		tuc <- tail(uncertainty$uncertainty.meth$uncertainty, 1)/100
+		p50 <- attr(x$prob.exceedance$aep, "P50")
+		tuc <- tail(x$uncertainty.meth$uncertainty, 1)/100
 		p <- qnorm((1-p.values/100), p50, tuc*p50)
 		par(mar=mar, mgp=mgp, las=las)
 		x <- NULL # just to satisfy R CMD check
@@ -131,8 +129,8 @@ function(uncertainty, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
 		axis(2, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 		if(legend) legend(pos.leg, legend=leg.text, bty=bty.leg, col=col, lty=lty, lwd=lwd, x.intersp=x.intersp, y.intersp=y.intersp, cex=cex.leg, text.col=col.leg)
 	} else { # uncertainties of methods
-		dat <- rev(uncertainty$uncertainty.meth$uncertainty)
-		nam <- rev(row.names(uncertainty$uncertainty.meth))
+		dat <- rev(x$uncertainty.meth$uncertainty)
+		nam <- rev(row.names(x$uncertainty.meth))
 		
 		par(mar=mar, mgp=mgp, las=1)
 		barplot(dat, horiz=TRUE, xaxt="n", yaxt="n", col=rev(col), border=rev(border), space=space)

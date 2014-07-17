@@ -1,12 +1,14 @@
-uncertainty <-
-function(aep, uc.values, uc.names, prob=seq(5,95,5), digits=c(0,0), print=TRUE) {
+#uncertainty <- function(aep, uc.values, uc.names, prob=seq(5,95,5), digits=c(0,0), print=TRUE) UseMethod("uncertainty")
+
+#uncertainty.default <-
+uncertainty <- 
+function(aep, uc.values, uc.names, prob, digits, print) {
 ###	uncertainty assessment of annual energy production
 	
 	if(missing(aep)) stop("AEP object 'aep' is mandatory")
 	if(missing(uc.values)) stop("Uncertainty values 'uc.values' is mandatory")
 	if(missing(uc.names)) stop("Uncertainty names 'uc.names' is mandatory")
-	if(is.null(attr(aep, "call"))) stop(substitute(aep), " is no aep object")
-	if(attr(aep, "call")$func!="aep") stop(substitute(aep), " is no aep object")
+	if(class(aep)!="aep") stop(substitute(aep), " is no aep object")
 	if(!is.numeric(uc.values)) stop("'uc.values' must be numeric")
 	for(i in 1:length(uc.values)) if(uc.values[i]<0) stop("Only positive 'uc.values' allowed")
 	if(!is.null(uc.names)) if(length(uc.names)!=length(uc.values) && length(uc.names)!=length(uc.values)+1) stop("'uc.names' and 'uc.values' must be vectors of the same length")
@@ -38,7 +40,8 @@ function(aep, uc.values, uc.names, prob=seq(5,95,5), digits=c(0,0), print=TRUE) 
 	uncertainty <- list(uncertainty.meth=uc, prob.exceedance=prob.ex)
 	
 	attr(uncertainty, "call") <- list(func="uncertainty", aep=deparse(substitute(aep)), uc.values=uc.values, uc.names=uc.names, prob=prob, digits=digits, print=print)
+	class(uncertainty) <- "uncertainty"
 	
-	if(print) printObject(uncertainty)
+	if(print) print(uncertainty)
 	invisible(uncertainty)	
 }

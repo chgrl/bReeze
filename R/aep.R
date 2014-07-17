@@ -1,5 +1,8 @@
-aep <-
-function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FALSE, digits=c(3,0,0,3), print=TRUE) {
+#aep <- function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FALSE, digits=c(3,0,0,3), print=TRUE) UseMethod("aep")
+
+#aep.default <-
+aep <- 
+function(profile, pc, hub.h, rho, avail, bins, sectoral, digits, print) {
 ###	calculating annual energy production
 	
 	if(missing(profile)) stop("Profile 'profile' is mandatory")
@@ -7,7 +10,10 @@ function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FA
 	if(missing(hub.h)) stop("Hub heigth 'hub.h' is mandatory")
 	if(missing(rho)) rho <- 1.225
 	if(missing(avail)) avail <- 1
+	if(missing(bins)) bins <- c(5,10,15,20)
 	if(missing(sectoral)) sectoral <- FALSE
+	if(missing(digits)) digits <- c(3,0,0,3)
+	if(missing(print)) print <- TRUE
 	
 	if(is.null(attr(profile, "call"))) stop(substitute(profile), " is no profile object")
 	if(attr(profile, "call")$func!="profile") stop(substitute(profile), " is no profile object")
@@ -121,7 +127,8 @@ function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FA
 	aep <- list(aep=aep.tbl, capacity=cap)
 	
 	attr(aep, "call") <- list(func="aep", profile=deparse(substitute(profile)), pc=deparse(substitute(pc)), hub.h=hub.h, rho=rho, avail=avail, bins=bins, sectoral=sectoral, digits=digits, print=print)
+	class(aep) <- "aep"
 	
-	if(print) printObject(aep)
+	if(print) print(aep)
 	invisible(aep)
 }

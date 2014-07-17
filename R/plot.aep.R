@@ -1,16 +1,13 @@
-plotAep <-
-function(aep, show.total=TRUE, ...) {
+plot.aep <-
+function(x, show.total=TRUE, ...) {
 ###	plotting annual energy production rose
 	
-	if(is.null(attr(aep, "call")$func)) stop(substitute(aep), " is no aep object")
-	if(attr(aep, "call")$func!="aep") stop(substitute(aep), " is no aep object")
-	
-	aep <- aep$aep
+	aep <- x$aep
 	dim.data <- dim(aep)
 	num.sectors <- dim.data[1] - 1
 	num.classes <- dim.data[2] - 3
-	total <- aep$total[num.sectors+1]
-	unit <- attr(aep$total, "unit")
+	total <- x$total[num.sectors+1]
+	unit <- attr(x$total, "unit")
 	
 	if(num.classes>1) {
 		aep.cum <- aep[1:num.sectors,4:dim.data[2]]

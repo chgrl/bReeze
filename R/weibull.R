@@ -1,5 +1,8 @@
-weibull <-
-function(mast, v.set, dir.set, num.sectors=12, subset, digits=3, print=TRUE) {
+#weibull <- function(mast, v.set, dir.set, num.sectors=12, subset, digits=3, print=TRUE) UseMethod("weibull")
+
+#weibull.default <-
+weibull <- 
+function(mast, v.set, dir.set, num.sectors, subset, digits, print) {
 ### calculating weibull parameters for sectors
 	
 	if(is.null(attr(mast, "call"))) stop(substitute(mast), " is no mast object")
@@ -63,6 +66,7 @@ function(mast, v.set, dir.set, num.sectors=12, subset, digits=3, print=TRUE) {
 	attr(weibull.tbl, "call") <- list(func="weibull", mast=deparse(substitute(mast)), v.set=v.set, dir.set=dir.set, num.sectors=num.sectors, subset=subset, digits=digits, print=print)
 	
 	weibull.tbl <- round(weibull.tbl, digits)
-	if(print) printObject(weibull.tbl)
+	class(weibull.tbl) <- "weibull"
+	if(print) print(weibull.tbl)
 	invisible(weibull.tbl)
 }

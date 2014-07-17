@@ -1,14 +1,11 @@
-plotWeibull <-
-function(wb, show.ak=FALSE, ...) {
+plot.weibull <-
+function(x, show.ak=FALSE, ...) {
 ### plotting fitted weibull distribution from weibull object
-	
-	if(is.null(attr(wb, "call"))) stop(substitute(wb), " is no weibull object")
-	if(attr(wb, "call")$func!="weibull") stop(substitute(wb), " is no weibull object")
-	
-	if(is.null(attr(wb, "call")$mast)) stop("Source mast object of ", substitute(wb), " could not be found")
-	mast <- get(attr(wb, "call")$mast)
-	v.set <- attr(wb, "call")$v.set
-	subset <- attr(wb, "call")$subset
+		
+	if(is.null(attr(x, "call")$mast)) stop("Source mast object of ", substitute(x), " could not be found")
+	mast <- get(attr(x, "call")$mast)
+	v.set <- attr(x, "call")$v.set
+	subset <- attr(x, "call")$subset
 	unit <- attr(mast$sets[[v.set]]$data$v.avg, "unit")
 	
 	# subset
@@ -92,10 +89,10 @@ function(wb, show.ak=FALSE, ...) {
 	else axis(2, at=seq(0, floor(max(density)*100)/100, 0.02), labels=seq(0, floor(max(density)*100), 2), col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 	
 	x <- NULL # just to satisfy R CMD check
-	curve(dweibull(x, shape=tail(wb$k, 1), scale=tail(wb$A, 1)), col=line, lty=lty, lwd=lwd, add=TRUE)
+	curve(dweibull(x, shape=tail(x$k, 1), scale=tail(x$A, 1)), col=line, lty=lty, lwd=lwd, add=TRUE)
 	
 	if(legend) {
-		if(show.ak) leg <- c(leg.text[1], paste0(leg.text[2], " (A:", round(tail(wb$A, 1), digits=1), ", k:", round(tail(wb$k, 1), digits=1), ")"))
+		if(show.ak) leg <- c(leg.text[1], paste0(leg.text[2], " (A:", round(tail(x$A, 1), digits=1), ", k:", round(tail(x$k, 1), digits=1), ")"))
 		legend(pos.leg, legend=leg.text, col=c(border, line), lty=c(NA, lty), lwd=c(NA, lwd), pch=c(22, NA), pt.bg=c(col, NA), bty=bty.leg, cex=cex.leg, text.col=col.leg, x.intersp=x.intersp, y.intersp=y.intersp)
 	}
 }

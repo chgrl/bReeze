@@ -20,8 +20,6 @@ export(
   freq,
   monthStats,
   ms,
-  plotAep,
-  plaep,
   plotAvailability,
   plavail,
   plotDay,
@@ -46,12 +44,8 @@ export(
   pliec,
   plotTurbulence,
   plturb,
-  plotUncertainty,
-  pluc,
   plotWbDir,
   plwbd,
-  plotWeibull,
-  plwb,
   printObject,
   probj,
   profile,
@@ -70,3 +64,11 @@ export(
 import(
   RColorBrewer
 )
+
+## S3 methods
+S3method(plot, aep)
+S3method(plot, uncertainty)
+S3method(plot, weibull)
+S3method(print, aep)
+S3method(print, uncertainty)
+S3method(print, weibull)
