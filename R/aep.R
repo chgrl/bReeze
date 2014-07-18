@@ -1,6 +1,3 @@
-#aep <- function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FALSE, digits=c(3,0,0,3), print=TRUE) UseMethod("aep")
-
-#aep.default <-
 aep <- 
 function(profile, pc, hub.h, rho, avail, bins, sectoral, digits, print) {
 ###	calculating annual energy production
