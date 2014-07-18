@@ -42,7 +42,7 @@ The productive suitability of a wind turbine for a site can be evaluated by the 
 \deqn{CF = \frac{AEP}{P_{rated} \, 8760}}{CF = AEP/(P_rated*8760)}
 }
 \note{
-Sectoral extrapolation should be used carefully. Some sector's profile might be abnormal -- particularly in case of short measurement periods (<= one year) and/or few samples per sector -- causing biased results. Always check the profiles using \code{\link{plotProfile}} and set \code{sectoral} to \code{FALSE} to get more robust results.
+Sectoral extrapolation should be used carefully. Some sector's profile might be abnormal -- particularly in case of short measurement periods (<= one year) and/or few samples per sector -- causing biased results. Always check the profiles and set \code{sectoral} to \code{FALSE} to get more robust results.
 }
 \section{Optional graphical parameters}{
 The following graphical parameters can optionally be added to customize the plot:

@@ -147,6 +147,8 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 	profile <- list(profile=round(profile, digits), h.ref=h1)
 	attr(profile, "call") <- list(func="profile", mast=deparse(substitute(mast)), v.set=v.set, dir.set=dir.set, num.sectors=num.sectors, method=method, alpha=alpha, subset=subset, digits=digits, print=print)
 	
-	if(print) printObject(profile)
+	class(profile) <- "profile"
+	
+	if(print) print(profile)
 	invisible(profile)
 }

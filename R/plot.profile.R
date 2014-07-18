@@ -1,18 +1,15 @@
-plotProfile <-
-function(profile, sector, measured=TRUE, ...) {
+plot.profile <-
+function(x, sector, measured=TRUE, ...) {
 ###	plotting profile
 		
-	if(is.null(attr(profile, "call"))) stop(substitute(profile), " is no profile object")
-	if(attr(profile, "call")$func!="profile") stop(substitute(profile), " is no profile object")
-	
-	if(is.null(attr(profile, "call")$mast)) stop("Source mast object of ", substitute(profile), " could not be found")
-	mast <- get(attr(profile, "call")$mast)
-	v.set <- attr(profile, "call")$v.set
-	dir.set <- attr(profile, "call")$dir.set
-	num.sectors <- attr(profile, "call")$num.sectors
-	subset <- attr(profile, "call")$subset
-	h.ref <- profile$h.ref
-	sector.names <- row.names(profile$profile)
+	if(is.null(attr(x, "call")$mast)) stop("Source mast object of ", substitute(x), " could not be found")
+	mast <- get(attr(x, "call")$mast)
+	v.set <- attr(x, "call")$v.set
+	dir.set <- attr(x, "call")$dir.set
+	num.sectors <- attr(x, "call")$num.sectors
+	subset <- attr(x, "call")$subset
+	h.ref <- x$h.ref
+	sector.names <- row.names(x$profile)
 	
 	if(missing(sector)) sector <- NULL
 	if(length(sector)>1) stop("Please choose only one 'sector' by name or index")
@@ -129,7 +126,7 @@ function(profile, sector, measured=TRUE, ...) {
 	
 	par(mar=mar, mgp=mgp, las=las, bty="n")
 	if(is.null(sector)) { # all sectors
-		v.over.h <- profile$profile$v.ref[1] * exp(profile$profile$alpha[1] * log(h.range / h.ref))
+		v.over.h <- x$profile$v.ref[1] * exp(x$profile$alpha[1] * log(h.range / h.ref))
 		h.over.v <- spline(x=v.over.h, y=h.range, method="natural", xout=v.range)
 		h.over.v[[2]][h.over.v[[2]]<0] <- 0	
 		plot(h.over.v, type="l", xlim=xlim, ylim=ylim, axes=FALSE, lty=lty[1], lwd=lwd[1], col=col[1], xlab=xlab, ylab=ylab, cex.lab=cex.lab, col.lab=col.lab)
@@ -139,14 +136,14 @@ function(profile, sector, measured=TRUE, ...) {
 		if(measured) for(j in 1:length(v.mean)) points(x=v.mean[1,j], y=h[j], col=col[1], pch=pch, cex=cex-0.2)
 		
 		for(i in 2:num.sectors) {
-			v.over.h <- profile$profile$v.ref[i] * exp(profile$profile$alpha[i] * log(h.range / h.ref))
+			v.over.h <- x$profile$v.ref[i] * exp(x$profile$alpha[i] * log(h.range / h.ref))
 			h.over.v <- spline(x=v.over.h, y=h.range, method="natural", xout=v.range)
 			h.over.v[[2]][h.over.v[[2]]<0] <- 0
 			lines(h.over.v, lty=lty[i], lwd=lwd[i], col=col[i])
 			if(measured) for(j in 1:length(v.mean)) points(x=v.mean[i,j], y=h[j], col=col[i], pch=pch, cex=cex-0.2)
 		}
 		
-		v.over.h <- profile$profile$v.ref[num.sectors+1] * exp(profile$profile$alpha[num.sectors+1] * log(h.range / h.ref))
+		v.over.h <- x$profile$v.ref[num.sectors+1] * exp(x$profile$alpha[num.sectors+1] * log(h.range / h.ref))
 		h.over.v <- spline(x=v.over.h, y=h.range, method="natural", xout=v.range)
 		h.over.v[[2]][h.over.v[[2]]<0] <- 0
 		lines(h.over.v, lty=lty[num.sectors+1], lwd=lwd[num.sectors+1], col=col[num.sectors+1])
@@ -157,7 +154,7 @@ function(profile, sector, measured=TRUE, ...) {
 			else legend(pos.leg, legend=sector.names, col=col, lty=lty, lwd=lwd, bty=bty.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
 		}
 	} else { # one sector
-		v.over.h <- profile$profile$v.ref[sector] * exp(profile$profile$alpha[sector] * log(h.range / h.ref))
+		v.over.h <- x$profile$v.ref[sector] * exp(x$profile$alpha[sector] * log(h.range / h.ref))
 		h.over.v <- spline(x=v.over.h, y=h.range, method="natural", xout=v.range)
 		h.over.v[[2]][h.over.v[[2]]<0] <- 0
 		plot(h.over.v, type="l", xlim=xlim, ylim=ylim, axes=FALSE, lty=lty, lwd=lwd, col=col, xlab=xlab, ylab=ylab, cex.lab=cex.lab, col.lab=col.lab)

@@ -231,28 +231,6 @@ printObject <- function(object) {
 		object[object==0] <- ""
 		print(object, quote=FALSE)
 		cat("\t(all values in ", attr(object, "unit"), ")\n", sep="")
-		cat("\ncall: energy(wb=", attr(object, "call")$wb, ", rho=", attr(object, "call")$rho, ", bins=c(", paste(attr(object, "call")$bins, collapse=", "), "), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
-	} else if(attr(object, "call")$func=="profile") { # profile object
-		cat("\n\tWind profile\n\n")
-		tbl.units <- data.frame(t(names(object$profile)))
-		tbl.units[,1] <- paste0("[", attr(object$profile, "unit")[1], "]")
-		tbl.units[,2] <- paste0("[", attr(object$profile, "unit")[2], "]")
-		obj <- as.data.frame(lapply(object$profile, as.character))
-		names(object$profile)[2] <- "wind speed"
-		names(tbl.units) <- names(obj) <- names(object$profile)
-		row.names(tbl.units) <- " "
-		row.names(obj) <- c(toupper(head(row.names(object$profile), -1)), tail(row.names(object$profile), 1))
-		print(rbind(tbl.units, obj), quote=FALSE)
-		cat("\nreference height:", object$h.ref, attr(object$h.ref, "unit"), "\n")
-		if(is.null(attr(object, "call")$alpha)) alph <- ", alpha=NULL"
-		else {
-			if(length(attr(object, "call")$alpha)==1) alph <- paste0(", alpha=", attr(object, "call")$alpha)
-			else  alph <- paste0(", alpha=c(", paste0(attr(object, "call")$alpha, collapse=", "), ")")
-		}
-		if(length(attr(object, "call")$v.set)==1) vset <- paste0(", v.set=", attr(object, "call")$v.set)
-		else vset <- paste0(", v.set=c(", paste0(attr(object, "call")$v.set, collapse=", "), ")")
-		if(!any(!is.na(attr(object, "call")$subset))) subs <- ", subset=NA"
-		else subs <- paste0(", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\")")
-		cat("\ncall: profile(mast=", attr(object, "call")$mast, vset, ", dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", method=\"", attr(object, "call")$method, "\"", alph, subs, ", digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
+		cat("\ncall: energy(wb=", attr(object, "call")$wb, ", rho=", attr(object, "call")$rho, ", bins=c(", paste(attr(object, "call")$bins, collapse=", "), "), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")	
 	} else stop(substitute(object), " seems not to be a bReeze object")
 }

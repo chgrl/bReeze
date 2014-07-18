@@ -2,15 +2,18 @@
 \name{profile}
 \alias{profile}
 \alias{pro}
+\alias{plot.profile}
+\alias{print.profile}
 \title{Calculate wind profile}
 \description{Calculates a wind profile, using on the Hellman exponential law.}
 \usage{
-profile(mast, v.set, dir.set, num.sectors=12, 
-  method=c("hellman", "loglm", "fixed"), alpha=NULL,
-  subset, digits=3, print=TRUE)
-pro(mast, v.set, dir.set, num.sectors=12, 
-  method=c("hellman", "loglm", "fixed"), alpha=NULL,
-  subset, digits=3, print=TRUE)
+profile(mast, v.set, dir.set, num.sectors, method, alpha, subset, 
+  digits, print)
+pro(mast, v.set, dir.set, num.sectors, method, alpha, subset, 
+  digits, print)
+
+\method{plot}{profile}(x, sector, measured, ...)
+\method{print}{profile}(x, ...)  
 }
 \arguments{
   \item{mast}{Met mast object created by \code{\link{createMast}}.}
@@ -18,10 +21,15 @@ pro(mast, v.set, dir.set, num.sectors=12,
   \item{dir.set}{Set to be used for wind direction, specified as set number or set name.}
   \item{num.sectors}{Number of wind direction sectors as integer value greater 1. Default is \code{12}.}
   \item{method}{Method to be used for the calculation. One of \code{"hellman"}, \code{"loglm"} or \code{"fixed"} (see Details section). Optional argument: \code{"fixed"} is used if \code{v.set} is a single dataset, \code{"hellman"} is used if \code{v.set} specifies two, \code{"loglm"} if \code{v.set} specifies three datasets.}
-  \item{alpha}{Hellman exponent -- one general exponent or a vector of exponents (one per sector). Optional and only used if the choosen \code{method} is \code{"fixed"}. If \code{alpha} is \code{NULL}, \code{0.2} is used as default.}
+  \item{alpha}{Hellman exponent -- one general exponent or a vector of exponents (one per sector). Optional and only used if the choosen \code{method} is \code{"fixed"}. If \code{alpha} is \code{NULL} (the default), \code{0.2} is used as default.}
   \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
   \item{digits}{Number of decimal places to be used for results as numeric value. Default is \code{3}.}
-  \item{print}{If \code{TRUE}, results are printed directly.}
+  \item{print}{If \code{TRUE} (the default), results are printed directly.}
+  
+  \item{x}{Wind profile object created by \code{profile}.}
+  \item{sector}{Direction sector as integer (sector number) or string (sector code). If missing or \code{NULL}, all sectors are plotted. For plotting the general profile only use \code{"all"}.}
+  \item{measured}{If \code{TRUE} (the default), measured sector mean wind speeds are added to the plot.}
+  \item{\dots}{Arguments to be passed to methods. For optional graphical parameters see below.}
 }
 \details{
 The average wind speed as a function of height above ground gives a site's wind profile. For reasons of cost-efficiency met mast heights are usually below hub heights of modern wind turbines, thus measured wind speeds must be extrapolated by based wind profile. A common method is the Hellman exponential law or power law (\code{"hellman"}), defined as:
@@ -40,6 +48,36 @@ If the wind speed is only known for one height, \eqn{\alpha}{alpha} must be esti
   Open water \tab 0.08--0.15 \cr  Flat terrain, open land cover \tab 0.16--0.22 \cr  Complex terrain with mixed or continuous forest \tab 0.25--0.40 \cr  Exposed ridgetops, open land cover \tab 0.10--0.14 \cr  Sloping terrain with drainage flows \tab 0.10--0.15
 }
 }
+\section{Optional graphical parameters}{
+The following graphical parameters can optionally be added to customize the plot:
+  \itemize{
+    \item \code{bty}: Type of box to be drawn around the plot region. Allowed values are \code{"o"} (the default), \code{"l"}, \code{"7"}, \code{"c"}, \code{"u"}, or \code{"]"}. The resulting box resembles the corresponding upper case letter. A value of \code{"n"} suppresses the box.
+    \item \code{bty.leg}: Type of box to be drawn around the legend. Allowed values are \code{"n"} (no box, the default) and \code{"o"}.
+    \item \code{cex}: Amount by which text on the plot should be scaled relative to the default (which is \code{1}), as numeric. To be used for scaling of all texts at once.
+	\item \code{cex.axis}: Amount by which axis annotations should be scaled, as numeric value.
+    \item \code{cex.lab}: Amount by which axis labels should be scaled, as numeric value.
+    \item \code{cex.leg}: Amount by which legend text should be scaled, as numeric value.
+    \item \code{col}: Vector of colours, one for each set plotted.
+	\item \code{col.axis}: Colour to be used for axis annotations -- default is \code{"black"}.
+	\item \code{col.box}: Colour to be used for the box around the plot region (if \code{bty}) -- default is \code{"black"}.
+    \item \code{col.lab}: Colour to be used for axis labels -- default is \code{"black"}.
+    \item \code{col.leg}: Colour to be used for legend text -- default is \code{"black"}.
+    \item \code{col.ticks}: Colours for the axis line and the tick marks respectively -- default is \code{"black"}.
+    \item \code{las}: Style of axis labels. One of \code{0} (always parallel to the axis, default), \code{1} (always horizontal), \code{2} (always perpendicular to the axis), \code{3} (always vertical).
+    \item \code{lty}: Line type(s) of the profile lines -- assigned like \code{col}. See \code{\link{par}} for available line types.
+    \item \code{lwd}: Line width(s) of the profile lines -- assigned like \code{col}. See \code{\link{par}} for usage.
+    \item \code{mar}: A numerical vector of the form c(bottom, left, top, right) which gives the number of lines of margin to be specified on the four sides of the plot -- default is \code{c(4, 4, 1, 1)}.
+    \item \code{mgp}: A numerical vector of the form c(label, annotation, line), which gives the margin line for the axis label, axis annotation and axis line. The default is \code{c(2.5, 0.7, 0)}.
+    \item \code{pos.leg}: Position of legend -- one of \code{"bottomright"}, \code{"bottom"}, \code{"bottomleft"}, \code{"left"}, \code{"topleft"}, \code{"top"}, \code{"topright"}, \code{"right"} or \code{"center"}. Use \code{NULL} to hide the legend.
+   	\item \code{xlab}: Alternative label for the x axis.
+	\item \code{ylab}: Alternative label for the y axis.
+	\item \code{xlim}: Numeric vector of the x limits of the plot.
+    \item \code{ylim}: Numeric vector of the y limits.
+	\item \code{x.intersp}: Horizontal interspacing factor for legend text, as numeric -- default is \code{0.4}.
+    \item \code{y.intersp}: Vertical line distance for legend text, as numeric -- default is \code{0.8}.
+  }
+}
+
 \value{
 Returns a list of:
   \item{profile}{Data frame containing alpha and reference wind speed for each direction sector.}
@@ -53,7 +91,7 @@ Brower, M., Marcus, M., Taylor, M., Bernadett, D., Filippelli, M., Beaucage, P.,
 International Electrotechnical Commission (2005) IEC 61400-12 Wind Turbines -- Part 12-1: Power Performance Measurements of Electricity Producing Wind Turbines. IEC Standard
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}, \code{\link{plotProfile}}, \code{\link{printObject}}}
+\seealso{\code{\link{createMast}}}
 \examples{
 \dontrun{
 # load and prepare data

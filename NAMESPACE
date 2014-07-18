@@ -36,8 +36,6 @@ export(
   plpc,
   plotPolar,
   plpol,
-  plotProfile,
-  plpro,
   plotTimeSeries,
   plts,
   plotTurbIEC,
@@ -67,8 +65,10 @@ import(
 
 ## S3 methods
 S3method(plot, aep)
+S3method(plot, profile)
 S3method(plot, uncertainty)
 S3method(plot, weibull)
 S3method(print, aep)
+S3method(print, profile)
 S3method(print, uncertainty)
 S3method(print, weibull)
