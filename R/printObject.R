@@ -225,12 +225,5 @@ printObject <- function(object) {
 		if(!any(!is.na(attr(object, "call")$subset))) subs <- ", subset=NA"
 		else subs <- paste0(", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\")")
 		cat("\ncall: turbulence(mast=", attr(object, "call")$mast, ", turb.set=", attr(object, "call")$turb.set, ", dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", bins=c(", paste(attr(object, "call")$bins, collapse=", "), ")", subs, ", digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
-	} else if(attr(object, "call")$func=="energy") { # energy object
-		cat("\n\tWind energy content\n\n")
-		row.names(object) <- c(toupper(head(row.names(object), -1)), tail(row.names(object), 1))
-		object[object==0] <- ""
-		print(object, quote=FALSE)
-		cat("\t(all values in ", attr(object, "unit"), ")\n", sep="")
-		cat("\ncall: energy(wb=", attr(object, "call")$wb, ", rho=", attr(object, "call")$rho, ", bins=c(", paste(attr(object, "call")$bins, collapse=", "), "), digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")	
 	} else stop(substitute(object), " seems not to be a bReeze object")
 }

@@ -66,10 +66,6 @@ plday <- function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...)
 	plotDay(mast, set, dir.set, signal, num.sectors, subset, ...)
 }
 
-plen <- function(energy, show.total=TRUE, ...) {
-	plotEnergy(energy, show.total, ...)
-}
-
 plfreq <- function(freq, ...) {
 	plotFrequency(freq, ...)
 }
