@@ -7,10 +7,12 @@
 \title{Uncertainty assessment}
 \description{Calculates probability of exceedance based of AEP data and given uncertainties of applied methods.}
 \usage{
-uncertainty(aep, uc.values, uc.names, prob, digits, print)
-uc(aep, uc.values, uc.names, prob, digits, print)
+uncertainty(aep, uc.values, uc.names, prob=seq(5,95,5), 
+  digits=c(0,0), print=TRUE)
+uc(aep, uc.values, uc.names, prob=seq(5,95,5), 
+  digits=c(0,0), print=TRUE)
 
-\method{plot}{uncertainty}(x, type, p.values, ...)
+\method{plot}{uncertainty}(x, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...)
 \method{print}{uncertainty}(x, ...)
 }
 \arguments{

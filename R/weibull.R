@@ -1,8 +1,5 @@
-#weibull <- function(mast, v.set, dir.set, num.sectors=12, subset, digits=3, print=TRUE) UseMethod("weibull")
-
-#weibull.default <-
 weibull <- 
-function(mast, v.set, dir.set, num.sectors, subset, digits, print) {
+function(mast, v.set, dir.set, num.sectors=12, subset, digits=3, print=TRUE) {
 ### calculating weibull parameters for sectors
 	
 	if(is.null(attr(mast, "call"))) stop(substitute(mast), " is no mast object")

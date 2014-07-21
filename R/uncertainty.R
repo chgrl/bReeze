@@ -1,8 +1,5 @@
-#uncertainty <- function(aep, uc.values, uc.names, prob=seq(5,95,5), digits=c(0,0), print=TRUE) UseMethod("uncertainty")
-
-#uncertainty.default <-
 uncertainty <- 
-function(aep, uc.values, uc.names, prob, digits, print) {
+function(aep, uc.values, uc.names, prob=seq(5,95,5), digits=c(0,0), print=TRUE) {
 ###	uncertainty assessment of annual energy production
 	
 	if(missing(aep)) stop("AEP object 'aep' is mandatory")

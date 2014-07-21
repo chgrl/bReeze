@@ -1,5 +1,5 @@
 aep <- 
-function(profile, pc, hub.h, rho, avail, bins, sectoral, digits, print) {
+function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FALSE, digits=c(3,0,0,3), print=TRUE) {
 ###	calculating annual energy production
 	
 	if(missing(profile)) stop("Profile 'profile' is mandatory")

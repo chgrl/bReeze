@@ -7,12 +7,14 @@
 \title{Calculate wind profile}
 \description{Calculates a wind profile, using on the Hellman exponential law.}
 \usage{
-profile(mast, v.set, dir.set, num.sectors, method, alpha, subset, 
-  digits, print)
-pro(mast, v.set, dir.set, num.sectors, method, alpha, subset, 
-  digits, print)
+profile(mast, v.set, dir.set, num.sectors=12, 
+  method=c("hellman", "loglm", "fixed"), alpha=NULL, 
+  subset, digits=3, print=TRUE)
+pro(mast, v.set, dir.set, num.sectors=12, 
+  method=c("hellman", "loglm", "fixed"), alpha=NULL, 
+  subset, digits=3, print=TRUE)
 
-\method{plot}{profile}(x, sector, measured, ...)
+\method{plot}{profile}(x, sector, measured=TRUE, ...)
 \method{print}{profile}(x, ...)  
 }
 \arguments{
