@@ -101,8 +101,9 @@ function(mast, turb.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, di
 	if(sum(turb.tbl[,length(turb.tbl)], na.rm=TRUE)==0) turb.tbl[,length(turb.tbl)] <- NULL
 	
 	attr(turb.tbl, "call") <- list(func="turbulence", mast=deparse(substitute(mast)), turb.set=turb.set, dir.set=dir.set, num.sectors=num.sectors, bins=bins, subset=subset, digits=digits, print=print)
-	
 	turb.tbl <- round(turb.tbl, digits)
-	if(print) printObject(turb.tbl)
+	
+	class(turb.tbl) <- "turbulence"
+	if(print) print(turb.tbl)
 	invisible(turb.tbl)
 }

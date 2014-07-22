@@ -217,13 +217,5 @@ printObject <- function(object) {
 		if(!any(!is.na(attr(object, "call")$subset))) subs <- ", subset=NA"
 		else subs <- paste0(", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\")")
 		cat("\ncall: frequency(mast=", attr(object, "call")$mast, ", v.set=", attr(object, "call")$v.set, ", dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", bins=c(", paste(attr(object, "call")$bins, collapse=", "), ")", subs, ", digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
-	} else if(attr(object, "call")$func=="turbulence") { # turbulence object
-		cat("\n\tTurbulence intensity\n\n")
-		row.names(object) <- c(toupper(head(row.names(object), -1)), tail(row.names(object), 1))
-		object[object==0] <- ""
-		print(object, quote=FALSE)
-		if(!any(!is.na(attr(object, "call")$subset))) subs <- ", subset=NA"
-		else subs <- paste0(", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\")")
-		cat("\ncall: turbulence(mast=", attr(object, "call")$mast, ", turb.set=", attr(object, "call")$turb.set, ", dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", bins=c(", paste(attr(object, "call")$bins, collapse=", "), ")", subs, ", digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
 	} else stop(substitute(object), " seems not to be a bReeze object")
 }

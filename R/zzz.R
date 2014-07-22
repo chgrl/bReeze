@@ -90,10 +90,6 @@ pliec <- function(mast, set, subset, ...) {
 	plotTurbIEC(mast, set, subset, ...)
 }
 
-plturb <- function(turb, ...) {
-	plotTurbulence(turb, ...)
-}
-
 plwbd <- function(wb, show.ak=FALSE, ...) {
 	plotWbDir(wb, show.ak, ...)
 }

@@ -28,7 +28,7 @@ probj(object)
   Other objects are just printed without return value.
 }
 \author{Christian Graul}
-\seealso{\code{\link{aep}}, \code{\link{availability}}, \code{\link{createMast}}, \code{\link{createSet}}, \code{\link{createPC}}, \code{\link{energy}}, \code{\link{frequency}}, \code{\link{monthStats}}, \code{\link{profile}}, \code{\link{readPC}}, \code{\link{turbulence}}, \code{\link{uncertainty}}, \code{\link{weibull}}}
+\seealso{\code{\link{availability}}, \code{\link{createMast}}, \code{\link{createSet}}, \code{\link{createPC}}, \code{\link{frequency}}, \code{\link{monthStats}}, \code{\link{readPC}}}
 \examples{
 \dontrun{
 # load and prepare data
@@ -41,9 +41,7 @@ set20 <- createSet(height=20, v.avg=winddata[,10], v.std=winddata[,13])
 ts <- formatTS(time.stamp=winddata[,1])
 neubuerg <- createMast(time.stamp=ts, set40=set40, set30=set30, 
   set20=set20, loc=c(49.8909,11.4017), desc="Site #247 - Neubuerg")
-neubuerg.wp <- profile(mast=neubuerg, v.set=c(1,2), dir.set=1, print=FALSE)
 pw.56 <- readPC(file="PowerWind_56_900kW.wtg")
-neubuerg.aep <- aep(profile=neubuerg.wp, pc=pw.56, hub.h=71, print=FALSE)
 
 # print met masts
 printObject(object=neubuerg)
@@ -52,14 +50,8 @@ printObject(object=neubuerg)
 neubuerg.detail <- printObject(object=neubuerg)
 neubuerg.detail
 
-# print wind profile
-printObject(object=neubuerg.wp)
-
 # print power curve
 printObject(object=pw.56)
-
-# print annual energy production
-printObject(object=neubuerg.aep)
 }
 }
 \keyword{methods}
