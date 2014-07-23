@@ -2,14 +2,14 @@ print.energy <- function(x, ...) {
 ### summarising energy object information
 	
 	cat("\n\tWind energy content\n\n")
-	
 	obj <- x[[1]]
 	if(length(x)>1) {
 		for(i in 2:length(x)) {
 			obj <- rbind(obj, x[[i]])
 		}
+		obj <- as.data.frame(t(as.matrix(obj)))
 	}	
-	obj <- as.data.frame(t(obj))
+	obj <- as.data.frame(obj)
 	names(obj) <- names(x)
 	row.names(obj) <- c(toupper(head(attr(x, "row.names"), -1)), tail(attr(x, "row.names"), 1))
 	obj[obj==0] <- ""

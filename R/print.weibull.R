@@ -2,7 +2,7 @@ print.weibull <- function(x, ...) {
 ### summarising weibull object information
 		
 	cat("\n\tWeibull parameters\n\n")
-	tbl.units <- data.frame(t(names(weibull)))
+	tbl.units <- data.frame(t(names(x)))
 	tbl.units[,1] <- paste0("[", attr(x, "unit")[1], "]")
 	tbl.units[,2] <- paste0("[", attr(x, "unit")[2], "]")
 	tbl.units[,3] <- paste0("[", attr(x, "unit")[3], "]")
