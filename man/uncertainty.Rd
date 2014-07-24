@@ -12,11 +12,11 @@ uncertainty(aep, uc.values, uc.names, prob=seq(5,95,5),
 uc(aep, uc.values, uc.names, prob=seq(5,95,5), 
   digits=c(0,0), print=TRUE)
 
-\method{plot}{uncertainty}(x, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...)
+\method{plot}{uncertainty}(x, type=c("prob", "uncert"), p.values=c(50,75,90), ...)
 \method{print}{uncertainty}(x, ...)
 }
 \arguments{
-  \item{aep}{AEP object created by \code{aep}.}
+  \item{aep}{AEP object created by \code{\link{aep}}.}
   \item{uc.values}{Uncertainty values (in percent) for applied methods as numeric vector.}
   \item{uc.names}{Names of the uncertainty components. Normally a string vector of the same length as \code{uc.values}. If \code{uc.names} is a string vector with the length of \code{uc.values} + 1, the calculated total uncertainty is named after the additional name (default is "total"). If \code{uc.names} is \code{NULL}, the methods are numbered consecutively.}
   \item{prob}{Probability values used for the probability of exceedance analysis. Default is \code{seq(5,95,5)}.}
@@ -36,7 +36,7 @@ Assuming all uncertainty components to be independent from each other, the combi
 where \eqn{U} is the total uncertainty and \eqn{u_1} untill \eqn{u_n} are the uncertainty components.
 }
 \section{Optional graphical parameters}{
-The following graphical parameters can optionally be added to customize the probability of exceedance plot (\code{type="prob"}):
+  \emph{The following graphical parameters can optionally be added to customize the probability of exceedance plot (\code{type="prob"}):}
   \itemize{
 	\item \code{bty}: Type of box to be drawn around the plot region. Allowed values are \code{"o"} (the default), \code{"l"}, \code{"7"}, \code{"c"}, \code{"u"}, or \code{"]"}. The resulting box resembles the corresponding upper case letter. A value of \code{"n"} suppresses the box.
 	\item \code{bty.leg}: Type of box to be drawn around the legend. Allowed values are \code{"n"} (no box, the default) and \code{"o"}.
@@ -64,8 +64,9 @@ The following graphical parameters can optionally be added to customize the prob
 	\item \code{ylim}: Limits of the y axis, as vector of two values.
 	\item \code{x.intersp}: Horizontal interspacing factor for legend text, as numeric -- default is \code{0.4}.
     \item \code{y.intersp}: Vertical line distance for legend text, as numeric -- default is \code{0.8}.
-    
-Optional graphical parameters for the uncertainty overview plot (\code{type="uncert"}):
+  }
+  \emph{Optional graphical parameters for the uncertainty overview plot (\code{type="uncert"}):}
+  \itemize{
     \item \code{border}: Colour to be used for the border of the bars -- usage like \code{col}, as default no border is drawn.
 	\item \code{cex}: Amount by which text on the plot should be scaled relative to the default (which is \code{1}), as numeric. To be used for scaling of all texts at once.
     \item \code{cex.axis}: Amount by which the names of the uncertainty components should be scaled, as numeric value.
