@@ -3,13 +3,8 @@ print.turbulence <- function(x, ...) {
 	
 	cat("\n\tTurbulence intensity\n\n")
 	obj <- x[[1]]
-	if(length(x)>1) {
-		for(i in 2:length(x)) {
-			obj <- rbind(obj, x[[i]])
-		}
-		obj <- as.data.frame(t(as.matrix(obj)))
-	}	
-	else obj <- as.data.frame(obj)
+	if(length(x)>1) for(i in 2:length(x)) obj <- cbind(obj, x[[i]])
+	obj <- as.data.frame(obj)
 	names(obj) <- names(x)
 	row.names(obj) <- c(toupper(head(attr(x, "row.names"), -1)), tail(attr(x, "row.names"), 1))
 	print(obj, quote=FALSE)
