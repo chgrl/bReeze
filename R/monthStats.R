@@ -49,6 +49,7 @@ function(mast, set, signal="v.avg", fun=c("mean", "median", "min", "max", "sd"),
 	attr(m.stats.l, "unit") <- unit
 	attr(m.stats.l, "call") <- list(func="monthStats", mast=deparse(substitute(mast)), set=set, signal=signal, fun=fun, subset=subset, digits=digits, print=print)
 	
-	if(print) printObject(m.stats.l)
+	class(m.stats.l) <- "monthStats"
+	if(print) print(m.stats.l)
 	invisible(m.stats.l)
 }

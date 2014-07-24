@@ -1,18 +1,16 @@
-plotMonthStats <- 
-function(stats, set, ...) {
+plot.monthStats <- 
+function(x, set, ...) {
 ### plotting monthly data
 		
-	if(is.data.frame(stats)) num.sets <- 1
-	else num.sets <- length(stats)
-	if(is.null(attr(stats, "call"))) stop(substitute(stats), " is no monthStats object")
-	if(attr(stats, "call")$func!="monthStats") stop(substitute(stats), " is no monthStats object")
+	if(is.data.frame(x)) num.sets <- 1
+	else num.sets <- length(x)
 	if(missing(set)) set <- 1:num.sets
 	n.set <- length(set)
-	if(!is.numeric(set)) set <- match(set, names(stats))
+	if(!is.numeric(set)) set <- match(set, names(x))
 	if(any(is.na(set))) stop("'set' not found")
 	if(any(set<1) || any(set>num.sets)) stop("'set' not found")
-	unit <- attr(stats, "unit")
-	years <- length(stats[[1]])-2
+	unit <- attr(x, "unit")
+	years <- length(x[[1]])-2
 	
 	# prepare plot
 	old.par <- par(no.readonly=TRUE)
@@ -78,37 +76,37 @@ function(stats, set, ...) {
 	if(n.set==1 || num.sets==1) {
 		if(is.null(pos.leg)) pos.leg <- "top"
 		par(mar=mar, mgp=mgp, las=las)
-		if(is.null(ylim)) ylim <- c(-0.1, ceiling(max(stats[[set]][1:12,1:(length(stats[[set]])-2)], na.rm=TRUE))+0.3)
-		barplot(t(as.matrix(stats[[set]][1:12,1:(length(stats[[set]])-2)])), beside=TRUE, xaxt="n", yaxt="n", col=col[1:years], border=border, ylim=ylim, xpd=FALSE)
+		if(is.null(ylim)) ylim <- c(-0.1, ceiling(max(x[[set]][1:12,1:(length(x[[set]])-2)], na.rm=TRUE))+0.3)
+		barplot(t(as.matrix(x[[set]][1:12,1:(length(x[[set]])-2)])), beside=TRUE, xaxt="n", yaxt="n", col=col[1:years], border=border, ylim=ylim, xpd=FALSE)
 		box(bty=bty, col=col.box)
 		axis(2, line=mgp[3], col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
-		bxp <- barplot(t(as.matrix(stats[[set]][1:12,1:(length(stats[[set]])-2)])), beside=TRUE, plot=FALSE)
+		bxp <- barplot(t(as.matrix(x[[set]][1:12,1:(length(x[[set]])-2)])), beside=TRUE, plot=FALSE)
 		at <- apply(bxp, 2, mean)
-		mtext(toupper(row.names(stats[[set]])[1:12]), side=1, line=mgp[2]-0.6, at=at, cex=cex.axis-0.1, col=col.axis)
+		mtext(toupper(row.names(x[[set]])[1:12]), side=1, line=mgp[2]-0.6, at=at, cex=cex.axis-0.1, col=col.axis)
 		mtext(xlab, side=1, line=mgp[1]-0.5, at=mean(at), cex=cex.lab+0.1, col=col.lab, las=1)
 		mtext(ylab, side=2, line=mgp[1], las=0, cex=cex.lab+0.1, col=col.lab)
-		if(plot.names) mtext(names(stats)[set], side=2, line=mgp[1]+1.2, las=0, cex=cex.lab+0.1, col=col.lab)
-		if(legend) legend(pos.leg, legend=names(stats[[1]])[1:years], fill=col[1:years], border=border, ncol=years, bty=bty.leg, cex=cex.leg-0.1, x.intersp=x.intersp, text.col=col.leg)
+		if(plot.names) mtext(names(x)[set], side=2, line=mgp[1]+1.2, las=0, cex=cex.lab+0.1, col=col.lab)
+		if(legend) legend(pos.leg, legend=names(x[[1]])[1:years], fill=col[1:years], border=border, ncol=years, bty=bty.leg, cex=cex.leg-0.1, x.intersp=x.intersp, text.col=col.leg)
 	} else {
 		if(is.null(pos.leg)) pos.leg <- "center"
 		lo <- layout(matrix(c(n.set+2, 1:(n.set+1)), n.set+2, 1), heights=c(1, rep(5, n.set), 1))
 		par(mar=c(1,5.5,0,1), mgp=mgp, las=las)
-		dat.max <- ceiling(max(unlist(stats), na.rm=TRUE))
+		dat.max <- ceiling(max(unlist(x), na.rm=TRUE))
 		for(i in 1:n.set) {
 			if(is.null(ylim)) ylim <- c(-0.1, dat.max+0.3)
-			barplot(t(as.matrix(stats[[i]][1:12,1:years])), beside=TRUE, xaxt="n", yaxt="n", col=col[1:years], border=border, ylim=ylim, xpd=FALSE)
+			barplot(t(as.matrix(x[[i]][1:12,1:years])), beside=TRUE, xaxt="n", yaxt="n", col=col[1:years], border=border, ylim=ylim, xpd=FALSE)
 			box(bty=bty, col=col.box)
 			axis(2, line=mgp[3], col=col.ticks, col.axis=col.axis, cex.axis=cex.axis+0.2)
-			if(plot.names) mtext(names(stats)[set[i]], side=2, line=mgp[1]+1.2, las=0, cex=cex.lab, col=col.lab)
+			if(plot.names) mtext(names(x)[set[i]], side=2, line=mgp[1]+1.2, las=0, cex=cex.lab, col=col.lab)
 			mtext(ylab, side=2, line=mgp[1], las=0, cex=cex.lab, col=col.lab)
 		}
-		bxp <- barplot(t(as.matrix(stats[[1]][1:12,1:(length(stats[[1]])-2)])), beside=TRUE, plot=FALSE)
+		bxp <- barplot(t(as.matrix(x[[1]][1:12,1:(length(x[[1]])-2)])), beside=TRUE, plot=FALSE)
 		at <- apply(bxp, 2, mean)
-		mtext(toupper(row.names(stats[[1]])[1:12]), side=1, line=mgp[2]-0.5, at=at, cex=cex.axis-0.2, col=col.axis)
+		mtext(toupper(row.names(x[[1]])[1:12]), side=1, line=mgp[2]-0.5, at=at, cex=cex.axis-0.2, col=col.axis)
 		mtext(xlab, side=1, line=mgp[1]-0.4, at=mean(at), cex=cex.lab, col=col.lab, las=1)
 		plot(0, type="n", axes=FALSE, xlab="", ylab="")
 		par(mar=c(0,5.5,0,1))
 		plot(0, type="n", axes=FALSE, xlab="", ylab="")
-		if(legend) legend(pos.leg, legend=names(stats[[1]])[1:years], fill=col[1:years], border=border, ncol=years, bty=bty.leg, cex=cex.leg+0.2, x.intersp=x.intersp, text.col=col.leg)
+		if(legend) legend(pos.leg, legend=names(x[[1]])[1:years], fill=col[1:years], border=border, ncol=years, bty=bty.leg, cex=cex.leg+0.2, x.intersp=x.intersp, text.col=col.leg)
 	}
 }

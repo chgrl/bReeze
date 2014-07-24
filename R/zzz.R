@@ -66,10 +66,6 @@ plday <- function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...)
 	plotDay(mast, set, dir.set, signal, num.sectors, subset, ...)
 }
 
-plms <- function(stats, set, ...) {
-	plotMonthStats(stats, set, ...)
-}
-
 plpc <- function(pc, cp=TRUE, ct=TRUE, ...) {
 	plotPC(pc, cp, ct, ...)
 }

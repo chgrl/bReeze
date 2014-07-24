@@ -26,8 +26,6 @@ export(
   plday,
   plotMap,
   map,
-  plotMonthStats,
-  plms,
   plotPC,
   plpc,
   plotPolar,
@@ -61,6 +59,7 @@ import(
 S3method(plot, aep)
 S3method(plot, energy)
 S3method(plot, frequency)
+S3method(plot, monthStats)
 S3method(plot, profile)
 S3method(plot, turbulence)
 S3method(plot, uncertainty)
@@ -68,6 +67,7 @@ S3method(plot, weibull)
 S3method(print, aep)
 S3method(print, energy)
 S3method(print, frequency)
+S3method(print, monthStats)
 S3method(print, profile)
 S3method(print, turbulence)
 S3method(print, uncertainty)

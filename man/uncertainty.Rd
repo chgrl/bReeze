@@ -3,7 +3,6 @@
 \alias{uncertainty}
 \alias{uc}
 \alias{plot.uncertainty}
-\alias{print.uncertainty}
 \title{Uncertainty assessment}
 \description{Calculates probability of exceedance based of AEP data and given uncertainties of applied methods.}
 \usage{
@@ -13,7 +12,6 @@ uc(aep, uc.values, uc.names, prob=seq(5,95,5),
   digits=c(0,0), print=TRUE)
 
 \method{plot}{uncertainty}(x, type=c("prob", "uncert"), p.values=c(50,75,90), ...)
-\method{print}{uncertainty}(x, ...)
 }
 \arguments{
   \item{aep}{AEP object created by \code{\link{aep}}.}

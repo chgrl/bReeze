@@ -179,27 +179,5 @@ printObject <- function(object) {
 		if(!any(!is.na(attr(object, "call")$subset))) subs <- ", subset=NA"
 		else subs <- paste0(", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\")")
 		cat("call: availability(mast=", attr(object, "call")$mast, vset, dirset, subs, ", digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
-	} else if(attr(object, "call")$func=="monthStats") { # month stats object
-		cat("\n\tMonthly statistics\n\n")
-		cat(names(object)[1], "\n")
-		object[[1]][is.na(object[[1]])] <- ""
-		if(length(row.names(object[[1]]))==14) names(object[[1]])[length(names(object[[1]]))] <- row.names(object[[1]])[14] <- gsub("\\.", " ", row.names(object[[1]])[14])
-		row.names(object[[1]])[1:12] <- c(toupper(row.names(object[[1]])[1:12]))
-		print(object[[1]], quote=FALSE)
-		cat("\n")
-		if(length(object)>1) {
-			for(i in 2:length(object)) {
-				cat(names(object)[i], "\n")
-				object[[i]][is.na(object[[i]])] <- ""
-				if(length(row.names(object[[1]]))==14) names(object[[i]])[length(names(object[[i]]))] <- row.names(object[[i]])[14] <- gsub("\\.", " ", row.names(object[[i]])[14])
-				row.names(object[[i]])[1:12] <- c(toupper(row.names(object[[i]])[1:12]))
-				print(object[[i]], quote=FALSE)
-				cat("\n")
-			}
-		}
-		if(attr(object, "call")$set=="all") attr(object, "call")$set <- "\"all\""
-		if(!any(!is.na(attr(object, "call")$subset))) subs <- ", subset=NA"
-		else subs <- paste0(", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\")")
-		cat("call: monthStats(mast=", attr(object, "call")$mast, ", set=", attr(object, "call")$set, ", signal=\"", attr(object, "call")$signal, "\", fun=\"", attr(object, "call")$fun, "\"", subs, ", digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
 	} else stop(substitute(object), " seems not to be a bReeze object")
 }
