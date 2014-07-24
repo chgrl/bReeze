@@ -42,12 +42,12 @@ en <- function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 	energy(wb, rho, bins, digits, print)
 }
 
-fts <- function(time.stamp, pattern, tz) {
-	formatTS(time.stamp, pattern, tz)
-}
-
 freq <- function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digits=3, print=TRUE) {
 	frequency(mast, v.set, dir.set, num.sectors, bins, subset, digits, print)
+}
+
+fts <- function(time.stamp, pattern, tz) {
+	formatTS(time.stamp, pattern, tz)
 }
 
 map <- function(mast, type=c("satellite", "terrain", "hybrid", "roadmap"), zoom, label, ...) {
@@ -64,10 +64,6 @@ plavail <- function(avail, set, ...) {
 
 plday <- function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 	plotDay(mast, set, dir.set, signal, num.sectors, subset, ...)
-}
-
-plfreq <- function(freq, ...) {
-	plotFrequency(freq, ...)
 }
 
 plms <- function(stats, set, ...) {

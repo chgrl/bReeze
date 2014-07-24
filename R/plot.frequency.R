@@ -1,10 +1,13 @@
-plotFrequency <-
-function(freq, ...) {
+plot.frequency <-
+function(x, ...) {
 ### plotting frequency from frequency object
-	
-	if(is.null(attr(freq, "call"))) stop(substitute(freq), " is no frequency object")
-	if(attr(freq, "call")$func!="frequency") stop(substitute(freq), " is no frequency object")
-	 
+
+	freq <- x[[1]]
+	for(i in 2:length(x)) freq <- cbind(freq, x[[i]])
+	freq <- as.data.frame(freq)
+	row.names(freq) <- attr(x, "row.names")
+	names(freq) <- names(x)
+		
 	dim.data <- dim(freq)
 	num.sectors <- dim.data[1] - 1
 	num.classes <- dim.data[2] - 2

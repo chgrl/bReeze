@@ -93,8 +93,9 @@ function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digit
 	
 	unit <- attr(freq.tbl, "units") <- c(attr(mast$sets[[v.set]]$data$v.avg, "unit"), "%")
 	attr(freq.tbl, "call") <- list(func="frequency", mast=deparse(substitute(mast)), v.set=v.set, dir.set=dir.set, num.sectors=num.sectors, bins=bins, subset=subset, digits=digits, print=print)
-		
 	freq.tbl <- round(freq.tbl, digits)
-	if(print) printObject(freq.tbl)
+	
+	class(freq.tbl) <- "frequency"
+	if(print) print(freq.tbl)
 	invisible(freq.tbl)
 }

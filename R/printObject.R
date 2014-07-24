@@ -201,21 +201,5 @@ printObject <- function(object) {
 		if(!any(!is.na(attr(object, "call")$subset))) subs <- ", subset=NA"
 		else subs <- paste0(", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\")")
 		cat("call: monthStats(mast=", attr(object, "call")$mast, ", set=", attr(object, "call")$set, ", signal=\"", attr(object, "call")$signal, "\", fun=\"", attr(object, "call")$fun, "\"", subs, ", digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
-	} else if(attr(object, "call")$func=="frequency") { # frequency object
-		cat("\n\tFrequency\n\n")
-		object <- as.data.frame(object)
-		tbl.units <- data.frame(t(names(object)))
-		tbl.units[,] <- paste0("[", attr(object, "unit")[2], "]")
-		tbl.units[,1] <- paste0("[", attr(object, "unit")[1], "]")
-		object[object==0] <- ""
-		obj <- as.data.frame(lapply(object, as.character))
-		names(object)[1] <- "wind speed"
-		names(tbl.units) <- names(obj) <- names(object)
-		row.names(tbl.units) <- " "
-		row.names(obj) <- c(toupper(head(row.names(object), -1)), tail(row.names(object), 1))
-		print(rbind(tbl.units, obj), quote=FALSE)
-		if(!any(!is.na(attr(object, "call")$subset))) subs <- ", subset=NA"
-		else subs <- paste0(", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\")")
-		cat("\ncall: frequency(mast=", attr(object, "call")$mast, ", v.set=", attr(object, "call")$v.set, ", dir.set=", attr(object, "call")$dir.set, ", num.sectors=", attr(object, "call")$num.sectors, ", bins=c(", paste(attr(object, "call")$bins, collapse=", "), ")", subs, ", digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
 	} else stop(substitute(object), " seems not to be a bReeze object")
 }
