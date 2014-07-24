@@ -2,8 +2,6 @@
 \name{frequency}
 \alias{frequency}
 \alias{freq}
-\alias{plot.frequency}
-\alias{print.frequency}
 \title{Calculation of frequency and mean wind speed}
 \description{Calculates the frequency of occurrence and mean wind speed per wind direction sector.}
 \usage{
@@ -11,9 +9,6 @@ frequency(mast, v.set, dir.set, num.sectors=12,
   bins=c(5, 10, 15, 20), subset, digits=3, print=TRUE)
 freq(mast, v.set, dir.set, num.sectors=12, 
   bins=c(5, 10, 15, 20), subset, digits=3, print=TRUE)
-
-\method{plot}{frequency}(x, ...)
-\method{print}{frequency}(x, ...)
 }
 \arguments{
   \item{mast}{Met mast object created by \code{\link{createMast}}.}
@@ -24,14 +19,11 @@ freq(mast, v.set, dir.set, num.sectors=12,
   \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
   \item{digits}{Number of decimal places to be used for results as numeric value. Default is \code{3}.}
   \item{print}{If \code{TRUE} (the default), results are printed directly.}
-  
-  \item{x}{Frequency object, created by \code{frequency}.}
-  \item{\dots}{Arguments to be passed to methods. For optional graphical parameters see below.}
 }
 \details{
 The directional frequency of occurrence is an important factor for the design of a wind project. The influence is clear for the arrangement of turbines in a wind farm, that should be perpendicular to the most frequent wind direction. But also single turbines are affected, e.g. by fatigue tower loads in most frequent directions or in directions with highest wind speeds.
 }
-\section{Optional graphical parameters}{
+\section{Optional graphical parameters for plotting}{
 The following graphical parameters can optionally be added to customize the plot:
   \itemize{
     \item \code{border.leg}: Border colour(s) for the legend. One colour for each wind speed bin or a single colour -- default is same as \code{col}.

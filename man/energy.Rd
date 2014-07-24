@@ -3,7 +3,6 @@
 \alias{energy}
 \alias{en}
 \alias{plot.energy}
-\alias{print.energy}
 \title{Calculation of total wind energy content}
 \description{Calculates the total wind energy content per direction sector from Weibull data.}
 \usage{
@@ -13,7 +12,6 @@ en(wb, rho=1.225, bins=c(5, 10, 15, 20),
   digits=0, print=TRUE)
 
 \method{plot}{energy}(x, show.total=TRUE, ...)
-\method{print}{energy}(x, ...)
 }
 \arguments{
   \item{wb}{Weibull object created by \code{\link{weibull}}.}

@@ -3,7 +3,6 @@
 \alias{weibull}
 \alias{wb}
 \alias{plot.weibull}
-\alias{print.weibull}
 \title{Calculation of Weibull parameters}
 \description{Calculates the shape parameters (k) and scale parameters (A) of the Weibull distribution per direction sector.}
 \usage{
@@ -13,7 +12,6 @@ wb(mast, v.set, dir.set, num.sectors=12,
   subset, digits=3, print=TRUE)
 
 \method{plot}{weibull}(x, show.ak=FALSE, ...)
-\method{print}{weibull}(x, ...)
 }
 \arguments{
   \item{mast}{Met mast object created by \code{\link{createMast}}.}

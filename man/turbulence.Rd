@@ -2,8 +2,6 @@
 \name{turbulence}
 \alias{turbulence}
 \alias{turb}
-\alias{plot.turbulence}
-\alias{print.turbulence}
 \title{Calculation of turbulence intensity}
 \description{Calculates turbulence intensity and mean wind speed for each given direction sector.}
 \usage{
@@ -11,9 +9,6 @@ turbulence(mast, turb.set, dir.set, num.sectors=12,
   bins=c(5, 10, 15, 20), subset, digits=3, print=TRUE)
 turb(mast, turb.set, dir.set, num.sectors=12, 
   bins=c(5, 10, 15, 20), subset, digits=3, print=TRUE)
-
-\method{plot}{turbulence}(x, ...)
-\method{print}{turbulence}(x, ...)
 }
 \arguments{
   \item{mast}{Met mast object created by \code{\link{createMast}}.}
@@ -24,16 +19,13 @@ turb(mast, turb.set, dir.set, num.sectors=12,
   \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
   \item{digits}{Number of decimal places to be used for results as numeric value. Default is \code{3}.}
   \item{print}{If \code{TRUE} (the default), results are printed directly.}
-  
-  \item{x}{Turbulence intensity object, created by \code{turbulence}.}
-  \item{\dots}{Arguments to be passed to methods. For optional graphical parameters see below.}
 }
 \details{
 Turbulence can be perceived as wind speed fluctuations on a relatively short time scale and it strongly depends on surface roughness, terrain features, as well as thermal effects. High turbulence should be avoided, since it is a main driver of fatigue loads and might decrease energy output. A measure of the overall level of turbulence, is the turbulence intensity \eqn{I}, which is defined as:
 \deqn{I = \frac{\sigma}{\bar v}}{I = sigma / v}
 where \eqn{\sigma}{sigma} is the standard deviation of wind speed -- usually measured over a 10-minutes period -- and \eqn{\bar v}{v} is the mean wind speed over this period. 
 }
-\section{Optional graphical parameters}{
+\section{Optional graphical parameters for plotting}{
 The following graphical parameters can optionally be added to customize the plot:
   \itemize{
     \item \code{cex}: Numeric value, giving the amount by which text on the plot should be scaled relative to the default (which is 1).

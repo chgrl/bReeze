@@ -3,7 +3,6 @@
 \alias{profile}
 \alias{pro}
 \alias{plot.profile}
-\alias{print.profile}
 \title{Calculate wind profile}
 \description{Calculates a wind profile, using on the Hellman exponential law.}
 \usage{
@@ -15,7 +14,6 @@ pro(mast, v.set, dir.set, num.sectors=12,
   subset, digits=3, print=TRUE)
 
 \method{plot}{profile}(x, sector, measured=TRUE, ...)
-\method{print}{profile}(x, ...)  
 }
 \arguments{
   \item{mast}{Met mast object created by \code{\link{createMast}}.}

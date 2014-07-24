@@ -2,7 +2,6 @@
 \name{aep}
 \alias{aep}
 \alias{plot.aep}
-\alias{print.aep}
 \title{Calculation of annual energy production}
 \description{Calculates annual energy production (AEP) from a site's wind profile and wind turbine characteristics.}
 \usage{
@@ -10,7 +9,6 @@ aep(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20),
   sectoral=FALSE, digits=c(3,0,0,3), print=TRUE)
 
 \method{plot}{aep}(x, show.total=TRUE, ...)
-\method{print}{aep}(x, ...)
 }
 \arguments{
   \item{profile}{Wind profile object created by \code{profile}.}
