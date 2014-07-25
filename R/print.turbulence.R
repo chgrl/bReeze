@@ -1,4 +1,5 @@
-print.turbulence <- function(x, ...) {
+print.turbulence <- 
+function(x, ...) {
 ### summarising turbulence object information
 	
 	cat("\n\tTurbulence intensity\n\n")

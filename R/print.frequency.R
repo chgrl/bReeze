@@ -1,4 +1,5 @@
-print.frequency <- function(x, ...) {
+print.frequency <- 
+function(x, ...) {
 ### summarising frequency object information
 	
 	cat("\n\tFrequency\n\n")

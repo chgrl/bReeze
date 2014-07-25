@@ -1,4 +1,5 @@
-print.monthStats <- function(x, ...) {
+print.monthStats <- 
+function(x, ...) {
 ### summarising monthStats object information
 	
 	cat("\n\tMonthly statistics\n\n")

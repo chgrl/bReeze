@@ -1,4 +1,5 @@
-print.energy <- function(x, ...) {
+print.energy <- 
+function(x, ...) {
 ### summarising energy object information
 	
 	cat("\n\tWind energy content\n\n")

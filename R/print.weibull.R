@@ -1,4 +1,5 @@
-print.weibull <- function(x, ...) {
+print.weibull <- 
+function(x, ...) {
 ### summarising weibull object information
 		
 	cat("\n\tWeibull parameters\n\n")

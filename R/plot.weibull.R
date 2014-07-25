@@ -1,4 +1,4 @@
-plot.weibull <-
+plot.weibull <- 
 function(x, show.ak=FALSE, ...) {
 ### plotting fitted weibull distribution from weibull object
 		

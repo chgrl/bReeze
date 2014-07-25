@@ -1,4 +1,5 @@
-print.uncertainty <- function(x, ...) {
+print.uncertainty <- 
+function(x, ...) {
 ### summarising uncertainty object information
 	
 	cat("\n\tUncertainty\n\n")

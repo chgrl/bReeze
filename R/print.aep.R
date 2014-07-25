@@ -1,4 +1,5 @@
-print.aep <- function(x, ...) {
+print.aep <- 
+function(x, ...) {
 ### summarising aep object information
 	
 	cat("\n\tAnnual energy production\n\n")

@@ -1,4 +1,5 @@
-print.profile <- function(x, ...) {
+print.profile <- 
+function(x, ...) {
 ### summarising profile object information
 	
 	cat("\n\tWind profile\n\n")
