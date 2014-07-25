@@ -24,7 +24,7 @@ ms(mast, set, signal="v.avg",
   \item{digits}{Number of decimal places to be used for results as numeric value. Default is \code{3}.}
   \item{print}{If \code{TRUE} (the default), results are printed directly.}
       
-  \item{x}{Monthly means created by \code{monthStats}.}
+  \item{x}{Monthly statistics object created by \code{monthStats}.}
   \item{\dots}{Arguments to be passed to methods. For optional graphical parameters see below.}
 }
 \details{
