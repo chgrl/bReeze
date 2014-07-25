@@ -2,11 +2,14 @@
 \name{availability}
 \alias{availability}
 \alias{avail}
+\alias{plot.availability}
 \title{Calculate availability for pairs of wind speed and direction}
 \description{Calculates the availability for pairs of wind speed and wind direction of a met mast.}
 \usage{
 availability(mast, v.set, dir.set, subset, digits=1, print=TRUE)
 avail(mast, v.set, dir.set, subset, digits=1, print=TRUE)
+
+\method{plot}{availability}(x, set, ...)
 }
 \arguments{
   \item{mast}{Met mast object created by \code{\link{createMast}}.}
@@ -14,7 +17,11 @@ avail(mast, v.set, dir.set, subset, digits=1, print=TRUE)
   \item{dir.set}{Set(s) to be used for wind direction, specified as set number(s) or set name(s). Argument is optional -- if missing, the set(s) used for wind speed data will also be used for wind direction.}
   \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
   \item{digits}{Number of decimal places to be used for results as numeric value. Default is \code{1}.}
-  \item{print}{If \code{TRUE}, results are printed directly.}
+  \item{print}{If \code{TRUE} (the default), results are printed directly.}
+      
+  \item{x}{Availability object created by \code{availability}.}
+  \item{set}{Number of dataset to be plotted, specified as set number or set name (optional).}
+  \item{\dots}{Arguments to be passed to methods. For optional graphical parameters see below.}
 }
 \details{
 The availability is the number of pairs of valid wind speed and valid wind direction data samples as a percentage of the total possible for the measurement period, i.e.:
@@ -23,6 +30,25 @@ where \eqn{N} is the total possible number of samples and \eqn{v_{valid} \wedge 
 
 Causes of invalid or missing data are manifold. Typical causes are icing and defects of sensors or other measurement equipment.
 }
+\section{Optional graphical parameters}{
+The following graphical parameters can optionally be added to customize the plot:
+  \itemize{
+    \item \code{border}: Colour of the cell borders -- default value is \code{"black"}.
+    \item \code{cex}: Numeric value, giving the amount by which text on the plot should be scaled relative to the default (which is 1).
+	\item \code{cex.axis}: Amount by which axis annotations should be scaled, as numeric value.
+    \item \code{cex.lab}: Amount by which axis labels should be scaled, as numeric value.
+    \item \code{col}: Vector of three text colours (or just one colour), where the first indicates 'full availability', the second 'partial availability' and the third 'not available' -- default is \code{"black"}.
+	\item \code{col.axis}: Colour to be used for axis -- default is \code{"gray45"}.
+    \item \code{col.lab}: Colour to be used for axis labels -- default is \code{"black"}.
+    \item \code{fill}: Vector of three fill colours (or just one colour), where the first indicates 'full availability', the second 'partial availability' and the third 'not available'.
+    \item \code{lwd}: Line widths of the cell borders. See \code{\link{par}} for usage.
+    \item \code{mar}: A numerical vector of the form c(bottom, left, top, right) which gives the number of lines of margin to be specified on the four sides of the plot -- default is \code{c(0, 0, 0, 0)}.
+    \item \code{plot.names}: If \code{TRUE} (the default), the names of the datasets is plotted as second label of the y axis.
+   	\item \code{xlab}: Alternative label for the x axis.
+	\item \code{ylab}: Alternative label for the y axis.
+  }
+}
+
 \value{
   Returns a list of sub lists for each pair of \code{v.set}/\code{dir.set} containing:
   \item{total}{Total availability (\%), effective period (days) and total period (days) of a set/pair of wind speed and direction.}
@@ -32,7 +58,7 @@ Causes of invalid or missing data are manifold. Typical causes are icing and def
 Brower, M., Marcus, M., Taylor, M., Bernadett, D., Filippelli, M., Beaucage, P., Hale, E., Elsholz, K., Doane, J., Eberhard, M., Tensen, J., Ryan, D. (2010) Wind Resource Assessment Handbook. http://www.renewablenrgsystems.com/TechSupport/~/media/Files/PDFs/wind_resource_handbook.ashx
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}, \code{\link{clean}}, \code{\link{plotAvailability}}, \code{\link{printObject}}}
+\seealso{\code{\link{createMast}}, \code{\link{clean}}}
 \examples{
 \dontrun{
 # load and prepare data

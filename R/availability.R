@@ -116,6 +116,7 @@ function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
 	
 	attr(avail, "call") <- list(func="availability", mast=deparse(substitute(mast)), v.set=v.set, dir.set=dir.set, subset=subset, digits=digits, print=print)
 	
-	if(print) printObject(avail)
+	class(avail) <- "availability"
+	if(print) print(avail)
 	invisible(avail)
 }

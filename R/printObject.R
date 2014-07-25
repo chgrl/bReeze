@@ -143,41 +143,5 @@ printObject <- function(object) {
 		row.names(obj) <- as.character(1:nrow(obj))
 		print(rbind(tbl.units, obj), quote=FALSE)
 		cat("\n")
-	} else if(attr(object, "call")$func=="availability") { # availability object
-		cat("\n\tAvailability for pairs of wind speed and direction\n\n")
-		tot <- object[[1]]$total
-		if(length(object)>1) for(i in 2:length(object)) tot <- rbind(tot, object[[i]]$total)
-		tbl.units <- data.frame(t(names(tot)))
-		tbl.units[,] <- "[d]"
-		tbl.units[,1] <- "[%]"
-		names(tot)[2:3] <- c("effective period", "total period")
-		names(tbl.units) <- names(tot)
-		row.names(tbl.units) <- " "
-		row.names(tot) <- names(object)
-		print(rbind(tbl.units, tot), quote=FALSE)
-		cat("\nnumber of daily samples:\n")
-		cat(names(object)[1], "\n")
-		object[[1]]$daily[is.na(object[[1]]$daily)] <- ""
-		names(object[[1]]$daily)[1] <- "%"
-		print(object[[1]]$daily, quote=FALSE)
-		cat("\n")
-		if(length(object)>1) {
-			for(i in 2:length(object)) {
-				cat(names(object)[i], "\n")
-				object[[i]]$daily[is.na(object[[i]]$daily)] <- ""
-				names(object[[i]]$daily)[1] <- "%"
-				print(object[[i]]$daily, quote=FALSE)
-				cat("\n")
-			}
-		}
-		if(attr(object, "call")$v.set[1]=="all") attr(object, "call")$v.set[1] <- "\"all\""
-		if(attr(object, "call")$dir.set[1]=="all") attr(object, "call")$dir.set[1] <- "\"all\""
-		if(length(attr(object, "call")$v.set)==1) vset <- paste0(", v.set=", attr(object, "call")$v.set)
-		else vset <- paste0(", v.set=c(", paste0(attr(object, "call")$v.set, collapse=", "), ")")
-		if(length(attr(object, "call")$dir.set)==1) dirset <- paste0(", dir.set=", attr(object, "call")$dir.set)
-		else dirset <- paste0(", dir.set=c(", paste0(attr(object, "call")$dir.set, collapse=", "), ")")
-		if(!any(!is.na(attr(object, "call")$subset))) subs <- ", subset=NA"
-		else subs <- paste0(", subset=c(\"", paste(attr(object, "call")$subset, collapse="\", \""), "\")")
-		cat("call: availability(mast=", attr(object, "call")$mast, vset, dirset, subs, ", digits=", attr(object, "call")$digits, ", print=", attr(object, "call")$print, ")\n\n", sep="")
 	} else stop(substitute(object), " seems not to be a bReeze object")
 }
