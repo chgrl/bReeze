@@ -20,8 +20,6 @@ export(
   freq,
   monthStats,
   ms,
-  plotAvailability,
-  plavail,
   plotDay,
   plday,
   plotMap,
