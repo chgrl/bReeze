@@ -39,10 +39,12 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 	if(any(names(plot.param)=="col")) col <- plot.param$col
 	else {
 		if(num.sets<=9) {
-			col <- col1 <- brewer.pal(3, "Set1")
-			if(num.sets>3) col <- col1 <- brewer.pal(num.sets, "Set1")
-			col[1] <- col1[2]
-			col[2] <- col1[1]
+			if(suppressWarnings(require(RColorBrewer, quietly=TRUE))) {
+				col <- col1 <- brewer.pal(3, "Set1")
+				if(num.sets>3) col <- col1 <- brewer.pal(num.sets, "Set1")
+				col[1] <- col1[2]
+				col[2] <- col1[1]
+			} else col <- c("blue", "green", "red", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
 		} else col <- c("blue", "green", "red", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
 	}
 	if(any(names(plot.param)=="col.lab")) col.lab <- plot.param$col.lab

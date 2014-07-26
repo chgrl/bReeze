@@ -20,10 +20,12 @@ function(x, set, ...) {
 	if(any(names(plot.param)=="col")) col <- plot.param$col
 	else {
 		if(n.set<=9) {
-			col <- col1 <- brewer.pal(3, "Paired")
-			if(years>3) col <- col1 <- brewer.pal(years, "Paired")
-			col[1] <- col1[2]
-			col[2] <- col1[1]
+			if(suppressWarnings(require(RColorBrewer, quietly=TRUE))) {
+				col <- col1 <- brewer.pal(3, "Paired")
+				if(years>3) col <- col1 <- brewer.pal(years, "Paired")
+				col[1] <- col1[2]
+				col[2] <- col1[1]
+			} else col <- c("blue", "green", "red", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
 		} else col <- c("blue", "green", "red", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
 	}
 	if(any(names(plot.param)=="col.lab")) col.lab <- plot.param$col.lab

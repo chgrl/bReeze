@@ -26,9 +26,11 @@ function(pc, cp=TRUE, ct=TRUE, ...) {
 		if(any(names(plot.param)=="col")) col <- plot.param$col
 		else {
 			if(length(pc)<=9) {
-				col <- brewer.pal(3, "Set1")
-				if(length(pc)==2) col <- col[1:2]
-				if(length(pc)>3) col <- brewer.pal(length(pc), "Set1")
+				if(suppressWarnings(require(RColorBrewer, quietly=TRUE))) {
+					col <- brewer.pal(3, "Set1")
+					if(length(pc)==2) col <- col[1:2]
+					if(length(pc)>3) col <- brewer.pal(length(pc), "Set1")
+				} else col <- c("blue", "green", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
 			} else col <- c("blue", "green", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
 		}
 	}
