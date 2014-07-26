@@ -2,8 +2,6 @@ readPC <-
 function(file, ex=FALSE) {
 ### importing power curve from WAsP .wgt file or WindPower program .pow file
 	
-	stopifnot(require(XML))
-	
 	if(!ex) {
 		if(system.file(package="bReeze", "powercurves", file)=="") stop("Power curve not found in package collection. To read external power curve files set 'ex' to TRUE")
 		file <- system.file(package="bReeze", "powercurves", file)
@@ -25,6 +23,7 @@ function(file, ex=FALSE) {
 		r <- createPC(v, p, rho=1.225, desc=desc)
 		attr(r, "call") <- list(func="readPC", file=file)
 	} else if(type==".wtg") {
+		stopifnot(require(XML))
 		wtg <- xmlTreeParse(file, asTree=TRUE)
 		if(is.null(wtg$doc$children$WindTurbineGenerator)) stop("Cannot handle file")
 		n <- length(wtg$doc$children$WindTurbineGenerator)
