@@ -9,5 +9,5 @@ Description: A collection of functions to analyse, visualize and interpret wind 
          and to calculate the potential energy production of wind turbines.
 License: GPL (>= 2)
 URL: https://github.com/chgrl/bReeze
-Depends: R (>= 2.14.2), RColorBrewer
-Suggests: RgoogleMaps, XML
+Depends: R (>= 2.14.2)
+Suggests: RColorBrewer, RgoogleMaps, XML

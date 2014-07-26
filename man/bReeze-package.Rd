@@ -21,7 +21,7 @@ Wind power is a global source of energy which attracts a large share of investme
 
 Usually the data to be analysed are collected by meteorological masts (met masts) and averaged over ten minutes, but other time intervals are also processable. 
 
-\code{bReeze} depends on or suggests three packages, written by other developers: \code{RColorBrewer} (by Erich Neuwirth) provides nice colours for the graphics, \code{XML} (by Duncan Temple Lang) provides xml parsing for power curve import and \code{RgoogleMaps} (by Markus Loecher) provides simple site maps.
+\code{bReeze} suggests three packages, written by other developers: \code{RColorBrewer} (by Erich Neuwirth) provides nice colours for the graphics, \code{XML} (by Duncan Temple Lang) provides xml parsing for power curve import and \code{RgoogleMaps} (by Markus Loecher) provides simple site maps.
 	
 Try the examples below to check if \code{bReeze} has been correctly installed. Any question and feedback is welcome via email to <christian.graul@gmail.com>.
 }
