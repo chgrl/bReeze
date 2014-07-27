@@ -51,9 +51,6 @@ function(mast, set, signal="v.avg", fun=c("mean", "median", "min", "max", "sd"),
 plday <- 
 function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) plotDay(mast, set, dir.set, signal, num.sectors, subset, ...)
 
-plpc <- 
-function(pc, cp=TRUE, ct=TRUE, ...) plotPC(pc, cp, ct, ...)
-
 plpol <- 
 function(mast, v.set=1, dir.set=1, subset, ...) plotPolar(mast, v.set, dir.set, subset, ...)
 

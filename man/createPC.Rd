@@ -2,11 +2,14 @@
 \name{createPC}
 \alias{createPC}
 \alias{pc}
+\alias{plot.pc}
 \title{Creation of power curve objects}
 \description{Creates power curve objects, characterizing wind turbines.}
 \usage{
 createPC(v, p, cp, ct, rho=1.225, rated.p, desc)
 pc(v, p, cp, ct, rho=1.225, rated.p, desc)
+
+\method{plot}{pc}(x, plot.cp=TRUE, plot.ct=TRUE, ...)
 }
 \arguments{
   \item{v}{Wind speed in m/s as numeric vector.}
@@ -16,6 +19,11 @@ pc(v, p, cp, ct, rho=1.225, rated.p, desc)
   \item{rho}{Air density as numeric value. Default is \code{1.225} kg/m3 according to the International Standard Atmosphere (ISA) at sea level and 15 degrees Celsius.}
   \item{rated.p}{Rated power of wind turbine in kW as numeric value. If not given, the rated power is set to the maximum value of \code{p}.}
   \item{desc}{Plain text information about the wind turbine as string (optional).}
+  
+  \item{x}{Power curve object created by \code{createPC} or \code{link{readPC}}.}
+  \item{plot.cp}{If \code{TRUE} (the default), the power coefficient (cp) is added to the plot (if available).}
+  \item{plot.ct}{If \code{TRUE} (the default), the thrust coefficient (ct) is added to the plot (if available).}
+  \item{\dots}{Arguments to be passed to methods. For optional graphical parameters see below.}
 }
 \details{
 \emph{Power curve}
@@ -36,6 +44,36 @@ where \eqn{P_t}{Pt} is the ratio of the electrical power extracted by the wind t
 
 The thrust coefficient is a turbine specific characteristic and used for the modelling of wake effects. Therefore it is an important parameter for wind farm configuration.
 }
+\section{Optional graphical parameters}{
+The following graphical parameters can optionally be added to customize the plot:
+  \itemize{
+    \item \code{bty}: Type of box to be drawn around the plot region. Allowed values are \code{"o"} (the default), \code{"l"}, \code{"7"}, \code{"c"}, \code{"u"}, or \code{"]"}. The resulting box resembles the corresponding upper case letter. A value of \code{"n"} suppresses the box.
+    \item \code{bty.leg}: Type of box to be drawn around the legend. Allowed values are \code{"n"} (no box, the default) and \code{"o"}.
+    \item \code{cex}: Amount by which text on the plot should be scaled relative to the default (which is \code{1}), as numeric. To be used for scaling of all texts at once.
+	\item \code{cex.axis}: Amount by which axis annotations should be scaled, as numeric value.
+    \item \code{cex.lab}: Amount by which axis labels should be scaled, as numeric value.
+    \item \code{cex.leg}: Amount by which legend text should be scaled, as numeric value.
+    \item \code{col}: Vector of colours. The first colour is used for the power curve. If only one coefficient is available, the second colour is used for this coefficient, if both coefficients are available, the second colour is used for \code{pc} and the third for \code{ct}.
+	\item \code{col.axis}: Colour to be used for axis annotations -- default is \code{"black"}.
+	\item \code{col.box}: Colour to be used for the box around the plot region (if \code{bty}) -- default is \code{"black"}.
+    \item \code{col.lab}: Colour to be used for axis labels -- default is \code{"black"}.
+    \item \code{col.leg}: Colour to be used for legend text -- default is \code{"black"}.
+    \item \code{col.ticks}: Colours for the axis line and the tick marks respectively -- default is \code{"black"}.
+    \item \code{las}: Style of axis labels. One of \code{0} (always parallel to the axis, default), \code{1} (always horizontal), \code{2} (always perpendicular to the axis), \code{3} (always vertical).
+    \item \code{legend}: If \code{TRUE} (the default) a legend is drawn.
+    \item \code{leg.text}: A character or \code{\link{expression}} vector to appear in the legend.
+    \item \code{lty}: Vector of line types, assigned like \code{col}. See \code{\link{par}} for available line types.
+    \item \code{lwd}: Vector of line widths, assigned like \code{col}. See \code{\link{par}} for usage.
+    \item \code{mar}: A numerical vector of the form c(bottom, left, top, right) which gives the number of lines of margin to be specified on the four sides of the plot -- default is \code{c(5, 5, 1, 5)} for one y axis and \code{c(5, 5, 1, 1)} for two y axes.
+    \item \code{mgp}: A numerical vector of the form c(label, annotation, line), which gives the margin line for the axis label, axis annotation and axis line. The default is \code{c(3, 1, 0)}.
+    \item \code{pos.leg}: Position of legend -- one of \code{"bottomright"}, \code{"bottom"}, \code{"bottomleft"}, \code{"left"}, \code{"topleft"}, \code{"top"}, \code{"topright"}, \code{"right"} or \code{"center"}. Use \code{NULL} to hide the legend.
+   	\item \code{xlab}: Alternative label for the x axis.
+	\item \code{ylab}: Alternative labels for the y axis, as vector of the form c(left axis label, right axis label).
+	\item \code{ylim}: Limits of the y axis, as vector of two values.
+	\item \code{x.intersp}: Horizontal interspacing factor for legend text, as numeric -- default is \code{0.4}.
+    \item \code{y.intersp}: Vertical line distance for legend text, as numeric -- default is \code{0.4}.
+  }
+}
 \value{Returns a data frame binding the given data.}
 \references{
 Betz, A. (1966) \emph{Introduction to the Theory of Flow Machines}. Oxford: Pergamon Press
@@ -49,7 +87,7 @@ Milan, P., Wächter, M., Barth, S., Peinke, J. (2010) Power Curves for Wind Turb
 Ragheb, M., Ragheb, A.M. (2011) Wind Turbines Theory -- The Betz Equation and Optimal Rotor Tip Speed Ratio. In: Rupp Carriveau (Ed.), Fundamental and Advanced Topics in Wind Power, Chapter 2, p. 19--38, InTech
 }
 \author{Christian Graul}
-\seealso{\code{\link{readPC}}, \code{\link{plotPC}}, \code{\link{printObject}}}
+\seealso{\code{\link{readPC}} to import power curves from file}
 \examples{
 \dontrun{
 # minimal theoretic power curve

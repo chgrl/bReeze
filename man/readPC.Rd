@@ -2,15 +2,23 @@
 \name{readPC}
 \alias{readPC}
 \alias{rpc}
+\alias{plot.pc}
 \title{Import power curve from file}
 \description{Imports a power curve from a WAsP 'wgt' file or a WindPower program 'pow' file.}
 \usage{
 readPC(file, ex=FALSE)
 rpc(file, ex=FALSE)
+
+\method{plot}{pc}(x, plot.cp=TRUE, plot.ct=TRUE, ...)
 }
 \arguments{
   \item{file}{The name of, or the path to a 'wgt' or 'pow' file containing power curve data.}
-  \item{ex}{Set to \code{TRUE}, if \code{file} is an external file (not included in the package directory of \code{bReeze}) -- default is \code{FALSE}.}
+  \item{ex}{Set to \code{TRUE} (the default), if \code{file} is an external file (not included in the package directory of \code{bReeze}) -- default is \code{FALSE}.}
+  
+  \item{x}{Power curve object created by \code{readPC} or \code{link{createPC}}.}
+  \item{plot.cp}{If \code{TRUE} (the default), the power coefficient (cp) is added to the plot (if available).}
+  \item{plot.ct}{If \code{TRUE} (the default), the thrust coefficient (ct) is added to the plot (if available).}
+  \item{\dots}{Arguments to be passed to methods. For optional graphical parameters see below.}
 }
 \details{
 \code{bReeze} provides several power curves of common manufacturers, that can be read from the package directory. See examples for usage.
@@ -55,6 +63,36 @@ rpc(file, ex=FALSE)
 }
 For details about power curves in general see \code{\link{createPC}}.
 }
+\section{Optional graphical parameters}{
+The following graphical parameters can optionally be added to customize the plot:
+  \itemize{
+    \item \code{bty}: Type of box to be drawn around the plot region. Allowed values are \code{"o"} (the default), \code{"l"}, \code{"7"}, \code{"c"}, \code{"u"}, or \code{"]"}. The resulting box resembles the corresponding upper case letter. A value of \code{"n"} suppresses the box.
+    \item \code{bty.leg}: Type of box to be drawn around the legend. Allowed values are \code{"n"} (no box, the default) and \code{"o"}.
+    \item \code{cex}: Amount by which text on the plot should be scaled relative to the default (which is \code{1}), as numeric. To be used for scaling of all texts at once.
+	\item \code{cex.axis}: Amount by which axis annotations should be scaled, as numeric value.
+    \item \code{cex.lab}: Amount by which axis labels should be scaled, as numeric value.
+    \item \code{cex.leg}: Amount by which legend text should be scaled, as numeric value.
+    \item \code{col}: Vector of colours. The first colour is used for the power curve. If only one coefficient is available, the second colour is used for this coefficient, if both coefficients are available, the second colour is used for \code{pc} and the third for \code{ct}.
+	\item \code{col.axis}: Colour to be used for axis annotations -- default is \code{"black"}.
+	\item \code{col.box}: Colour to be used for the box around the plot region (if \code{bty}) -- default is \code{"black"}.
+    \item \code{col.lab}: Colour to be used for axis labels -- default is \code{"black"}.
+    \item \code{col.leg}: Colour to be used for legend text -- default is \code{"black"}.
+    \item \code{col.ticks}: Colours for the axis line and the tick marks respectively -- default is \code{"black"}.
+    \item \code{las}: Style of axis labels. One of \code{0} (always parallel to the axis, default), \code{1} (always horizontal), \code{2} (always perpendicular to the axis), \code{3} (always vertical).
+    \item \code{legend}: If \code{TRUE} (the default) a legend is drawn.
+    \item \code{leg.text}: A character or \code{\link{expression}} vector to appear in the legend.
+    \item \code{lty}: Vector of line types, assigned like \code{col}. See \code{\link{par}} for available line types.
+    \item \code{lwd}: Vector of line widths, assigned like \code{col}. See \code{\link{par}} for usage.
+    \item \code{mar}: A numerical vector of the form c(bottom, left, top, right) which gives the number of lines of margin to be specified on the four sides of the plot -- default is \code{c(5, 5, 1, 5)} for one y axis and \code{c(5, 5, 1, 1)} for two y axes.
+    \item \code{mgp}: A numerical vector of the form c(label, annotation, line), which gives the margin line for the axis label, axis annotation and axis line. The default is \code{c(3, 1, 0)}.
+    \item \code{pos.leg}: Position of legend -- one of \code{"bottomright"}, \code{"bottom"}, \code{"bottomleft"}, \code{"left"}, \code{"topleft"}, \code{"top"}, \code{"topright"}, \code{"right"} or \code{"center"}. Use \code{NULL} to hide the legend.
+   	\item \code{xlab}: Alternative label for the x axis.
+	\item \code{ylab}: Alternative labels for the y axis, as vector of the form c(left axis label, right axis label).
+	\item \code{ylim}: Limits of the y axis, as vector of two values.
+	\item \code{x.intersp}: Horizontal interspacing factor for legend text, as numeric -- default is \code{0.4}.
+    \item \code{y.intersp}: Vertical line distance for legend text, as numeric -- default is \code{0.4}.
+  }
+}
 \value{Returns a data frame binding the given data}
 \source{
 Wind turbine generator files (*.wtg) are available from the WAsP website:
@@ -69,7 +107,7 @@ http://www.wind-power-program.com/download.htm
 \note{
 All power curves are provided without any warranty of accuracy and timeliness. Reliable data can only be received from the respective manufacturer directly. 
 }
-\seealso{\code{\link{createPC}}, for creation of your own power curve object, \code{\link{plotPC}}, \code{\link{printObject}}}
+\seealso{\code{\link{createPC}}, for creation of your own power curve object}
 \examples{
 \dontrun{
 # import power curve from bReeze wtg file

@@ -125,25 +125,5 @@ printObject <- function(object) {
 		sig.tbl[is.na(sig.tbl)] <- ""
 		print(sig.tbl, quote=FALSE)
 		cat("\n")
-	} else if(attr(object, "call")$func=="createPC" || attr(object, "call")$func=="readPC") { # power curve object
-		cat("\n\tPower curve", substitute(object), "\n\n")
-		if(!is.null(attr(object, "description"))) cat("description:", attr(object, "description"), "\n")
-		cat("rated power:", attr(object, "rated.power"), "\n")
-		cat("air pressure:", attr(object, "rho"), "\n\n")
-		tbl.units <- data.frame(t(names(object)))
-		tbl.units[,] <- "[-]"
-		tbl.units[,1] <- paste0("[", attr(object, "units")[1], "]")
-		tbl.units[,2] <- paste0("[", attr(object, "units")[2], "]")
-		object[is.na(object)] <- ""
-		obj <- as.data.frame(lapply(object, as.character))
-		names(object)[1] <- "wind speed"
-		names(object)[2] <- "power"
-		names(object)[names(object)=="cp"] <- "power coefficient"
-		names(object)[names(object)=="ct"] <- "thrust coefficient"
-		names(tbl.units) <- names(obj) <- names(object)
-		row.names(tbl.units) <- " "
-		row.names(obj) <- as.character(1:nrow(obj))
-		print(rbind(tbl.units, obj), quote=FALSE)
-		cat("\n")
 	} else stop(substitute(object), " seems not to be a bReeze object")
 }

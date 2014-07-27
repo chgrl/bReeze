@@ -45,6 +45,7 @@ function(file, ex=FALSE) {
 		r <- createPC(v=v, p=p, ct=ct, rho=rho, desc=desc)
 		attr(r, "call") <- list(func="readPC", file=file, ex=ex)
 	}
-		
+	
+	class(r) <- "pc"	
 	return(r)
 }
