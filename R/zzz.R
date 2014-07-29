@@ -27,8 +27,8 @@ function(mast, set, v.avg.min=0.4, v.avg.max=50, dir.clean=TRUE, turb.clean=4, i
 mast <- 
 function(time.stamp, ..., loc=NULL, desc=NULL) createMast(time.stamp=time.stamp, loc=loc, desc=desc, ...)
 
-pc <- 
-function(v, p, cp, ct, rho=1.225, rated.p, desc) createPC(v, p, cp, ct, rho, rated.p, desc)
+#pc <- 
+#function(v, p, cp, ct, rho=1.225, rated.p, desc) createPC(v, p, cp, ct, rho, rated.p, desc)
 	
 set <- 
 function(height, desc, v.avg, v.max, v.min, v.std, dir.avg, dir.std, tmp, ...) createSet(height, desc, v.avg, v.max, v.min, v.std, dir.avg, dir.std, tmp, ...)
@@ -69,8 +69,8 @@ function(object) printObject(object)
 pro <- 
 function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fixed"), alpha=NULL, subset, digits=3, print=TRUE) profile(mast, v.set, dir.set, num.sectors, method, alpha, subset, digits, print)
 
-rpc <- 
-function(file, ex=FALSE) readPC(file, ex)
+#rpc <- 
+#function(file, ex=FALSE) readPC(file, ex)
 
 turb <- 
 function(mast, turb.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digits=3, print=TRUE) turbulence(mast, turb.set, dir.set, num.sectors, bins, subset, digits, print)

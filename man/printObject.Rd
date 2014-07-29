@@ -9,9 +9,7 @@ printObject(object)
 probj(object)
 }
 \arguments{
-  \item{object}{bReeze object (from \code{\link{aep}}, \code{\link{availability}}, \code{\link{createMast}}, \code{\link{createSet}}, 
-  \code{\link{createPC}}, \code{\link{energy}}, \code{\link{frequency}}, \code{\link{monthStats}}, \code{\link{profile}}, \code{\link{readPC}}, 
-  \code{\link{turbulence}}, \code{\link{uncertainty}} or \code{\link{weibull}}).}
+  \item{object}{bReeze object (from\code{\link{createMast}}, \code{\link{createSet}}).}
 }
 \value{For met mast objects a list is returned:
   \item{location}{Lat/lon coordinates of the site (if available).}
@@ -28,7 +26,7 @@ probj(object)
   Other objects are just printed without return value.
 }
 \author{Christian Graul}
-\seealso{\code{\link{availability}}, \code{\link{createMast}}, \code{\link{createSet}}, \code{\link{createPC}}, \code{\link{frequency}}, \code{\link{monthStats}}, \code{\link{readPC}}}
+\seealso{\code{\link{availability}}, \code{\link{createMast}}, \code{\link{createSet}}}
 \examples{
 \dontrun{
 # load and prepare data
@@ -41,7 +39,7 @@ set20 <- createSet(height=20, v.avg=winddata[,10], v.std=winddata[,13])
 ts <- formatTS(time.stamp=winddata[,1])
 neubuerg <- createMast(time.stamp=ts, set40=set40, set30=set30, 
   set20=set20, loc=c(49.8909,11.4017), desc="Site #247 - Neubuerg")
-pw.56 <- readPC(file="PowerWind_56_900kW.wtg")
+pw.56 <- pc(file="PowerWind_56_900kW.wtg")
 
 # print met masts
 printObject(object=neubuerg)

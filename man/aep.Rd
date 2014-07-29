@@ -12,7 +12,7 @@ aep(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20),
 }
 \arguments{
   \item{profile}{Wind profile object created by \code{profile}.}
-  \item{pc}{Power curve object created by \code{\link{createPC}} or read from file by \code{\link{readPC}}.}
+  \item{pc}{Power curve object created by \code{\link{pc}}.}
   \item{hub.h}{Hub heigth of wind turbine as numeric value.}
   \item{rho}{Air density as numeric value. Default is \code{1.225} kg/m3 according to the International Standard Atmosphere (ISA) at sea level and 15°C.}
   \item{avail}{Availability of turbine as numeric value between \code{0} (not available at all) and \code{1} (100\% available).}
@@ -92,7 +92,7 @@ International Organisation for Standardization (1975) ISO 2533:1975 Standard Atm
 Jangamshetti, S.H., Rau, V.G. (1999) Site Matching of Wind Turbine Generators: A Case Study. \emph{IEEE Transaction on Energy Conversion} \bold{14}(4), 1537--1543
 }
 \author{Christian Graul}
-\seealso{\code{\link{profile}}, \code{\link{createPC}}, \code{\link{readPC}}}
+\seealso{\code{\link{profile}}}
 \examples{
 \dontrun{
 # load and prepare data

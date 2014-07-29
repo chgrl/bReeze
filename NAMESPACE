@@ -8,7 +8,7 @@ export(
   cln,
   createMast,
   mast,
-  createPC,
+#  createPC,
   pc,
   createSet,
   set,
@@ -36,8 +36,8 @@ export(
   probj,
   profile,
   pro,
-  readPC,
-  rpc,
+#  readPC,
+#  rpc,
   turbulence,
   turb,
   uncertainty,
@@ -47,6 +47,7 @@ export(
 )
 
 ## S3 methods
+S3method(pc, read)
 S3method(plot, aep)
 S3method(plot, energy)
 S3method(plot, frequency)
