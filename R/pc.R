@@ -1,7 +1,7 @@
 pc <- function(x, ...) {
 	# this is not really the way the S3 system should work, is it?
-	if(any(class(x)=="integer") || any(class(x)=="numeric")) r <- pc.default(x, ...)
-	else if(any(class(x)=="character")) r <- pc.read(x, ...)
+	if(any(is.numeric(x))) r <- pc.default(x, ...)
+	else if(any(is.character(x))) r <- pc.read(x, ...)
 	else stop(substitute(x) , "must be a numeric vector of wind speeds, the name of, or the path to a 'wgt' or 'pow' file containing power curve data")
 	return(r)
 }
@@ -52,10 +52,13 @@ pc.read <-
 function(x, ex=FALSE, ...) {
 ### importing power curve from WAsP .wgt file or WindPower program .pow file
 	
-	if(!ex) {
-		if(system.file(package="bReeze", "powercurves", x)=="") stop("Power curve not found in package collection. To read external power curve files set 'ex' to TRUE")
-		x <- system.file(package="bReeze", "powercurves", x)
-	}
+	#if(!ex) {
+	#	if(system.file(package="bReeze", "powercurves", x)=="") stop("Power curve not found in package collection. To read external power curve files set 'ex' to TRUE")
+	#	x <- system.file(package="bReeze", "powercurves", x)
+	#}
+	
+	if(system.file(package="bReeze", "powercurves", x)!="") x <- system.file(package="bReeze", "powercurves", x)
+	if(!file.exists(x)) stop("File not found")
 	
 	type <- substr(x, nchar(x)-3, nchar(x))
 	if(!any(c(".pow", ".wtg")==type)) stop("Cannot handle file - only WAsP .wtg files and WindPower program .pow files are supported")

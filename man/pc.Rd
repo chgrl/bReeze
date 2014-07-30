@@ -15,6 +15,7 @@ pc(x, ...)
 }
 \arguments{
   \item{x}{Wind speed in m/s as numeric vector. Or the name of, or the path to a 'wgt' or 'pow' file containing power curve data. Or power curve object created by \code{pc}.}
+  
   \item{p}{Corresponding power output in kW as numeric vector of same length as \code{v}.}
   \item{cp}{Power coefficient as numeric vector of same length as \code{v} (optional).}
   \item{ct}{Thrust coefficient as numeric vector of same length as \code{v} (optional).}
@@ -47,7 +48,7 @@ where \eqn{P_t}{Pt} is the ratio of the electrical power extracted by the wind t
 
 The thrust coefficient is a turbine specific characteristic and used for the modelling of wake effects. Therefore it is an important parameter for wind farm configuration.
 
-\code{bReeze} provides several power curves of common manufacturers, that can be read from the package directory, using \code{pc.read}. See examples for usage.
+\code{bReeze} provides several power curves of common manufacturers, that can be read from the package directory. See examples for usage.
 
 \emph{Available 'wtg' files}
 \tabular{llll}{
@@ -146,7 +147,7 @@ All power curves are provided without any warranty of accuracy and timeliness. R
 \examples{
 \dontrun{
 # minimal theoretic power curve
-pc <- pc(v=1:25, p=c(0, 0, seq(0, 1000, length.out=8), 
+pc <- pc(x=1:25, p=c(0, 0, seq(0, 1000, length.out=8), 
   rep(1000, 15)))
 	
 # detailed power curve
@@ -164,20 +165,20 @@ ct <- c(0.653, NA, 0.698, NA, 0.705, NA, 0.713, NA, 0.720, NA, 0.723,
   NA, 0.242, NA, 0.199, NA, 0.168, NA, 0.146, NA, 0.128, NA, 0.115, 
   NA, 0.103, NA, 0.094, NA, 0.086, NA, 0.079, NA, 0.073)
 	
-pc.2 <- pc(v=v, p=p, cp=cp, ct=ct, rho=1.195, rated.p=900, 
+pc.2 <- pc(x=v, p=p, cp=cp, ct=ct, rho=1.195, rated.p=900, 
   desc="PowerWind 56")
 }
 
 
 \dontrun{
 # import power curve from bReeze wtg file
-vestas.v90 <- pc(file="Vestas_V90_2.0MW.wtg")
+vestas.v90 <- pc(x="Vestas_V90_2.0MW.wtg")
 
 # import power curve from bReeze pow file
-repower.mm92 <- pc(file="Repower_MM92_2.0MW.pow")
+repower.mm92 <- pc(x="Repower_MM92_2.0MW.pow")
 
 # import power curve from user file
-# e.g.: my.pc <- pc(file="~/Projects/bReeze/Sandbox/myPC.wtg", ex=TRUE)
+# e.g.: my.pc <- pc(x="~/Projects/bReeze/Sandbox/myPC.wtg", ex=TRUE)
 }
 }
 \keyword{methods}
