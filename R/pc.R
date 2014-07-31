@@ -1,32 +1,55 @@
-pc <- function(x, ...) {
+pc <- function(pc, ...) {
 	# this is not really the way the S3 system should work, is it?
-	if(any(is.numeric(x))) r <- pc.default(x, ...)
-	else if(any(is.character(x))) r <- pc.read(x, ...)
-	else stop(substitute(x) , "must be a numeric vector of wind speeds, the name of, or the path to a 'wgt' or 'pow' file containing power curve data")
+	if(is.list(pc) || is.data.frame(pc)) r <- pc.default(pc, ...)
+	else if(is.character(pc)) r <- pc.read(pc, ...)
+	else stop(substitute(pc) , "must be a numeric vector of wind speeds, the name of, or the path to a 'wgt' or 'pow' file containing power curve data")
 	return(r)
 }
 
 
 pc.default <-
-function(x, p, cp, ct, rho=1.225, rated.p, desc, ...) {
+function(pc, rho=1.225, rated.p, desc, ...) {
 ###	creating power curve object
 
-	if(missing(x)) stop("Wind speed 'v' is mandatory")
-	if(!is.vector(x)) stop("'v' requires numeric vector")
-	if(missing(p)) stop("Power 'p' is mandatory")
+	v <- p <- cp <- ct <- NULL
+	if(any(names(pc)!=c(v, p, cp, ct))) stop("Variable(s) not recognized - power curve data may contain 'v', 'p', 'cp' and/or 'ct'")
+	if(length(names(pc))>0) {
+		if(any(names(pc)=="")) stop("Please name all power curve variables")
+		if(any(names(pc)=="v")) v <- pc$v
+		else stop("Wind speed 'v' is mandatory")
+		if(any(names(pc)=="p")) p <- pc$p
+		else stop("Power 'p' is mandatory")
+		if(any(names(pc)=="cp")) cp <- pc$cp
+		if(any(names(pc)=="ct")) ct <- pc$ct
+	} else {
+		if(is.list(pc)) {
+			if(length(pc)>0) v <- pc[[1]]
+			else stop("Wind speed 'v' is mandatory")
+			if(length(pc)>1) p <- pc[[2]]
+			else stop("Power 'p' is mandatory")
+			if(length(pc)>2) cp <- pc[[3]]
+			if(length(pc)>3) ct <- pc[[4]]
+		} else if(is.data.frame(pc)) {
+			if(length(pc)>0) v <- pc[,1]
+			else stop("Wind speed 'v' is mandatory")
+			if(length(pc)>1) p <- pc[,2]
+			else stop("Power 'p' is mandatory")
+			if(length(pc)>2) cp <- pc[,3]
+			if(length(pc)>3) ct <- pc[,4]
+		}
+	}
+	if(!is.vector(v)) stop("'v' requires numeric vector")
 	if(!is.vector(p)) stop("'p' requires numeric vector")
-	if(length(x)!=length(p)) stop("Different vector length of 'v' and 'p'")
-	if(missing(cp)) cp <- NULL
+	if(length(v)!=length(p)) stop("Different vector length of 'v' and 'p'")
 	if(!is.null(cp)) if(!is.vector(cp)) stop("'cp' requires numeric vector")
-	if(!is.null(cp)) if(length(x)!=length(cp)) stop("Different vector length of 'v' and 'p'")
-	if(missing(ct)) ct <- NULL
+	if(!is.null(cp)) if(length(v)!=length(cp)) stop("Different vector length of 'v' and 'cp'")
 	if(!is.null(ct)) if(!is.vector(ct)) stop("'ct' requires numeric vector")
-	if(!is.null(ct)) if(length(x)!=length(ct)) stop("Different vector length of 'v' and 'cp'")
+	if(!is.null(ct)) if(length(v)!=length(ct)) stop("Different vector length of 'v' and 'ct'")
 	if(missing(rho)) rho <- 1.225
 	if(missing(rated.p)) rated.p <- max(p, na.rm=TRUE)
 	if(missing(desc)) desc <- NULL
 	
-	pc <- data.frame(cbind(x, p, cp, ct))
+	pc <- data.frame(cbind(v, p, cp, ct))
 	names <- c("v", "P")
 	attr(pc, "units") <- c("m/s", "kW")
 	if(!is.null(cp)) {
@@ -49,23 +72,18 @@ function(x, p, cp, ct, rho=1.225, rated.p, desc, ...) {
 
 
 pc.read <-
-function(x, ex=FALSE, ...) {
+function(pc, ...) {
 ### importing power curve from WAsP .wgt file or WindPower program .pow file
+		
+	if(system.file(package="bReeze", "powercurves", pc)!="") pc <- system.file(package="bReeze", "powercurves", pc)
+	if(!file.exists(pc)) stop("File not found")
 	
-	#if(!ex) {
-	#	if(system.file(package="bReeze", "powercurves", x)=="") stop("Power curve not found in package collection. To read external power curve files set 'ex' to TRUE")
-	#	x <- system.file(package="bReeze", "powercurves", x)
-	#}
-	
-	if(system.file(package="bReeze", "powercurves", x)!="") x <- system.file(package="bReeze", "powercurves", x)
-	if(!file.exists(x)) stop("File not found")
-	
-	type <- substr(x, nchar(x)-3, nchar(x))
+	type <- substr(pc, nchar(pc)-3, nchar(pc))
 	if(!any(c(".pow", ".wtg")==type)) stop("Cannot handle file - only WAsP .wtg files and WindPower program .pow files are supported")
 	
 	r <- NULL
 	if(type==".pow") {
-		pow <- read.table(x, as.is=TRUE)
+		pow <- read.table(pc, as.is=TRUE)
 		cut.out <- as.numeric(pow[4,1])
 		if(is.na(cut.out) || is.null(cut.out)) stop("Cannot handle file")
 		v <- seq(1, cut.out, 1)
@@ -73,11 +91,11 @@ function(x, ex=FALSE, ...) {
 		suppressWarnings(if(is.na(as.numeric(tail(p, 1)))) p <- head(p, -1))
 		p <- as.numeric(p[5:(cut.out+4),1])
 		desc <- pow[1,1]
-		r <- pc.default(x=v, p=p, rho=1.225, desc=desc)
-		attr(r, "call") <- list(func="readPC", x=x)
+		r <- pc.default(pc=list(v=v, p=p), rho=1.225, desc=desc)
+		attr(r, "call") <- list(func="readPC", pc=pc)
 	} else if(type==".wtg") {
 		stopifnot(require(XML))
-		wtg <- xmlTreeParse(x, asTree=TRUE)
+		wtg <- xmlTreeParse(pc, asTree=TRUE)
 		if(is.null(wtg$doc$children$WindTurbineGenerator)) stop("Cannot handle file")
 		n <- length(wtg$doc$children$WindTurbineGenerator)
 		idx <- 3
@@ -95,8 +113,8 @@ function(x, ex=FALSE, ...) {
 			ct <- append(ct, as.numeric(xmlAttrs(wtg$doc$children$WindTurbineGenerator[[idx]][["DataTable"]][[i]])[["ThrustCoEfficient"]]))
 		}
 		desc <- xmlAttrs(xmlRoot(wtg))[["Description"]]
-		r <- pc.default(x=v, p=p, ct=ct, rho=rho, desc=desc)
-		attr(r, "call") <- list(func="readPC", x=x, ex=ex)
+		r <- pc.default(pc=list(v=v, p=p, ct=ct), rho=rho, desc=desc)
+		attr(r, "call") <- list(func="readPC", pc=pc)
 	}
 	
 	class(r) <- "pc"	
