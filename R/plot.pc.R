@@ -1,5 +1,5 @@
 plot.pc <-
-function(x, plot.cp=TRUE, plot.ct=TRUE, ...) {
+function(x, cp=TRUE, ct=TRUE, ...) {
 ###	plotting power curve object
 	
 	#pc.list <- FALSE
@@ -88,7 +88,7 @@ function(x, plot.cp=TRUE, plot.ct=TRUE, ...) {
 	
 	# plot
 	#if(!pc.list) {	
-		if((plot.cp && !is.null(x$cp)) || (plot.ct && !is.null(x$ct))) {
+		if((cp && !is.null(x$cp)) || (ct && !is.null(x$ct))) {
 			if(is.null(mar)) par(mar=c(5,5,1,5), mgp=mgp, las=las, bty="n") else par(mar=mar, mgp=mgp, las=las, bty="n")
 		} else {
 			if(is.null(mar)) par(mar=c(5,5,1,1), mgp=mgp, las=las, bty="n") else par(mar=mar, mgp=mgp, las=las, bty="n")
@@ -99,32 +99,32 @@ function(x, plot.cp=TRUE, plot.ct=TRUE, ...) {
 		axis(1, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 		axis(2, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 		
-		if(plot.cp && !is.null(x$cp)) {
+		if(cp && !is.null(x$cp)) {
 			par(new=TRUE, mgp=mgp, las=las)
 			plot(x$v[!is.na(x$cp)], x$cp[!is.na(x$cp)], type="l", axes=FALSE, ylab="", xlab="", xlim=xlim, ylim=c(0,1), , col=col[2], lty=lty[2], lwd=lwd[2]) 
 			axis(4, col=col.ticks, cex=cex, cex.axis=cex.axis, cex.lab=cex.lab, col.axis=col.axis, col.lab=col.lab)  
 		}
-		if(plot.cp && !is.null(x$cp) && plot.ct && !is.null(x$ct)) {
+		if(cp && !is.null(x$cp) && ct && !is.null(x$ct)) {
 			par(new=TRUE, mgp=mgp, las=las)
 			plot(x$v[!is.na(x$ct)], x$ct[!is.na(x$ct)], type="l", axes=FALSE, ylab="", xlab="", xlim=xlim, ylim=c(0,1), , col=col[3], lty=lty[3], lwd=lwd[3], cex=cex, cex.axis=cex, cex.lab=cex) 
 		}
-		if((!plot.cp || is.null(x$cp)) && plot.ct && !is.null(x$ct)) {
+		if((!cp || is.null(x$cp)) && ct && !is.null(x$ct)) {
 			par(new=TRUE, mgp=mgp, las=las)
 			plot(x$v[!is.na(x$ct)], x$ct[!is.na(x$ct)], type="l", axes=FALSE, ylab="", xlab="", xlim=xlim, ylim=c(0,1), , col=col[2], lty=lty[2], lwd=lwd[2], cex=cex, cex.axis=cex, cex.lab=cex) 
 			axis(4, col=col.ticks, cex=cex, cex.axis=cex.axis, cex.lab=cex.lab, col.axis=col.axis, col.lab=col.lab)  
 		}
 		
-		if(plot.cp && !is.null(x$cp) && plot.ct && !is.null(x$ct)) {
+		if(cp && !is.null(x$cp) && ct && !is.null(x$ct)) {
 			if(length(ylab)==1) txt <- "Coefficients [-]" else txt <- ylab[2]
 			if(is.null(leg.text)) leg.text <- c("Power", expression(c[p]), expression(c[t]))
 			mtext(txt, 4, line=mgp[1], las=0, cex=cex.lab, col=col.lab)
 			if(legend) legend(pos.leg, legend=leg.text, bty=bty.leg, col=col, lty=lty[1:3], lwd=lwd[1:3], x.intersp=x.intersp, y.intersp=y.intersp, cex=cex.leg, text.col=col.leg)
-		} else if(plot.cp && !is.null(x$cp) && (!plot.ct || is.null(x$ct))) {
+		} else if(cp && !is.null(x$cp) && (!ct || is.null(x$ct))) {
 			if(length(ylab)==1) txt <- "Power coefficient [-]" else txt <- ylab[2]
 			if(is.null(leg.text)) leg.text <- c("Power", expression(c[p]))
 			mtext(txt, 4, line=mgp[1], las=0, cex=cex.lab, col=col.lab)
 			if(legend) legend(pos.leg, legend=leg.text, bty=bty.leg, col=col[c(1,2)], lty=lty[c(1,2)], lwd=lwd[c(1,2)], x.intersp=x.intersp, y.intersp=y.intersp, cex=cex.leg, text.col=col.leg)
-		} else if(plot.ct && !is.null(x$ct) && (!plot.cp || is.null(x$cp))) {
+		} else if(ct && !is.null(x$ct) && (!cp || is.null(x$cp))) {
 			if(length(ylab)==1) txt <- "Thrust coefficient [-]" else txt <- ylab[2]
 			if(is.null(leg.text)) leg.text <- c("Power", expression(c[t]))
 			mtext(txt, 4, line=mgp[1], las=0, cex=cex.lab, col=col.lab)
