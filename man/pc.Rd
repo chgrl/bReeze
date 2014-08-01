@@ -7,26 +7,23 @@
 \title{Import power curve from file}
 \description{Imports a power curve from a WAsP 'wgt' file or a WindPower program 'pow' file.}
 \usage{
-pc(x, ...)
+pc(pc, ...)
 
-\method{pc}{default}(x, p, cp, ct, rho=1.225, rated.p, desc, ...)
-\method{pc}{read}(x, ex=FALSE, ...)
-\method{plot}{pc}(x, plot.cp=TRUE, plot.ct=TRUE, ...)
+\method{pc}{default}(pc, rho=1.225, rated.p, desc, ...)
+\method{pc}{read}(pc, ...)
+\method{plot}{pc}(x, cp=TRUE, ct=TRUE, ...)
 }
 \arguments{
-  \item{x}{Wind speed in m/s as numeric vector. Or the name of, or the path to a 'wgt' or 'pow' file containing power curve data. Or power curve object created by \code{pc}.}
+  \item{pc}{\code{list} or \code{data.frame} of power curve variables -- v (wind speed in m/s), p (corresponding power output in kW), cp (power coefficient, optional), ct (thrust coefficient, optional), all as numeric vectors of same length.
+  Or the name of, or the path to a 'wgt' or 'pow' file containing power curve data.}
   
-  \item{p}{Corresponding power output in kW as numeric vector of same length as \code{v}.}
-  \item{cp}{Power coefficient as numeric vector of same length as \code{v} (optional).}
-  \item{ct}{Thrust coefficient as numeric vector of same length as \code{v} (optional).}
   \item{rho}{Air density as numeric value. Default is \code{1.225} kg/m3 according to the International Standard Atmosphere (ISA) at sea level and 15 degrees Celsius.}
   \item{rated.p}{Rated power of wind turbine in kW as numeric value. If not given, the rated power is set to the maximum value of \code{p}.}
   \item{desc}{Plain text information about the wind turbine as string (optional).}
   
-  \item{ex}{Set to \code{TRUE} (the default), if \code{file} is an external file (not included in the package directory of \code{bReeze}) -- default is \code{FALSE}.}
-  
-  \item{plot.cp}{If \code{TRUE} (the default), the power coefficient (cp) is added to the plot (if available).}
-  \item{plot.ct}{If \code{TRUE} (the default), the thrust coefficient (ct) is added to the plot (if available).}
+  \item{x}{Power curve object created by \code{pc}.}
+  \item{cp}{If \code{TRUE} (the default), the power coefficient (cp) is added to the plot (if available).}
+  \item{ct}{If \code{TRUE} (the default), the thrust coefficient (ct) is added to the plot (if available).}
   \item{\dots}{Arguments to be passed to methods. For optional graphical parameters see below.}
 }
 \details{
@@ -147,38 +144,35 @@ All power curves are provided without any warranty of accuracy and timeliness. R
 \examples{
 \dontrun{
 # minimal theoretic power curve
-pc <- pc(x=1:25, p=c(0, 0, seq(0, 1000, length.out=8), 
-  rep(1000, 15)))
+pc <- pc(list(1:25, c(0, 0, seq(0,1000,length.out=8), rep(1000,15))))
 	
 # detailed power curve
 v <- seq(3, 25, 0.5)
 p <- c(5, 15.5, 32, 52, 71, 98, 136, 182, 230, 285, 345, 419, 497, 594, 
-  687, 760, 815, 860, 886, rep(900, 26))
-	
+  687, 760, 815, 860, 886, rep(900, 26))	
 cp <- c(0.263, NA, 0.352, NA, 0.423, NA, 0.453, NA, 0.470, NA, 0.478, 
   NA, 0.480, NA, 0.483, NA, 0.470, NA, 0.429, NA, 0.381, NA, 0.329, 
   NA, 0.281, NA, 0.236, NA, 0.199, NA, 0.168, NA, 0.142, NA, 0.122, 
-  NA, 0.105, NA, 0.092, NA, 0.080, NA, 0.071, NA, 0.063)
-	
-ct <- c(0.653, NA, 0.698, NA, 0.705, NA, 0.713, NA, 0.720, NA, 0.723, 
-  NA, 0.724, NA, 0.727, NA, 0.730, NA, 0.732, NA, 0.385, NA, 0.301, 
-  NA, 0.242, NA, 0.199, NA, 0.168, NA, 0.146, NA, 0.128, NA, 0.115, 
-  NA, 0.103, NA, 0.094, NA, 0.086, NA, 0.079, NA, 0.073)
-	
-pc.2 <- pc(x=v, p=p, cp=cp, ct=ct, rho=1.195, rated.p=900, 
-  desc="PowerWind 56")
-}
+  NA, 0.105, NA, 0.092, NA, 0.080, NA, 0.071, NA, 0.063)	
 
+# variables as list
+pc.2 <- pc(list(v=v, p=p, cp=cp), 
+  rho=1.195, rated.p=900, desc="PowerWind 56")
+
+# variables as data frame
+pc.3 <- pc(data.frame(v=v, p=p, cp=cp), 
+  rho=1.195, rated.p=900, desc="PowerWind 56")
+}
 
 \dontrun{
 # import power curve from bReeze wtg file
-vestas.v90 <- pc(x="Vestas_V90_2.0MW.wtg")
+vestas.v90 <- pc("Vestas_V90_2.0MW.wtg")
 
 # import power curve from bReeze pow file
-repower.mm92 <- pc(x="Repower_MM92_2.0MW.pow")
+repower.mm92 <- pc("Repower_MM92_2.0MW.pow")
 
 # import power curve from user file
-# e.g.: my.pc <- pc(x="~/Projects/bReeze/Sandbox/myPC.wtg", ex=TRUE)
+# e.g.: my.pc <- pc("~/Projects/bReeze/Sandbox/myPC.wtg")
 }
 }
 \keyword{methods}
