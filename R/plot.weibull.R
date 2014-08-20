@@ -92,7 +92,7 @@ function(x, show.ak=FALSE, ...) {
 	curve(dweibull(x, shape=tail(x$k, 1), scale=tail(x$A, 1)), col=line, lty=lty, lwd=lwd, add=TRUE)
 	
 	if(legend) {
-		if(show.ak) leg <- c(leg.text[1], paste0(leg.text[2], " (A:", round(tail(x$A, 1), digits=1), ", k:", round(tail(x$k, 1), digits=1), ")"))
+		if(show.ak) leg.text <- c(leg.text[1], paste0(leg.text[2], " (A:", round(tail(x$A, 1), digits=1), ", k:", round(tail(x$k, 1), digits=1), ")"))
 		legend(pos.leg, legend=leg.text, col=c(border, line), lty=c(NA, lty), lwd=c(NA, lwd), pch=c(22, NA), pt.bg=c(col, NA), bty=bty.leg, cex=cex.leg, text.col=col.leg, x.intersp=x.intersp, y.intersp=y.intersp)
 	}
 }
