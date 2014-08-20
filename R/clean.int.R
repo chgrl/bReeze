@@ -1,4 +1,4 @@
-cleanInt <-
+clean.int <-
 function(dat, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep) {
 ###	internal function for cleaning data
 	

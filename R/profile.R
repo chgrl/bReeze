@@ -24,7 +24,7 @@ function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fix
 	
 	# subset
 	if(missing(subset)) subset <- c(NA, NA)
-	start.end <- subsetInt(mast$time.stamp, subset)
+	start.end <- subset.int(mast$timestamp, subset)
 	start <- start.end[1]
 	end <- start.end[2]
 		

@@ -91,18 +91,18 @@ Measnet (2009) MEASNET Procedure: Evaluation of Site Specific Wind Conditions, V
 \dontrun{
 # load and prepare data
 data(winddata)
-set1 <- createSet(height=40, v.avg=winddata[,2], v.std=winddata[,5],
+set1 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],
   dir.avg=winddata[,14])
-set2 <- createSet(height=30, v.avg=winddata[,6], v.std=winddata[,9],
+set2 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
   dir.avg=winddata[,16])
-ts <- formatTS(time.stamp=winddata[,1])
-neubuerg <- createMast(time.stamp=ts, set1, set2)
+ts <- timestamp(timestamp=winddata[,1])
+neubuerg <- createMast(timestamp=ts, set1, set2)
 neubuerg <- clean(mast=neubuerg)
 
 # calculate aep
 nb.wp <- profile(mast=neubuerg, v.set=c(1,2), dir.set=1, 
   print=FALSE)
-pw.56 <- readPC(file="PowerWind_56_900kW.wtg")
+pw.56 <- pc("PowerWind_56_900kW.wtg")
 nb.aep <- aep(profile=nb.wp, pc=pw.56, hub.h=71, print=FALSE)
 
 # calculate uncertainty

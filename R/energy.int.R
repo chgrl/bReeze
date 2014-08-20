@@ -1,4 +1,4 @@
-energyInt <-
+energy.int <-
 function(lim, k, A, rho) {
 ### internal function for energy
 	

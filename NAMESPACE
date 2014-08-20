@@ -8,17 +8,12 @@ export(
   cln,
   createMast,
   mast,
-  createSet,
-  set,
   energy,
   en,
-  formatTS,
-  fts,
   frequency,
   freq,
-  monthStats,
+  month.stats,
   ms,
-  pc,
   plotDay,
   plday,
   plotMap,
@@ -31,10 +26,14 @@ export(
   pliec,
   plotWbDir,
   plwbd,
+  pc,
   printObject,
   probj,
   profile,
   pro,
+  set,
+  timestamp,
+  ts,
   turbulence,
   turb,
   uncertainty,
@@ -49,7 +48,7 @@ S3method(pc, read)
 S3method(plot, aep)
 S3method(plot, energy)
 S3method(plot, frequency)
-S3method(plot, monthStats)
+S3method(plot, month.stats)
 S3method(plot, pc)
 S3method(plot, profile)
 S3method(plot, turbulence)
@@ -58,9 +57,10 @@ S3method(plot, weibull)
 S3method(print, aep)
 S3method(print, energy)
 S3method(print, frequency)
-S3method(print, monthStats)
+S3method(print, month.stats)
 S3method(print, pc)
 S3method(print, profile)
+S3method(print, set)
 S3method(print, turbulence)
 S3method(print, uncertainty)
 S3method(print, weibull)

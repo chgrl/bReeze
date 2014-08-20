@@ -18,7 +18,7 @@ function(mast, v.set=1, dir.set=1, subset, ...) {
 	
 	# subset
 	if(missing(subset)) subset <- c(NA, NA)
-	start.end <- subsetInt(mast$time.stamp, subset)
+	start.end <- subset.int(mast$timestamp, subset)
 	start <- start.end[1]
 	end <- start.end[2]
 	

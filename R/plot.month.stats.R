@@ -1,4 +1,4 @@
-plot.monthStats <- 
+plot.month.stats <- 
 function(x, set, ...) {
 ### plotting monthly data
 		

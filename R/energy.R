@@ -13,7 +13,7 @@ function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 	subset <- attr(wb, "call")$subset
 	
 	# subset
-	start.end <- subsetInt(mast$time.stamp, subset)
+	start.end <- subset.int(mast$timestamp, subset)
 	start <- start.end[1]
 	end <- start.end[2]
 	
@@ -50,10 +50,10 @@ function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 	
 	for(i in 1:num.sectors) {
 		if(!is.null(bins)) {
-			for(j in 2:dim(freq)[2]) energy.tbl[i,j] <- round(energyInt(lim, wb$k[i], wb$A[i], rho)*freq[i,j]/100, digits)
-			energy.tbl[i,1] <- round(energyInt(lim, wb$k[i], wb$A[i], rho)*freq[i,1]/100, digits)
+			for(j in 2:dim(freq)[2]) energy.tbl[i,j] <- round(energy.int(lim, wb$k[i], wb$A[i], rho)*freq[i,j]/100, digits)
+			energy.tbl[i,1] <- round(energy.int(lim, wb$k[i], wb$A[i], rho)*freq[i,1]/100, digits)
 		} else {
-			energy.tbl[i,1] <- round(energyInt(lim, wb$k[i], wb$A[i], rho)*freq[i]/100, digits)
+			energy.tbl[i,1] <- round(energy.int(lim, wb$k[i], wb$A[i], rho)*freq[i]/100, digits)
 		}
 	}
 	for(i in 1:(num.classes+1)) energy.tbl[num.sectors+1,i] <- sum(energy.tbl[1:num.sectors,i], na.rm=TRUE)

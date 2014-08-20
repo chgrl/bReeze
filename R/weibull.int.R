@@ -1,4 +1,4 @@
-weibullInt <-
+weibull.int <-
 function(v.dat, msg) {
 ### internal function for calculation weibull parameters
  		

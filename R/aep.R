@@ -12,10 +12,8 @@ function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FA
 	if(missing(digits)) digits <- c(3,0,0,3)
 	if(missing(print)) print <- TRUE
 	
-	if(is.null(attr(profile, "call"))) stop(substitute(profile), " is no profile object")
-	if(attr(profile, "call")$func!="profile") stop(substitute(profile), " is no profile object")
-	if(is.null(attr(pc, "call"))) stop(substitute(pc), " is no profile object")
-	if(attr(pc, "call")$func!="createPC" && attr(pc, "call")$func!="readPC") stop(substitute(pc), " is no power curve object - use createPC to create a power curve or readPC to import a power curve from file")
+	if(class(profile)!="profile") stop(substitute(profile), " is no profile object")
+	if(class(pc)!="pc") stop(substitute(pc), " is no power curve object")
 	if(!is.numeric(hub.h)) stop("'hub.h' must be numeric")
 	if(!is.numeric(rho)) stop("'rho' must be numeric")
 	if(!is.numeric(avail)) stop("'avail' must be numeric")
@@ -36,7 +34,7 @@ function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FA
 	rated.p <- attr(pc, "rated.power")
 	
 	# subset
-	start.end <- subsetInt(mast$time.stamp, subset)
+	start.end <- subset.int(mast$timestamp, subset)
 	start <- start.end[1]
 	end <- start.end[2]
 	
@@ -100,12 +98,12 @@ function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FA
 			
 		aep.tbl$wind.speed[i] <- round(mean(v.hh[sector.idx], na.rm=TRUE), digits[1])
 		aep.tbl$operation[i] <- op <- round(length(v.hh[sector.idx])/length(v.hh)*8760, digits[2])
-		wb.par <- weibullInt(v.hh[sector.idx], FALSE)
+		wb.par <- weibull.int(v.hh[sector.idx], FALSE)
 		if(!is.null(bins)) {
-			for(j in 2:num.classes) aep.tbl[i,j+2] <- round(aepInt(wb.par, c(bins[j-1],bins[j]), pc, rho.pc, op, rho, avail), digits[3])
-			aep.tbl[i,num.classes+3] <- round(aepInt(wb.par, c(bins[num.classes],lim.max), pc, rho.pc, op, rho, avail), digits[3])
+			for(j in 2:num.classes) aep.tbl[i,j+2] <- round(aep.int(wb.par, c(bins[j-1],bins[j]), pc, rho.pc, op, rho, avail), digits[3])
+			aep.tbl[i,num.classes+3] <- round(aep.int(wb.par, c(bins[num.classes],lim.max), pc, rho.pc, op, rho, avail), digits[3])
 		}
-		aep.tbl$total[i] <- round(aepInt(wb.par, c(0,lim.max), pc, rho.pc, op, rho, avail), digits[3])
+		aep.tbl$total[i] <- round(aep.int(wb.par, c(0,lim.max), pc, rho.pc, op, rho, avail), digits[3])
 	}
 	aep.tbl$wind.speed[num.sectors+1] <- round(mean(v.hh, na.rm=TRUE), digits=digits[1])
 	aep.tbl$operation[num.sectors+1] <- 8760

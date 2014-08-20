@@ -48,9 +48,9 @@ The following graphical parameters can optionally be added to customize the plot
 \dontrun{
 # load and prepare data
 data(winddata)
-set1 <- createSet(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
-ts <- formatTS(time.stamp=winddata[,1])
-neubuerg <- createMast(time.stamp=ts, set1)
+set1 <- set(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
+ts <- timestamp(timestamp=winddata[,1])
+neubuerg <- createMast(timestamp=ts, set1)
 neubuerg <- clean(mast=neubuerg)
 
 # calculate Weibull parameters

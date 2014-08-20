@@ -1,4 +1,4 @@
-availabilityInt <-
+availability.int <-
 function(v.avg, dir.avg, ts, start.year, start.month, num.months, period.days, digits) {
 ### internal function for calculation of availability
 

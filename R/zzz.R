@@ -25,10 +25,7 @@ cln <-
 function(mast, set, v.avg.min=0.4, v.avg.max=50, dir.clean=TRUE, turb.clean=4, icing=FALSE, rep=NULL, n.rep=5) clean(mast, set, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep)
 
 mast <- 
-function(time.stamp, ..., loc=NULL, desc=NULL) createMast(time.stamp=time.stamp, loc=loc, desc=desc, ...)
-	
-set <- 
-function(height, desc, v.avg, v.max, v.min, v.std, dir.avg, dir.std, tmp, ...) createSet(height, desc, v.avg, v.max, v.min, v.std, dir.avg, dir.std, tmp, ...)
+function(timestamp, ..., loc=NULL, desc=NULL) createMast(timestamp=timestamp, loc=loc, desc=desc, ...)
 
 en <- 
 function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) energy(wb, rho, bins, digits, print)
@@ -36,14 +33,14 @@ function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) energy(wb, rho
 freq <- 
 function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digits=3, print=TRUE) frequency(mast, v.set, dir.set, num.sectors, bins, subset, digits, print)
 
-fts <- 
-function(time.stamp, pattern, tz) formatTS(time.stamp, pattern, tz)
+ts <- 
+function(timestamp, pattern, tz) timestamp(timestamp, pattern, tz)
 
 map <- 
 function(mast, type=c("satellite", "terrain", "hybrid", "roadmap"), zoom, label, ...) plotMap(mast, type, zoom, label, ...)
 
 ms <- 
-function(mast, set, signal="v.avg", fun=c("mean", "median", "min", "max", "sd"), subset, digits=3, print=TRUE) monthStats(mast, set, signal, fun, subset, digits, print)
+function(mast, set, signal="v.avg", fun=c("mean", "median", "min", "max", "sd"), subset, digits=3, print=TRUE) month.stats(mast, set, signal, fun, subset, digits, print)
 
 plday <- 
 function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) plotDay(mast, set, dir.set, signal, num.sectors, subset, ...)

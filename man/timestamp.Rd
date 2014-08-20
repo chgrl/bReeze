@@ -1,20 +1,20 @@
 \encoding{UTF-8}
-\name{formatTS}
-\alias{formatTS}
-\alias{fts}
+\name{timestamp}
+\alias{timestamp}
+\alias{ts}
 \title{Format time stamps}
 \description{Converts time stamps from string to \code{POSIXlt}. The conversion specification (pattern) is looked up if not given as argument.}
 \usage{
-formatTS(time.stamp, pattern, tz)
-fts(time.stamp, pattern, tz)
+timestamp(timestamp, pattern, tz)
+ts(timestamp, pattern, tz)
 }
 \arguments{
-  \item{time.stamp}{Time stamp as string vector.}
+  \item{timestamp}{Time stamp as string vector.}
   \item{pattern}{Conversion specification of time stamp as string (optional). See Details for usage.}
-  \item{tz}{Optional character string specifying the time zone to be used for the conversion. System-specific (see \code{\link{as.POSIXlt}}), but \code{""} is the current time zone (used as default). Use \code{"?"} to check \code{time.stamp} for time zone abbreviation.}
+  \item{tz}{Optional character string specifying the time zone to be used for the conversion. System-specific (see \code{\link{as.POSIXlt}}), but \code{""} is the current time zone (used as default). Use \code{"?"} to check \code{timestamp} for time zone abbreviation.}
 }
 \details{
-If the time stamp is already formatted as \code{POSIXlt}, the usage of \code{formatTS} is not necessary. \code{\link{strptime}} can also be used to create an applicable time stamp. Usage of \code{formatTS} is recommeded, since it checks the created time stamp, thus faulty time stamps are avoided.
+If the time stamp is already formatted as \code{POSIXlt}, the usage of \code{timestamp} is not necessary. \code{\link{strptime}} can also be used to create an applicable time stamp. Usage of \code{timestamp} is recommeded, since it checks the created time stamp, thus faulty time stamps are avoided.
 
 \emph{Pattern}
 
@@ -40,23 +40,23 @@ For details see \code{\link{strptime}}.
 data(winddata)
 
 # format time stamp
-time.stamp <- formatTS(time.stamp=winddata[,1])
+timestamp <- timestamp(timestamp=winddata[,1])
 
 # format time stamp with given pattern
-time.stamp.2 <- formatTS(time.stamp=winddata[,1], "\%d.\%m.\%Y \%H:\%M")
+timestamp.2 <- timestamp(timestamp=winddata[,1], "\%d.\%m.\%Y \%H:\%M")
 
 # wrong pattern (\%y)
-time.stamp.2 <- formatTS(time.stamp=winddata[,1], "\%d.\%m.\%y \%H:\%M")
+timestamp.2 <- timestamp(timestamp=winddata[,1], "\%d.\%m.\%y \%H:\%M")
 
 # strange time stamp pattern
 ts <- c("TS 08/2012-10 8h10m30s", "TS 08/2012-10 8h20m30s", 
   "TS 08/2012-10 8h30m30s")
-time.stamp.3 <- formatTS(time.stamp=ts)	# pattern not found
-time.stamp.3 <- formatTS(time.stamp=ts, "TS \%m/\%Y-\%d \%Hh\%Mm\%Ss")
+timestamp.3 <- timestamp(timestamp=ts)	# pattern not found
+timestamp.3 <- timestamp(timestamp=ts, "TS \%m/\%Y-\%d \%Hh\%Mm\%Ss")
 
 # time zone
-time.stamp.4 <- formatTS(time.stamp=winddata[,1], tz="CEST")
-time.stamp.5 <- formatTS(time.stamp="2012-08-08 22:55 GMT", tz="?")
+timestamp.4 <- timestamp(timestamp=winddata[,1], tz="CEST")
+timestamp.5 <- timestamp(timestamp="2012-08-08 22:55 GMT", tz="?")
 }
 }
 \keyword{methods}

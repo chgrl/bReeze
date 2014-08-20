@@ -1,9 +1,9 @@
 \encoding{UTF-8}
-\name{weibullInt}
-\alias{weibullInt}
+\name{weibull.int}
+\alias{weibull.int}
 \title{Internal function for weibull}
 \description{Internal function for \code{\link{weibull}}}
-\usage{weibullInt(v.dat, msg)}
+\usage{weibull.int(v.dat, msg)}
 \arguments{
   \item{v.dat}{Vector of wind speed data.}
   \item{msg}{If \code{TRUE}, messages are printed.}

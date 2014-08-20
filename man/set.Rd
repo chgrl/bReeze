@@ -1,12 +1,9 @@
 \encoding{UTF-8}
-\name{createSet}
-\alias{createSet}
+\name{set}
 \alias{set}
 \title{Creation of datasets}
 \description{Creates a dataset object, by combining all signals of one height of measurement.}
 \usage{
-createSet(height, desc, v.avg, v.max, v.min, v.std, 
-  dir.avg, dir.std, tmp, ...)
 set(height, desc, v.avg, v.max, v.min, v.std, 
   dir.avg, dir.std, tmp, ...)
 }
@@ -35,24 +32,20 @@ Returns a dataset object which is a list of:
   \item{data}{Data of measured signals.}
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}, \code{\link{printObject}}}
+\seealso{\code{\link{createMast}}}
 \examples{
 \dontrun{
 # load data
 data(winddata)
 
 # minimal dataset
-set <- createSet(height=40, v.avg=winddata[,2])
+s <- set(height=40, v.avg=winddata[,2])
 
 # detailed dataset
-set.2 <- createSet(height=40, desc=
+s2 <- set(height=40, desc=
   "C1: cup anemometer (SN: 4.3250.128), A1: wind vane (SN: 4.2800.205)", 
   v.avg=winddata[,2], v.max=winddata[,3], v.min=winddata[,4], 
   v.std=winddata[,5], dir.avg=winddata[,14], dir.std=winddata[,15])
-
-# print
-printObject(object=set)
-printObject(object=set.2)
 }
 }
 \keyword{methods}

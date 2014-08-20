@@ -1,4 +1,4 @@
-monthStatsInt <-
+month.stats.int <-
 function(data, fun, ts, years, digits) {
 ### internal funtion for calculation of month.stats
 

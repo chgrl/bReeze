@@ -10,14 +10,14 @@ printObject <- function(object) {
 		num.samples <- nrow(object$sets[[1]]$data)
 		heights <- object$sets[[1]]$height
 		h.unit <- attr(object$sets[[1]]$height, "unit")
-		interval <- object$time.stamp[2]-object$time.stamp[1]
+		interval <- object$timestamp[2]-object$timestamp[1]
 		if(attr(interval, "units")=="days" && interval>1) warning("Availability cannot be calculated - time interval longer than 1 day", call.=FALSE)
 		if(attr(interval, "units")=="days") daily.samples <- interval
 		if(attr(interval, "units")=="hours") daily.samples <- 24/as.numeric(interval)
 		if(attr(interval, "units")=="mins") daily.samples <- 24*60/as.numeric(interval)
 		if(attr(interval, "units")=="secs") daily.samples <- 24*60*60/as.numeric(interval)
-		period.start <- as.character(object$time.stamp[1])
-		period.end <- as.character(object$time.stamp[num.samples])
+		period.start <- as.character(object$timestamp[1])
+		period.end <- as.character(object$timestamp[num.samples])
 		if(nchar(period.start)==10) period.start <- paste(period.start, "00:00:00")
 		if(nchar(period.end)==10) period.end <- paste(period.end, "00:00:00")
 		period.start <- strptime(period.start, format="%Y-%m-%d %H:%M:%S")
@@ -102,28 +102,5 @@ printObject <- function(object) {
 		cat("\t(o=original data, c=cleaned data)\n")
 		
 		invisible(r)
-	} else if(attr(object, "call")$func=="createSet") { # set object
-		cat("\n\tDataset", substitute(object), "\n\n")
-		if(!is.null(object$description)) cat("description:", object$description, "\n")
-		cat("samples:", nrow(object$data), "\n")
-		cat("height:", object$height, attr(object$height, "unit"), "\n")
-		signals <- names(object$data)
-		if(!is.null(object$data$v.avg) && !is.null(object$data$dir.avg)) cat(paste0("availability: ", round(sum(!is.na(object$data$v.avg) & !is.na(object$data$dir.avg)) * 100 / nrow(object$data)), "%\n")) else cat("availability: 0%\n")
-		cat("\nsignals:")
-		if(is.null(attr(object$data, "clean"))) clean <- "not cleaned"
-		else clean <- unlist(attr(object$data, "clean"))
-		sig.tbl <- data.frame(matrix(NA, nrow=length(signals), ncol=1))
-		names(sig.tbl) <- " "
-		row.names(sig.tbl) <- signals
-		for(i in 1:length(signals)) if(any(signals==row.names(sig.tbl)[i])) sig.tbl[i,1] <- "(original)"
-		if(length(clean)!=1 && clean[1]!="not cleaned") {
-			if(any(names(clean)=="v.avg.min" || names(clean)=="v.avg.max")) if(any(signals=="v.avg")) sig.tbl[which(row.names(sig.tbl)=="v.avg"),1] <- "(cleaned) "
-			if(any(names(clean)=="dir.clean")) if(clean[names(clean)=="dir.clean"]) if(any(signals=="dir.avg")) sig.tbl[which(row.names(sig.tbl)=="dir.avg"),1] <- "(cleaned) "
-			if(any(names(clean)=="icing")) if(clean[names(clean)=="icing"]) if(any(signals=="dir.avg")) sig.tbl[which(row.names(sig.tbl)=="dir.avg"),2] <- "(cleaned) "
-			if(any(names(clean)=="turb.clean")) if(any(signals=="turb.int")) sig.tbl[which(row.names(sig.tbl)=="turb.int"),1] <- "(cleaned) "
-		}
-		sig.tbl[is.na(sig.tbl)] <- ""
-		print(sig.tbl, quote=FALSE)
-		cat("\n")
 	} else stop(substitute(object), " seems not to be a bReeze object")
 }

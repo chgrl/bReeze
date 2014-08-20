@@ -1,9 +1,9 @@
 \encoding{UTF-8}
-\name{energyInt}
-\alias{energyInt}
+\name{energy.int}
+\alias{energy.int}
 \title{Internal function for energy}
 \description{Internal function for \code{\link{energy}}}
-\usage{energyInt(lim, k, A, rho)}
+\usage{energy.int(lim, k, A, rho)}
 \arguments{
   \item{lim}{Lower and upper calculation limit (wind speed) as numeric vector.}
   \item{k}{Shape parameter of the weibull distribution.}

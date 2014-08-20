@@ -37,9 +37,9 @@ This function is based on the \code{RgoogleMaps} package by Markus Loecher, whic
 \dontrun{
 # load and prepare data
 data(winddata)
-set1 <- createSet(height=40, v.avg=winddata[,2])
-ts <- formatTS(winddata[,1])
-neubuerg <- createMast(time.stamp=ts, set1, loc=c(49.8909,11.4017))
+set1 <- set(height=40, v.avg=winddata[,2])
+ts <- timestamp(winddata[,1])
+neubuerg <- createMast(timestamp=ts, set1, loc=c(49.8909,11.4017))
 
 # plot satellite image
 plotMap(neubuerg)

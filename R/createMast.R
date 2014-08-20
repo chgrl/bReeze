@@ -1,8 +1,8 @@
 createMast <-
-function(time.stamp, ..., loc=NULL, desc=NULL) {
+function(timestamp, ..., loc=NULL, desc=NULL) {
 ### creating met mast from several datasets
 
-	if(missing(time.stamp)) stop("'time.stamp' is mandatory")
+	if(missing(timestamp)) stop("'timestamp' is mandatory")
 	if(!is.null(loc)) {
 		if(!is.vector(loc)) stop("'location' must be a vector of latitude and longitude")
 		if(length(loc)!=2) stop("'location' must be a numeric vector of latitude and longitude")
@@ -12,16 +12,12 @@ function(time.stamp, ..., loc=NULL, desc=NULL) {
 	
 	l <- list(...)
 	
-	# check sets and time stamp
+	# check sets and timestamp
 	num.sets <- length(l)
-	if(num.sets<1) stop("No data - please add at least one set created by createSet")
-	for(i in 1:num.sets) {
-		if(is.null(attr(l[[i]], "call"))) stop(names(l)[i], " is no set object - please use createSet")
-		if(attr(l[[i]], "call")$func!="createSet") stop(names(l)[i], " is no set object - please use createSet")
-		attr(l[[i]], "call") <- NULL
-	}
-	if(any(class(time.stamp)=="POSIXlt")==FALSE) stop("'time.stamp' must be given in POSIXlt format - for reformating use formatTS")
-	if(length(time.stamp)!=length(l[[1]]$data[,1])) stop("Different length of time.stamp and sets")
+	if(num.sets<1) stop("No data - please add at least one data set")
+	for(i in 1:num.sets) if(class(l[[i]])!="set") stop(names(l)[i], " is no set object")
+	if(any(class(timestamp)=="POSIXlt")==FALSE) stop("'timestamp' must be given in POSIXlt format - for reformating use timestamp")
+	if(length(timestamp)!=length(l[[1]]$data[,1])) stop("Different length of timestamp and sets")
 	
 	# check units
 	var.names <- NULL
@@ -54,11 +50,11 @@ function(time.stamp, ..., loc=NULL, desc=NULL) {
 	else for(i in 1:length(l)) if(names(l)[i]=="") names(l)[i] <- paste0("set", i)
 	
 	if(is.null(loc)) {
-		if(is.null(desc)) r <- list(time.stamp=time.stamp, sets=l)
-		else r <- list(time.stamp=time.stamp, description=desc, sets=l)
+		if(is.null(desc)) r <- list(timestamp=timestamp, sets=l)
+		else r <- list(timestamp=timestamp, description=desc, sets=l)
 	} else {
-		if(is.null(desc)) r <- list(time.stamp=time.stamp, location=loc, sets=l)
-		else r <- list(time.stamp=time.stamp, location=loc, description=desc, sets=l)
+		if(is.null(desc)) r <- list(timestamp=timestamp, location=loc, sets=l)
+		else r <- list(timestamp=timestamp, location=loc, description=desc, sets=l)
 	}
 	attr(r, "call") <- list(func="createMast")
 	

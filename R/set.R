@@ -1,4 +1,4 @@
-createSet <- 
+set <- 
 function(height, desc, v.avg, v.max, v.min, v.std, dir.avg, dir.std, tmp, ...) {
 ### creating dataset in particular height
 
@@ -30,7 +30,7 @@ function(height, desc, v.avg, v.max, v.min, v.std, dir.avg, dir.std, tmp, ...) {
 	
 	if(is.null(desc)) l <- list(height=height, data=data)
 	else l <- list(height=height, description=desc, data=data)
-	attr(l, "call") <- list(func="createSet")
+	class(l) <- "set"
 	
 	return(l)
 }

@@ -22,7 +22,7 @@ function(mast, v.set, dir.set, num.sectors=12, subset, digits=3, print=TRUE) {
 	
 	# subset
 	if(missing(subset)) subset <- c(NA, NA)
-	start.end <- subsetInt(mast$time.stamp, subset)
+	start.end <- subset.int(mast$timestamp, subset)
 	start <- start.end[1]
 	end <- start.end[2]
 	v <- mast$sets[[v.set]]$data$v.avg[start:end]
@@ -39,11 +39,11 @@ function(mast, v.set, dir.set, num.sectors=12, subset, digits=3, print=TRUE) {
 		if(low<high) sector.idx <- d>=low & d<high
 		else sector.idx <- d>=low | d<high
 
-		weibull.param <- weibullInt(v[sector.idx], FALSE)
+		weibull.param <- weibull.int(v[sector.idx], FALSE)
 		weibull.tbl[s,1] <- weibull.param$A
 		weibull.tbl[s,2] <- weibull.param$k
 	}
-	weibull.param <- weibullInt(v, TRUE)
+	weibull.param <- weibull.int(v, TRUE)
 	weibull.tbl[num.sectors+1,1] <- weibull.param$A
 	weibull.tbl[num.sectors+1,2] <- weibull.param$k
 	

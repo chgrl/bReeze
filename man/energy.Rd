@@ -82,13 +82,13 @@ Troen, I., Petersen, E.L. (1989) \emph{European Wind Atlas}. Tønder: Laursen
 \dontrun{
 # load and prepare data
 data(winddata)
-set1 <- createSet(height=40, v.avg=winddata[,2], v.std=winddata[,5],
+set1 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],
   dir.avg=winddata[,14])
-set2 <- createSet(height=30, v.avg=winddata[,6], v.std=winddata[,9],
+set2 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
   dir.avg=winddata[,16])
-set3 <- createSet(height=20, v.avg=winddata[,10], v.std=winddata[,13])
-ts <- formatTS(time.stamp=winddata[,1])
-neubuerg <- createMast(time.stamp=ts, set1, set2, set3)
+set3 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])
+ts <- timestamp(timestamp=winddata[,1])
+neubuerg <- createMast(timestamp=ts, set1, set2, set3)
 neubuerg <- clean(mast=neubuerg)
 
 # calculate Weibull object

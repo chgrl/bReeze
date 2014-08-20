@@ -23,7 +23,7 @@ function(x, sector, measured=TRUE, ...) {
 	}
 	
 	# subset
-	start.end <- subsetInt(mast$time.stamp, subset)
+	start.end <- subset.int(mast$timestamp, subset)
 	start <- start.end[1]
 	end <- start.end[2]
 	

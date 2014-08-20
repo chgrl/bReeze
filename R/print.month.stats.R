@@ -1,6 +1,6 @@
-print.monthStats <- 
+print.month.stats <- 
 function(x, ...) {
-### summarising monthStats object information
+### summarising month.stats object information
 	
 	cat("\n\tMonthly statistics\n\n")
 	cat(names(x)[1], "\n")
@@ -22,5 +22,5 @@ function(x, ...) {
 	if(attr(x, "call")$set=="all") attr(x, "call")$set <- "\"all\""
 	if(!any(!is.na(attr(x, "call")$subset))) subs <- ", subset=NA"
 	else subs <- paste0(", subset=c(\"", paste(attr(x, "call")$subset, collapse="\", \""), "\")")
-	cat("call: monthStats(mast=", attr(x, "call")$mast, ", set=", attr(x, "call")$set, ", signal=\"", attr(x, "call")$signal, "\", fun=\"", attr(x, "call")$fun, "\"", subs, ", digits=", attr(x, "call")$digits, ", print=", attr(x, "call")$print, ")\n\n", sep="")
+	cat("call: month.stats(mast=", attr(x, "call")$mast, ", set=", attr(x, "call")$set, ", signal=\"", attr(x, "call")$signal, "\", fun=\"", attr(x, "call")$fun, "\"", subs, ", digits=", attr(x, "call")$digits, ", print=", attr(x, "call")$print, ")\n\n", sep="")
 }

@@ -1,4 +1,4 @@
-aepInt <-
+aep.int <-
 function(wb.par, lim, pc, rho.pc, op, rho, avail) {
 ### internal function for calculation of annual energy production
 	

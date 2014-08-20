@@ -96,11 +96,11 @@ International Electrotechnical Commission (2005) IEC 61400-12 Wind Turbines -- P
 \dontrun{
 # load and prepare data
 data(winddata)
-set40 <- createSet(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
-set30 <- createSet(height=30, v.avg=winddata[,6], dir.avg=winddata[,16])
-set20 <- createSet(height=20, v.avg=winddata[,10], v.std=winddata[,13])
-ts <- formatTS(time.stamp=winddata[,1])
-neubuerg <- createMast(time.stamp=ts, set40, set30, set20)
+set40 <- set(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
+set30 <- set(height=30, v.avg=winddata[,6], dir.avg=winddata[,16])
+set20 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])
+ts <- timestamp(timestamp=winddata[,1])
+neubuerg <- createMast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
 # create profile based on one height

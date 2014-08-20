@@ -16,20 +16,20 @@ function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
 	
 	# subset
 	if(missing(subset)) subset <- c(NA, NA)
-	start.end <- subsetInt(mast$time.stamp, subset)
+	start.end <- subset.int(mast$timestamp, subset)
 	start <- start.end[1]
 	end <- start.end[2]
 	
-	num.samples <- length(mast$time.stamp[start:end])
-	start.year <- mast$time.stamp[start:end]$year[1]+1900
-	end.year <- mast$time.stamp[start:end]$year[num.samples]+1900
-	start.month <- mast$time.stamp[start:end]$mon[1]+1
-	end.month <- mast$time.stamp[start:end]$mon[num.samples]+1
-	start.day <- mast$time.stamp[start:end]$mday[1]
-	end.day <- mast$time.stamp[start:end]$mday[num.samples]
+	num.samples <- length(mast$timestamp[start:end])
+	start.year <- mast$timestamp[start:end]$year[1]+1900
+	end.year <- mast$timestamp[start:end]$year[num.samples]+1900
+	start.month <- mast$timestamp[start:end]$mon[1]+1
+	end.month <- mast$timestamp[start:end]$mon[num.samples]+1
+	start.day <- mast$timestamp[start:end]$mday[1]
+	end.day <- mast$timestamp[start:end]$mday[num.samples]
 	if(start.year==end.year) num.months <- end.month-start.month+1
 	if(start.year!=end.year) num.months <- 13-start.month+end.month + 12*(end.year-start.year-1)
-	period.days <- as.numeric(mast$time.stamp[start:end][num.samples]-mast$time.stamp[start:end][1])
+	period.days <- as.numeric(mast$timestamp[start:end][num.samples]-mast$timestamp[start:end][1])
 	
 	if(all(v.set!="all")) {
 		if(length(v.set)==1 && length(dir.set)==1) { # one set
@@ -38,7 +38,7 @@ function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
 			if(is.null(mast$sets[[v.set]]$data$v.avg)) stop("'v.set' does not contain average wind speed data")
 			if(is.null(mast$sets[[dir.set]]$data$dir.avg)) stop("'dir.set' does not contain average wind direction data")
 			if(any(attr(mast$sets[[v.set]]$data, "clean")=="v.avg") && any(attr(mast$sets[[dir.set]]$data, "clean")=="dir.avg")) message("Set(s) not cleaned - cleaning of wind speed v.avg and wind direction dir.avg using 'clean' is recommended to avoid overestimated availability")
-			avail <- list(availabilityInt(mast$sets[[v.set]]$data$v.avg[start:end], mast$sets[[dir.set]]$data$dir.avg[start:end], mast$time.stamp[start:end], start.year, start.month, num.months, period.days, digits))
+			avail <- list(availability.int(mast$sets[[v.set]]$data$v.avg[start:end], mast$sets[[dir.set]]$data$dir.avg[start:end], mast$timestamp[start:end], start.year, start.month, num.months, period.days, digits))
 			if(v.set==dir.set) names(avail) <- names(mast$sets)[v.set]
 			else names(avail) <- paste0(names(mast$sets)[v.set], "_", names(mast$sets)[dir.set])
 		} else { # list of sets
@@ -53,7 +53,7 @@ function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
 					if(is.null(mast$sets[[dir.set[s]]]$data$dir.avg)) stop("'dir.set' does not contain average wind direction data")
 					if(any(attr(mast$sets[[v.set[s]]]$data, "clean")=="v.avg") && any(attr(mast$sets[[dir.set[s]]]$data, "clean")=="dir.avg")) message("Set(s) not cleaned - cleaning of wind speed v.avg and wind direction dir.avg using 'clean' is recommended to avoid overestimated availability")
 					
-					avail.s <- availabilityInt(mast$sets[[v.set[s]]]$data$v.avg[start:end], mast$sets[[dir.set[s]]]$data$dir.avg[start:end], mast$time.stamp[start:end], start.year, start.month, num.months, period.days, digits)
+					avail.s <- availability.int(mast$sets[[v.set[s]]]$data$v.avg[start:end], mast$sets[[dir.set[s]]]$data$dir.avg[start:end], mast$timestamp[start:end], start.year, start.month, num.months, period.days, digits)
 					if(!is.null(avail)) avail[[length(avail)+1]] <- avail.s
 					if(is.null(avail)) avail <- list(avail.s)
 					if(any(attr(mast$sets[[v.set[s]]]$data, "clean")=="v.avg") && any(attr(mast$sets[[v.set[s]]]$data, "clean")=="dir.avg")) uncleaned <- uncleaned+1
@@ -72,7 +72,7 @@ function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
 						if(is.null(mast$sets[[dir.set[s]]]$data$dir.avg)) stop("'dir.set' does not contain average wind direction data")
 						if(any(attr(mast$sets[[v.set]]$data, "clean")=="v.avg") && any(attr(mast$sets[[dir.set[s]]]$data, "clean")=="dir.avg")) message("Set(s) not cleaned - cleaning of wind speed v.avg and wind direction dir.avg using 'clean' is recommended to avoid overestimated availability")
 						
-						avail.s <- availabilityInt(mast$sets[[v.set]]$data$v.avg[start:end], mast$sets[[dir.set[s]]]$data$dir.avg[start:end], mast$time.stamp[start:end], start.year, start.month, num.months, period.days, digits)
+						avail.s <- availability.int(mast$sets[[v.set]]$data$v.avg[start:end], mast$sets[[dir.set[s]]]$data$dir.avg[start:end], mast$timestamp[start:end], start.year, start.month, num.months, period.days, digits)
 						if(!is.null(avail)) avail[[length(avail)+1]] <- avail.s
 						if(is.null(avail)) avail <- list(avail.s)
 						if(any(attr(mast$sets[[v.set]]$data, "clean")=="v.avg") && any(attr(mast$sets[[v.set]]$data, "clean")=="dir.avg")) uncleaned <- uncleaned+1
@@ -87,7 +87,7 @@ function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
 						if(is.null(mast$sets[[dir.set]]$data$dir.avg)) stop("'dir.set' does not contain average wind direction data")
 						if(any(attr(mast$sets[[v.set[s]]]$data, "clean")=="v.avg") && any(attr(mast$sets[[dir.set]]$data, "clean")=="dir.avg")) message("Set(s) not cleaned - cleaning of wind speed v.avg and wind direction dir.avg using 'clean' is recommended to avoid overestimated availability")
 						
-						avail.s <- availabilityInt(mast$sets[[v.set[s]]]$data$v.avg[start:end], mast$sets[[dir.set]]$data$dir.avg[start:end], mast$time.stamp[start:end], start.year, start.month, num.months, period.days, digits)
+						avail.s <- availability.int(mast$sets[[v.set[s]]]$data$v.avg[start:end], mast$sets[[dir.set]]$data$dir.avg[start:end], mast$timestamp[start:end], start.year, start.month, num.months, period.days, digits)
 						if(!is.null(avail)) avail[[length(avail)+1]] <- avail.s
 						if(is.null(avail)) avail <- list(avail.s)
 						if(any(attr(mast$sets[[v.set[s]]]$data, "clean")=="v.avg") && any(attr(mast$sets[[v.set[s]]]$data, "clean")=="dir.avg")) uncleaned <- uncleaned+1
@@ -105,7 +105,7 @@ function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
 		uncleaned <- 0
 		
 		for(s in 1:length(set.index)) {
-			avail.s <- availabilityInt(mast$sets[[set.index[s]]]$data$v.avg[start:end], mast$sets[[set.index[s]]]$data$dir.avg[start:end], mast$time.stamp[start:end], start.year, start.month, num.months, period.days, digits)
+			avail.s <- availability.int(mast$sets[[set.index[s]]]$data$v.avg[start:end], mast$sets[[set.index[s]]]$data$dir.avg[start:end], mast$timestamp[start:end], start.year, start.month, num.months, period.days, digits)
 			if(!is.null(avail)) avail[[length(avail)+1]] <- avail.s
 			if(is.null(avail)) avail <- list(avail.s)
 			if(any(attr(mast$sets[[set.index[s]]]$data, "clean")=="v.avg") && any(attr(mast$sets[[set.index[s]]]$data, "clean")=="dir.avg")) uncleaned <- uncleaned+1

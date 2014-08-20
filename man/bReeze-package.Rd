@@ -44,16 +44,16 @@ Further references are given under the specific functions of the package.
 data(winddata)
 
 # create two datasets
-set40 <- createSet(height=40, v.avg=winddata[,2], v.std=winddata[,5],
+set40 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],
   dir.avg=winddata[,14])
-set30 <- createSet(height=30, v.avg=winddata[,6], v.std=winddata[,9],
+set30 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
   dir.avg=winddata[,16])
 
 # format time stamp
-ts <- formatTS(time.stamp=winddata[,1])
+ts <- timestamp(timestamp=winddata[,1])
 
 # create met mast object
-metmast <- createMast(time.stamp=ts, set40=set40, set30=set30)
+metmast <- createMast(timestamp=ts, set40=set40, set30=set30)
 
 # plot time series of met mast signals
 plotTimeSeries(mast=metmast)
@@ -83,7 +83,7 @@ energy(wb=wb)
 pf <- profile(mast=metmast, v.set=c(1,2), dir.set=1)
 
 # import power curve
-pc <- readPC(file="Enercon_E126_7.5MW.pow")
+pc <- pc("Enercon_E126_7.5MW.pow")
 
 # calculate annual energy production
 aep <- aep(profile=pf, pc=pc, hub.h=135)

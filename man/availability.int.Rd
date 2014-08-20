@@ -1,10 +1,10 @@
 \encoding{UTF-8}
-\name{availabilityInt}
-\alias{availabilityInt}
+\name{availability.int}
+\alias{availability.int}
 \title{Internal function for availability}
 \description{Internal function for \code{\link{availability}}}
 \usage{
-availabilityInt(v.avg, dir.avg, ts, start.year, start.month, 
+availability.int(v.avg, dir.avg, ts, start.year, start.month, 
   num.months, period.days, digits)
 }
 \arguments{

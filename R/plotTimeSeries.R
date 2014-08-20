@@ -5,7 +5,7 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 	if(is.null(attr(mast, "call"))) stop(substitute(mast), " is no mast object")
 	if(attr(mast, "call")$func!="createMast") stop(substitute(mast), " is no mast object")
 	num.sets <- length(mast$sets)
-	time.stamp <- mast$time.stamp
+	timestamp <- mast$timestamp
 	
 	if(missing(set)) set <- 1:num.sets
 	if(!is.numeric(set)) set <- match(set, names(mast$sets))
@@ -14,7 +14,7 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 	
 	# subset
 	if(missing(subset)) subset <- c(NA, NA)
-	start.end <- subsetInt(time.stamp, subset)
+	start.end <- subset.int(timestamp, subset)
 	start <- start.end[1]
 	end <- start.end[2]
 	
@@ -113,16 +113,16 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 		par(mar=mar, mgp=mgp, las=las, bty="n")
 		sets <- set.idx[!is.na(set.idx[,which(names(set.idx)==signal[i])]),which(names(set.idx)==signal[i])]
 		if(length(sets)>=1) {
-			plot(time.stamp[start:end], mast$sets[[sets[1]]]$data[[which(names(mast$sets[[sets[1]]]$data)==signal[i])]][start:end], type="l", col=col[sets[1]], ylab=ylab[i], axes=FALSE, col.lab=col.lab, cex.lab=cex.lab, lty=lty[sets[1]])
+			plot(timestamp[start:end], mast$sets[[sets[1]]]$data[[which(names(mast$sets[[sets[1]]]$data)==signal[i])]][start:end], type="l", col=col[sets[1]], ylab=ylab[i], axes=FALSE, col.lab=col.lab, cex.lab=cex.lab, lty=lty[sets[1]])
 			box(bty=bty, col=col.box)
 			axis(2, line=mgp[3], col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
-			if(i<n.sig) axis.POSIXct(1, at=seq(min(time.stamp[start:end]), max(time.stamp[start:end]), length.out=6), format="%Y-%m-%d %H:%M:%S", labels=FALSE, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
-			else axis.POSIXct(1, at=seq(min(time.stamp[start:end]), max(time.stamp[start:end]), length.out=6), format="%Y-%m-%d %H:%M:%S", col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
+			if(i<n.sig) axis.POSIXct(1, at=seq(min(timestamp[start:end]), max(timestamp[start:end]), length.out=6), format="%Y-%m-%d %H:%M:%S", labels=FALSE, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
+			else axis.POSIXct(1, at=seq(min(timestamp[start:end]), max(timestamp[start:end]), length.out=6), format="%Y-%m-%d %H:%M:%S", col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 		
 		
 			if(length(sets)>1) {
 				for(j in 2:length(sets)) {
-					lines(time.stamp[start:end], mast$sets[[sets[j]]]$data[[which(names(mast$sets[[sets[j]]]$data)==signal[i])]][start:end], col=col[sets[j]], lty=lty[sets[j]])
+					lines(timestamp[start:end], mast$sets[[sets[j]]]$data[[which(names(mast$sets[[sets[j]]]$data)==signal[i])]][start:end], col=col[sets[j]], lty=lty[sets[j]])
 				}
 			}
 		} else {

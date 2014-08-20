@@ -1,19 +1,19 @@
 \encoding{UTF-8}
-\name{monthStats}
-\alias{monthStats}
+\name{month.stats}
+\alias{month.stats}
 \alias{ms}
-\alias{plot.monthStats}
+\alias{plot.month.stats}
 \title{Calculation of monthly statistics}
 \description{Calculates monthly statistics.}
 \usage{
-monthStats(mast, set, signal="v.avg", 
+month.stats(mast, set, signal="v.avg", 
   fun=c("mean", "median", "min", "max", "sd"), subset, 
   digits=3, print=TRUE)
 ms(mast, set, signal="v.avg", 
   fun=c("mean", "median", "min", "max", "sd"), subset, 
   digits=3, print=TRUE)
 
-\method{plot}{monthStats}(x, set, ...)
+\method{plot}{month.stats}(x, set, ...)
 }
 \arguments{
   \item{mast}{Met mast object created by \code{\link{createMast}}.}
@@ -24,11 +24,11 @@ ms(mast, set, signal="v.avg",
   \item{digits}{Number of decimal places to be used for results as numeric value. Default is \code{3}.}
   \item{print}{If \code{TRUE} (the default), results are printed directly.}
       
-  \item{x}{Monthly statistics object created by \code{monthStats}.}
+  \item{x}{Monthly statistics object created by \code{month.stats}.}
   \item{\dots}{Arguments to be passed to methods. For optional graphical parameters see below.}
 }
 \details{
-\code{monthStats} calculates statistics of valid data for each month and year in the measurement period. Usually this function is used for the calculation of average wind speeds. Means strongly depend on the measurement period and the number of samples. One important requirement for a reliable wind assessment is a measurement period covering the full seasonal cycle of variations.  A typical bias is a measurement limited to winter months, which usually results in overestimated wind speeds.
+\code{month.stats} calculates statistics of valid data for each month and year in the measurement period. Usually this function is used for the calculation of average wind speeds. Means strongly depend on the measurement period and the number of samples. One important requirement for a reliable wind assessment is a measurement period covering the full seasonal cycle of variations.  A typical bias is a measurement limited to winter months, which usually results in overestimated wind speeds.
 }
 \section{Optional graphical parameters}{
 The following graphical parameters can optionally be added to customize the plot:
@@ -68,40 +68,40 @@ Brower, M., Marcus, M., Taylor, M., Bernadett, D., Filippelli, M., Beaucage, P.,
 \dontrun{
 # load and prepare data
 data(winddata)
-set40 <- createSet(height=40, v.avg=winddata[,2], v.max=winddata[,3])
-set30 <- createSet(height=30, v.avg=winddata[,6], v.max=winddata[,7])
-set20 <- createSet(height=20, v.avg=winddata[,10])
-ts <- formatTS(time.stamp=winddata[,1])
-neubuerg <- createMast(time.stamp=ts, set40, set30, set20)
+set40 <- set(height=40, v.avg=winddata[,2], v.max=winddata[,3])
+set30 <- set(height=30, v.avg=winddata[,6], v.max=winddata[,7])
+set20 <- set(height=20, v.avg=winddata[,10])
+ts <- timestamp(timestamp=winddata[,1])
+neubuerg <- createMast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
 # calculate monthly means
-neubuerg.stats <- monthStats(mast=neubuerg)
+neubuerg.stats <- month.stats(mast=neubuerg)
 
 # calculate monthly means for one dataset
-monthStats(mast=neubuerg, set=1)
-monthStats(mast=neubuerg, set="set1")	# same as above
+month.stats(mast=neubuerg, set=1)
+month.stats(mast=neubuerg, set="set1")	# same as above
 
 # calculate monthly means for another signal
-monthStats(mast=neubuerg, signal="v.max")
+month.stats(mast=neubuerg, signal="v.max")
 
 # calculate monthly median, min, max and standard deviation
-monthStats(mast=neubuerg, fun="median")
-monthStats(mast=neubuerg, fun="min")
-monthStats(mast=neubuerg, fun="max")
-monthStats(mast=neubuerg, fun="sd")
+month.stats(mast=neubuerg, fun="median")
+month.stats(mast=neubuerg, fun="min")
+month.stats(mast=neubuerg, fun="max")
+month.stats(mast=neubuerg, fun="sd")
 
 # data subsets
-monthStats(mast=neubuerg, 
+month.stats(mast=neubuerg, 
   subset=c("2009-12-01 00:10:00", "2009-12-31 23:50:00"))
-monthStats(mast=neubuerg, 
+month.stats(mast=neubuerg, 
   subset=c("2010-01-01 00:10:00", NA)) # just 'start' time stamp
-monthStats(mast=neubuerg, 
+month.stats(mast=neubuerg, 
   subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
 
 # change number of digits and hide results
-monthStats(mast=neubuerg, digits=2)
-monthStats(mast=neubuerg, print=FALSE)
+month.stats(mast=neubuerg, digits=2)
+month.stats(mast=neubuerg, print=FALSE)
 }
 }
 \keyword{methods}

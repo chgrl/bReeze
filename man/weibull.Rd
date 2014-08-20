@@ -87,11 +87,11 @@ Weibull, W. (1951) A Statistical Distribution Function of Wide Applicability. \e
 \dontrun{
 # load and prepare data
 data(winddata)
-set40 <- createSet(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
-set30 <- createSet(height=30, v.avg=winddata[,6], dir.avg=winddata[,16])
-set20 <- createSet(height=20, v.avg=winddata[,10])
-ts <- formatTS(time.stamp=winddata[,1])
-neubuerg <- createMast(time.stamp=ts, set40, set30, set20)
+set40 <- set(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
+set30 <- set(height=30, v.avg=winddata[,6], dir.avg=winddata[,16])
+set20 <- set(height=20, v.avg=winddata[,10])
+ts <- timestamp(timestamp=winddata[,1])
+neubuerg <- createMast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
 # calculate Weibull parameters

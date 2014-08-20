@@ -22,7 +22,7 @@ function(mast, turb.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, di
 	
 	# subset
 	if(missing(subset)) subset <- c(NA, NA)
-	start.end <- subsetInt(mast$time.stamp, subset)
+	start.end <- subset.int(mast$timestamp, subset)
 	start <- start.end[1]
 	end <- start.end[2]
 	v <- mast$sets[[turb.set]]$data$v.avg[start:end]

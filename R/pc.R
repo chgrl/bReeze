@@ -64,7 +64,7 @@ function(pc, rho=1.225, rated.p, desc, ...) {
 	attr(pc, "rho") <- rho
 	attr(pc, "rated.power") <- rated.p
 	if(!is.null(desc)) attr(pc, "description") <- desc
-	attr(pc, "call") <- list(func="createPC")
+	attr(pc, "call") <- list(func="pc.default")
 	
 	class(pc) <- "pc"
 	return(pc)
@@ -92,7 +92,7 @@ function(pc, ...) {
 		p <- as.numeric(p[5:(cut.out+4),1])
 		desc <- pow[1,1]
 		r <- pc.default(pc=list(v=v, p=p), rho=1.225, desc=desc)
-		attr(r, "call") <- list(func="readPC", pc=pc)
+		attr(r, "call") <- list(func="pc.read", pc=pc)
 	} else if(type==".wtg") {
 		stopifnot(require(XML))
 		wtg <- xmlTreeParse(pc, asTree=TRUE)
@@ -114,7 +114,7 @@ function(pc, ...) {
 		}
 		desc <- xmlAttrs(xmlRoot(wtg))[["Description"]]
 		r <- pc.default(pc=list(v=v, p=p, ct=ct), rho=rho, desc=desc)
-		attr(r, "call") <- list(func="readPC", pc=pc)
+		attr(r, "call") <- list(func="pc.read", pc=pc)
 	}
 	
 	class(r) <- "pc"	

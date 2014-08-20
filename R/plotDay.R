@@ -16,7 +16,7 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 	
 	# subset
 	if(missing(subset)) subset <- c(NA, NA)
-	start.end <- subsetInt(mast$time.stamp, subset)
+	start.end <- subset.int(mast$timestamp, subset)
 	start <- start.end[1]
 	end <- start.end[2]
 		
@@ -143,7 +143,7 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 		# mean diurnal
 		diurnal <- NULL
 		for(i in 0:23) {
-			hour.idx <- mast$time.stamp[start:end]$hour==i
+			hour.idx <- mast$timestamp[start:end]$hour==i
 			hour.values <- dat[hour.idx]
 			hour.values <- hour.values[!is.na(hour.values)]
 			if(length(hour.values)>0) diurnal <- append(diurnal, mean(hour.values))
@@ -158,7 +158,7 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 				else idx.dir <- mast$sets[[dir.set]]$data$dir.avg[start:end]>=low | mast$sets[[dir.set]]$data$dir.avg[start:end]<high
 				diurnal.s <- NULL
 				for(i in 0:23) {
-					hour.idx <- mast$time.stamp[start:end]$hour==i
+					hour.idx <- mast$timestamp[start:end]$hour==i
 					hour.values <- dat[hour.idx & idx.dir]
 					hour.values <- hour.values[!is.na(hour.values)]
 					if(length(hour.values)>0) diurnal.s <- append(diurnal.s, mean(hour.values))
@@ -227,7 +227,7 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 		
 		diurnal <- NULL
 		for(i in 0:23) {
-			hour.idx = mast$time.stamp[start:end]$hour==i
+			hour.idx = mast$timestamp[start:end]$hour==i
 			hour.values <- mast$sets[[set.index[1]]]$data[hour.idx,which(names(mast$sets[[set.index[1]]]$data)==signal)]
 			hour.values <- hour.values[!is.na(hour.values)]
 			if(length(hour.values)>0) diurnal <- append(diurnal, mean(hour.values))
@@ -242,7 +242,7 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 			for(s in 2:length(set.index)) {
 				diurnal <- NULL
 				for(i in 0:23) {
-					hour.idx <- mast$time.stamp[start:end]$hour==i
+					hour.idx <- mast$timestamp[start:end]$hour==i
 					hour.values <- mast$sets[[set.index[s]]]$data[hour.idx,which(names(mast$sets[[set.index[s]]]$data)==signal)]
 					hour.values <- hour.values[!is.na(hour.values)]
 					if(length(hour.values)>0) diurnal <- append(diurnal, mean(hour.values))
