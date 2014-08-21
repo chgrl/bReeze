@@ -9,7 +9,7 @@ plotDay(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...)
 plday(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...)
 }
 \arguments{
-  \item{mast}{Met mast object created by \code{\link{createMast}}.}
+  \item{mast}{Met mast object created by \code{\link{mast}}.}
   \item{set}{Set used for plotting, specified as set number or set name. Argument is optional -- if missing, all sets containing the choosen \code{signal} are used.}
   \item{dir.set}{Direction set used for sectoral splitting of the data, specified as set number or set name. Argument is used for sectoral plotting only (see \code{num.sectors}).}
   \item{signal}{Signal to be plotted as string.}
@@ -49,7 +49,7 @@ The following graphical parameters can optionally be added to customize the plot
 \code{plotDay} reveals diurnal variations of a signal. The plot may show outliers that indicate data inconsistancy.
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}}
+\seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
 # load and prepare data
@@ -58,7 +58,7 @@ set40 <- set(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
 set30 <- set(height=30, v.avg=winddata[,6], dir.avg=winddata[,16])
 set20 <- set(height=20, v.avg=winddata[,10])
 ts <- timestamp(timestamp=winddata[,1])
-neubuerg <- createMast(timestamp=ts, set40, set30, set20)
+neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
 # plot all datasets

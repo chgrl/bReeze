@@ -9,7 +9,7 @@ plotPolar(mast, v.set=1, dir.set=1, subset, ...)
 plpol(mast, v.set=1, dir.set=1, subset, ...)
 }
 \arguments{
-  \item{mast}{Met mast object created by \code{\link{createMast}}.}
+  \item{mast}{Met mast object created by \code{\link{mast}}.}
   \item{v.set}{Set used for wind speed values, specified as set number or set name.}
   \item{dir.set}{Set used for wind direction values, specified as set number or set name.}
   \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
@@ -38,7 +38,7 @@ The following graphical parameters can optionally be added to customize the plot
   }
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}}
+\seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
 # load and prepare data
@@ -47,7 +47,7 @@ set40 <- set(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
 set30 <- set(height=30, v.avg=winddata[,6], dir.avg=winddata[,16])
 set20 <- set(height=20, v.avg=winddata[,10])
 ts <- timestamp(timestamp=winddata[,1])
-neubuerg <- createMast(timestamp=ts, set40, set30, set20)
+neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
 # plot v vs. dir

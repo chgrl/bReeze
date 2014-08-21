@@ -11,7 +11,7 @@ map(mast, type=c("satellite", "terrain", "hybrid", "roadmap"),
   zoom, label, ...)
 }
 \arguments{
-  \item{mast}{Met mast object created by \code{\link{createMast}}.}
+  \item{mast}{Met mast object created by \code{\link{mast}}.}
   \item{type}{Type of the map as string. One of \code{"satellite"} (satellite image), \code{"terrain"} (map with terrain information), \code{"hybrid"} (satellite image with map overlay) or \code{"roadmap"} (map).}
   \item{zoom}{Zoom level as integer from \code{1} (small scale) up to \code{18} (large scale) -- default is \code{15}.}
   \item{label}{Label to be placed next to the location symbol as string. Set to \code{NA} to leave the label blank. If ignored, the location coordinates are used as label default.}
@@ -32,14 +32,14 @@ The following graphical parameters can optionally be added to customize the plot
 This function is based on the \code{RgoogleMaps} package by Markus Loecher, which uses the Google Static Maps API.
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}}
+\seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
 # load and prepare data
 data(winddata)
 set1 <- set(height=40, v.avg=winddata[,2])
 ts <- timestamp(winddata[,1])
-neubuerg <- createMast(timestamp=ts, set1, loc=c(49.8909,11.4017))
+neubuerg <- mast(timestamp=ts, set1, loc=c(49.8909,11.4017))
 
 # plot satellite image
 plotMap(neubuerg)

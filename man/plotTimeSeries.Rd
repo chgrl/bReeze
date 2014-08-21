@@ -11,7 +11,7 @@ plts(mast, set, signal=c("v.avg", "dir.avg", "turb.int"),
   subset, ...)
 }
 \arguments{
-  \item{mast}{Met mast object created by \code{\link{createMast}}.}
+  \item{mast}{Met mast object created by \code{\link{mast}}.}
   \item{set}{Set used for plotting specified as set number or set name. Argument is optional -- if missing, all sets containing the given \code{signal}(s) are used.}
   \item{signal}{Signal(s) to be plotted as vector of strings giving the signal names.}
   \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55".}
@@ -42,7 +42,7 @@ The following graphical parameters can optionally be added to customize the plot
   }
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}}
+\seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
 # load and prepare data
@@ -53,7 +53,7 @@ set30 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
   dir.avg=winddata[,16])
 set20 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])
 ts <- timestamp(timestamp=winddata[,1])
-neubuerg <- createMast(timestamp=ts, set40, set30, set20)
+neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
 # plot time series

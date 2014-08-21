@@ -9,7 +9,7 @@ plotTurbIEC(mast, set, subset, ...)
 pliec(mast, set, subset, ...)
 }
 \arguments{
-  \item{mast}{Met mast object created by \code{createMast}.}
+  \item{mast}{Met mast object created by \code{mast}.}
   \item{set}{Set used for plotting specified as set number or set name.}
   \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
   \item{\dots}{Optional graphical parameters, see below for details.}
@@ -64,7 +64,7 @@ See \code{\link{turbulence}} for a definition of turbulence intensity.
 International Electrotechnical Commission (2005) IEC 61400-1 Wind Turbines -- Part 1: Design Requirements. IEC Standard
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}}
+\seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
 # load and prepare data
@@ -73,7 +73,7 @@ set40 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5])
 set30 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9])
 set20 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])
 ts <- timestamp(timestamp=winddata[,1])
-neubuerg <- createMast(timestamp=ts, set40, set30, set20)
+neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
 # plot

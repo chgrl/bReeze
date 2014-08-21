@@ -2,8 +2,7 @@ weibull <-
 function(mast, v.set, dir.set, num.sectors=12, subset, digits=3, print=TRUE) {
 ### calculating weibull parameters for sectors
 	
-	if(is.null(attr(mast, "call"))) stop(substitute(mast), " is no mast object")
-	if(attr(mast, "call")$func!="createMast") stop(substitute(mast), " is no mast object")
+	if(class(mast)!="mast") stop(substitute(mast), " is no mast object")
 	num.sets <- length(mast$sets)
 	if(!missing(v.set) && missing(dir.set)) dir.set <- v.set
 	if(missing(v.set) && !missing(dir.set)) v.set <- dir.set
