@@ -16,7 +16,7 @@ pro(mast, v.set, dir.set, num.sectors=12,
 \method{plot}{profile}(x, sector, measured=TRUE, ...)
 }
 \arguments{
-  \item{mast}{Met mast object created by \code{\link{createMast}}.}
+  \item{mast}{Met mast object created by \code{\link{mast}}.}
   \item{v.set}{Set(s) to be used for wind speed, specified as set number or set name. The first given dataset is used as reference height. If one single dataset is given, the same Hellman exponent is assumed for each sector and can be specified using \code{alpha} (see Details for empirical values). If two or more datasets are given, the Hellman exponent is calculated for each sector. If more than two datasets are given, currently only the first two datasets are used.}
   \item{dir.set}{Set to be used for wind direction, specified as set number or set name.}
   \item{num.sectors}{Number of wind direction sectors as integer value greater 1. Default is \code{12}.}
@@ -91,7 +91,7 @@ Brower, M., Marcus, M., Taylor, M., Bernadett, D., Filippelli, M., Beaucage, P.,
 International Electrotechnical Commission (2005) IEC 61400-12 Wind Turbines -- Part 12-1: Power Performance Measurements of Electricity Producing Wind Turbines. IEC Standard
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}}
+\seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
 # load and prepare data
@@ -100,7 +100,7 @@ set40 <- set(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
 set30 <- set(height=30, v.avg=winddata[,6], dir.avg=winddata[,16])
 set20 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])
 ts <- timestamp(timestamp=winddata[,1])
-neubuerg <- createMast(timestamp=ts, set40, set30, set20)
+neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
 # create profile based on one height

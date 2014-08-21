@@ -32,7 +32,7 @@ Returns a dataset object which is a list of:
   \item{data}{Data of measured signals.}
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}}
+\seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
 # load data

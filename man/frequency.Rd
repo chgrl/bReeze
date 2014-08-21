@@ -11,7 +11,7 @@ freq(mast, v.set, dir.set, num.sectors=12,
   bins=c(5, 10, 15, 20), subset, digits=3, print=TRUE)
 }
 \arguments{
-  \item{mast}{Met mast object created by \code{\link{createMast}}.}
+  \item{mast}{Met mast object created by \code{\link{mast}}.}
   \item{v.set}{Set used for wind speed, specified as set number or set name (optional, if \code{dir.set} is given).}
   \item{dir.set}{Set used for wind direction, specified as set number or set name (optional, if \code{v.set} is given).}
   \item{num.sectors}{Number of wind direction sectors as integer value greater 1. Default is \code{12}.}
@@ -64,7 +64,7 @@ The following graphical parameters can optionally be added to customize the plot
 Brower, M., Marcus, M., Taylor, M., Bernadett, D., Filippelli, M., Beaucage, P., Hale, E., Elsholz, K., Doane, J., Eberhard, M., Tensen, J., Ryan, D. (2010) Wind Resource Assessment Handbook. http://www.renewablenrgsystems.com/TechSupport/~/media/Files/PDFs/wind_resource_handbook.ashx
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}}
+\seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
 # load and prepare data
@@ -73,7 +73,7 @@ set40 <- set(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
 set30 <- set(height=30, v.avg=winddata[,6], dir.avg=winddata[,16])
 set20 <- set(height=20, v.avg=winddata[,10])
 ts <- timestamp(timestamp=winddata[,1])
-neubuerg <- createMast(timestamp=ts, set40, set30, set20)
+neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
 # calculate frequency

@@ -16,7 +16,7 @@ ms(mast, set, signal="v.avg",
 \method{plot}{month.stats}(x, set, ...)
 }
 \arguments{
-  \item{mast}{Met mast object created by \code{\link{createMast}}.}
+  \item{mast}{Met mast object created by \code{\link{mast}}.}
   \item{set}{Set used for calculation or plotting specified as set number or set name. If missing, the calculation or plotting is carried out for all datasets that contain the specified \code{signal}.}
   \item{signal}{The signal to be used, as string value. Default is \code{"v.avg"}.}
   \item{fun}{Statistical function, as string value -- one of \code{"mean"} (arithmetic mean), \code{"median"}, \code{"min"} (minimum), \code{"max"} (maximum) or \code{"sd"} (standard deviation).}
@@ -63,7 +63,7 @@ The following graphical parameters can optionally be added to customize the plot
 Brower, M., Marcus, M., Taylor, M., Bernadett, D., Filippelli, M., Beaucage, P., Hale, E., Elsholz, K., Doane, J., Eberhard, M., Tensen, J., Ryan, D. (2010) Wind Resource Assessment Handbook. http://www.renewablenrgsystems.com/TechSupport/~/media/Files/PDFs/wind_resource_handbook.ashx
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}}
+\seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
 # load and prepare data
@@ -72,7 +72,7 @@ set40 <- set(height=40, v.avg=winddata[,2], v.max=winddata[,3])
 set30 <- set(height=30, v.avg=winddata[,6], v.max=winddata[,7])
 set20 <- set(height=20, v.avg=winddata[,10])
 ts <- timestamp(timestamp=winddata[,1])
-neubuerg <- createMast(timestamp=ts, set40, set30, set20)
+neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
 # calculate monthly means

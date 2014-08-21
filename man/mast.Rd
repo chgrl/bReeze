@@ -1,11 +1,9 @@
 \encoding{UTF-8}
-\name{createMast}
-\alias{createMast}
+\name{mast}
 \alias{mast}
 \title{Creation of met mast objects}
 \description{Creates met mast objects from one or more datasets (measurement heights). All datasets are sorted by height in descending order.}
 \usage{
-createMast(timestamp, ..., loc=NULL, desc=NULL)
 mast(timestamp, ..., loc=NULL, desc=NULL)
 }
 \arguments{
@@ -27,7 +25,7 @@ Measurements of wind speed in several heights is required for the computation of
   \item{sets}{List of one or more datasets (measurement heights) consisting of height information and the data.}
 }
 \author{Christian Graul}
-\seealso{\code{\link{POSIXlt}}, \code{\link{set}}, \code{\link{timestamp}}, \code{\link{printObject}}}
+\seealso{\code{\link{POSIXlt}}, \code{\link{set}}, \code{\link{timestamp}}}
 \examples{
 \dontrun{
 # load data, prepare sets and time stamp
@@ -40,17 +38,17 @@ set20 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])
 ts <- timestamp(timestamp=winddata[,1])
 
 # create met mast object
-neubuerg <- createMast(timestamp=ts, set40, set30, set20)
+neubuerg <- mast(timestamp=ts, set40, set30, set20)
 
 # create met mast with location and description
-neubuerg.2 <- createMast(timestamp=ts, set40, set30, set20, 
+neubuerg.2 <- mast(timestamp=ts, set40, set30, set20, 
   loc=c(49.8909,11.4017), desc="Site #247 - Neubuerg")
 
 # view structure of met mast
 str(neubuerg.2)
 
 # name sets
-neubuerg.3 <- createMast(timestamp=ts, C1.A1=set40, C2.A2=set30, 
+neubuerg.3 <- mast(timestamp=ts, C1.A1=set40, C2.A2=set30, 
   C3=set20, loc=c(49.8909,11.4017), desc="Site #247 - Neubuerg")
 
 # compare names

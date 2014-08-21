@@ -2,8 +2,7 @@ month.stats <-
 function(mast, set, signal="v.avg", fun=c("mean", "median", "min", "max", "sd"), subset, digits=3, print=TRUE) {
 ### calculating monthly statistics
 
-	if(is.null(attr(mast, "call"))) stop(substitute(mast), " is no mast object")
-	if(attr(mast, "call")$func!="createMast") stop(substitute(mast), " is no mast object")
+	if(class(mast)!="mast") stop(substitute(mast), " is no mast object")
 	if(missing(set)) set <- "all"
 	if(is.null(signal)) stop("Please choose signal")
 	if(length(signal)>1) stop("Please choose only one signal")

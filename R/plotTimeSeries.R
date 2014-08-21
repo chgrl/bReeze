@@ -2,8 +2,7 @@ plotTimeSeries <-
 function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 ### plotting time series of mast data
 		
-	if(is.null(attr(mast, "call"))) stop(substitute(mast), " is no mast object")
-	if(attr(mast, "call")$func!="createMast") stop(substitute(mast), " is no mast object")
+	if(class(mast)!="mast") stop(substitute(mast), " is no mast object")
 	num.sets <- length(mast$sets)
 	timestamp <- mast$timestamp
 	

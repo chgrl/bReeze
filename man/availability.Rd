@@ -12,7 +12,7 @@ avail(mast, v.set, dir.set, subset, digits=1, print=TRUE)
 \method{plot}{availability}(x, set, ...)
 }
 \arguments{
-  \item{mast}{Met mast object created by \code{\link{createMast}}.}
+  \item{mast}{Met mast object created by \code{\link{mast}}.}
   \item{v.set}{Set(s) to be used for wind speed, specified as set number(s) or set name(s). Argument is optional -- if missing, all sets containing wind speed and wind direction data are used.}
   \item{dir.set}{Set(s) to be used for wind direction, specified as set number(s) or set name(s). Argument is optional -- if missing, the set(s) used for wind speed data will also be used for wind direction.}
   \item{subset}{Optional start and end time stamp for a data subset, as string vector \code{c(start, end)}. The time stamps format shall follow the rules of ISO 8601 international standard, e.g. "2012-08-08 22:55:00".}
@@ -58,7 +58,7 @@ The following graphical parameters can optionally be added to customize the plot
 Brower, M., Marcus, M., Taylor, M., Bernadett, D., Filippelli, M., Beaucage, P., Hale, E., Elsholz, K., Doane, J., Eberhard, M., Tensen, J., Ryan, D. (2010) Wind Resource Assessment Handbook. http://www.renewablenrgsystems.com/TechSupport/~/media/Files/PDFs/wind_resource_handbook.ashx
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}, \code{\link{clean}}}
+\seealso{\code{\link{mast}}, \code{\link{clean}}}
 \examples{
 \dontrun{
 # load and prepare data
@@ -69,7 +69,7 @@ set30 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
   dir.avg=winddata[,16])
 set20 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])
 ts <- timestamp(timestamp=winddata[,1])
-neubuerg <- createMast(timestamp=ts, set40=set40, set30=set30, 
+neubuerg <- mast(timestamp=ts, set40=set40, set30=set30, 
   set20=set20)
 neubuerg <- clean(mast=neubuerg)
 

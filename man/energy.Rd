@@ -88,7 +88,7 @@ set2 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
   dir.avg=winddata[,16])
 set3 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])
 ts <- timestamp(timestamp=winddata[,1])
-neubuerg <- createMast(timestamp=ts, set1, set2, set3)
+neubuerg <- mast(timestamp=ts, set1, set2, set3)
 neubuerg <- clean(mast=neubuerg)
 
 # calculate Weibull object

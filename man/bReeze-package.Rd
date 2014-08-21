@@ -53,7 +53,7 @@ set30 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
 ts <- timestamp(timestamp=winddata[,1])
 
 # create met mast object
-metmast <- createMast(timestamp=ts, set40=set40, set30=set30)
+metmast <- mast(timestamp=ts, set40=set40, set30=set30)
 
 # plot time series of met mast signals
 plotTimeSeries(mast=metmast)

@@ -4,8 +4,7 @@ function(mast, type=c("satellite", "terrain", "hybrid", "roadmap"), zoom, label,
 
 	stopifnot(require(RgoogleMaps))
 
-	if(is.null(attr(mast, "call"))) stop(substitute(mast), " is no mast object")
-	if(attr(mast, "call")$func!="createMast") stop(substitute(mast), " is no mast object")
+	if(class(mast)!="mast") stop(substitute(mast), " is no mast object")
 	if(missing(type)) type <- "satellite"
 	type <- match.arg(type)
 	if(is.null(mast$location)) stop("No location found")

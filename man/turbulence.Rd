@@ -11,7 +11,7 @@ turb(mast, turb.set, dir.set, num.sectors=12,
   bins=c(5, 10, 15, 20), subset, digits=3, print=TRUE)
 }
 \arguments{
-  \item{mast}{Met mast object created by \code{\link{createMast}}.}
+  \item{mast}{Met mast object created by \code{\link{mast}}.}
   \item{turb.set}{Set used for turbulence intensity, specified as set number or set name (optional, if \code{dir.set} is given).}
   \item{dir.set}{Set used for wind direction, specified as set number or set name (optional, if \code{turb.set} is given).}
   \item{num.sectors}{Number of wind direction sectors as integer value greater 1. Default is \code{12}.}
@@ -61,7 +61,7 @@ Burton, T., Sharpe, D., Jenkins, N., Bossanyi, E. (2001) \emph{Wind Energy Handb
 Langreder, W. (2010) Wind Resource and Site Assessment. In: Wei Tong (Ed.), Wind Power Generation and Wind Turbine Design, Chapter 2, p. 49--87, Southampton: WIT Press
 }
 \author{Christian Graul}
-\seealso{\code{\link{createMast}}}
+\seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
 # load and prepare data
@@ -72,7 +72,7 @@ set30 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
   dir.avg=winddata[,16])
 set20 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])
 ts <- timestamp(timestamp=winddata[,1])
-neubuerg <- createMast(timestamp=ts, set40, set30, set20)
+neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
 # calculate turbulence intensity

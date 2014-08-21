@@ -102,7 +102,7 @@ set1 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],
 set2 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
   dir.avg=winddata[,16])
 ts <- timestamp(timestamp=winddata[,1])
-neubuerg <- createMast(timestamp=ts, set1, set2)
+neubuerg <- mast(timestamp=ts, set1, set2)
 neubuerg <- clean(mast=neubuerg)
 
 # calculate wind profile

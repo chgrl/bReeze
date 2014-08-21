@@ -33,7 +33,7 @@ For details see \code{\link{strptime}}.
 }
 \value{Returns a \code{POSIXlt} vector.}
 \author{Christian Graul}
-\seealso{\code{\link{POSIXlt}}, \code{\link{strptime}}, \code{\link{createMast}}}
+\seealso{\code{\link{POSIXlt}}, \code{\link{strptime}}, \code{\link{mast}}}
 \examples{
 \dontrun{
 # load and prepare data

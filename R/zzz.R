@@ -24,9 +24,6 @@ function(mast, v.set, dir.set, subset, digits=1, print=TRUE) availability(mast, 
 cln <- 
 function(mast, set, v.avg.min=0.4, v.avg.max=50, dir.clean=TRUE, turb.clean=4, icing=FALSE, rep=NULL, n.rep=5) clean(mast, set, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep)
 
-mast <- 
-function(timestamp, ..., loc=NULL, desc=NULL) createMast(timestamp=timestamp, loc=loc, desc=desc, ...)
-
 en <- 
 function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) energy(wb, rho, bins, digits, print)
 
@@ -53,12 +50,6 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) plotT
 
 pliec <- 
 function(mast, set, subset, ...) plotTurbIEC(mast, set, subset, ...)
-
-plwbd <- 
-function(wb, show.ak=FALSE, ...) plotWbDir(wb, show.ak, ...)
-
-probj <- 
-function(object) printObject(object)
 
 pro <- 
 function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fixed"), alpha=NULL, subset, digits=3, print=TRUE) profile(mast, v.set, dir.set, num.sectors, method, alpha, subset, digits, print)
