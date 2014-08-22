@@ -6,8 +6,8 @@ function(x, show.total=TRUE, ...) {
 	dim.data <- dim(aep)
 	num.sectors <- dim.data[1] - 1
 	num.classes <- dim.data[2] - 3
-	total <- x$total[num.sectors+1]
-	unit <- attr(x$total, "unit")
+	total <- aep$total[num.sectors+1]
+	unit <- attr(aep$total, "unit")
 	
 	if(num.classes>1) {
 		aep.cum <- aep[1:num.sectors,4:dim.data[2]]
