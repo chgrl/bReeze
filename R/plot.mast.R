@@ -1,13 +1,12 @@
-plotTimeSeries <-
-function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
+plot.mast <-
+function(x, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 ### plotting time series of mast data
 		
-	if(class(mast)!="mast") stop(substitute(mast), " is no mast object")
-	num.sets <- length(mast$sets)
-	timestamp <- mast$timestamp
+	num.sets <- length(x$sets)
+	timestamp <- x$timestamp
 	
 	if(missing(set)) set <- 1:num.sets
-	if(!is.numeric(set)) set <- match(set, names(mast$sets))
+	if(!is.numeric(set)) set <- match(set, names(x$sets))
 	if(any(is.na(set))) stop("'set' not found\n")
 	if(any(set<1) || any(set>num.sets)) stop("'set' not found\n")
 	
@@ -20,12 +19,12 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 	# get units
 	n.sig <- length(signal)
 	n.set <- length(set)
-	h.unit <- attr(mast$sets[[1]]$height, "unit")
+	h.unit <- attr(x$sets[[1]]$height, "unit")
 	units <- rep("", n.sig)
 	for(s in 1:n.sig) {
 		for(i in 1:n.set) {
-			if(any(names(mast$sets[[i]]$data)==signal[s])) {
-				if(!is.null(attr(mast$sets[[i]]$data[,signal[s]], "unit")))	units[s] <- attr(mast$sets[[i]]$data[,signal[s]], "unit"); break
+			if(any(names(x$sets[[i]]$data)==signal[s])) {
+				if(!is.null(attr(x$sets[[i]]$data[,signal[s]], "unit")))	units[s] <- attr(x$sets[[i]]$data[,signal[s]], "unit"); break
 			}
 		}
 	}
@@ -103,7 +102,7 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 	names(set.idx) <- signal
 	for(i in 1:n.sig) {
 		for(j in 1:n.set) {
-			if(any(names(mast$sets[[set[j]]]$data)==signal[i])) set.idx[j,i] <- j
+			if(any(names(x$sets[[set[j]]]$data)==signal[i])) set.idx[j,i] <- j
 		}
 	}
 		
@@ -112,7 +111,7 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 		par(mar=mar, mgp=mgp, las=las, bty="n")
 		sets <- set.idx[!is.na(set.idx[,which(names(set.idx)==signal[i])]),which(names(set.idx)==signal[i])]
 		if(length(sets)>=1) {
-			plot(timestamp[start:end], mast$sets[[sets[1]]]$data[[which(names(mast$sets[[sets[1]]]$data)==signal[i])]][start:end], type="l", col=col[sets[1]], ylab=ylab[i], axes=FALSE, col.lab=col.lab, cex.lab=cex.lab, lty=lty[sets[1]])
+			plot(timestamp[start:end], x$sets[[sets[1]]]$data[[which(names(x$sets[[sets[1]]]$data)==signal[i])]][start:end], type="l", col=col[sets[1]], ylab=ylab[i], axes=FALSE, col.lab=col.lab, cex.lab=cex.lab, lty=lty[sets[1]])
 			box(bty=bty, col=col.box)
 			axis(2, line=mgp[3], col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 			if(i<n.sig) axis.POSIXct(1, at=seq(min(timestamp[start:end]), max(timestamp[start:end]), length.out=6), format="%Y-%m-%d %H:%M:%S", labels=FALSE, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
@@ -121,7 +120,7 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 		
 			if(length(sets)>1) {
 				for(j in 2:length(sets)) {
-					lines(timestamp[start:end], mast$sets[[sets[j]]]$data[[which(names(mast$sets[[sets[j]]]$data)==signal[i])]][start:end], col=col[sets[j]], lty=lty[sets[j]])
+					lines(timestamp[start:end], x$sets[[sets[j]]]$data[[which(names(x$sets[[sets[j]]]$data)==signal[i])]][start:end], col=col[sets[j]], lty=lty[sets[j]])
 				}
 			}
 		} else {
@@ -133,8 +132,8 @@ function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 	set.idx <- unique(unlist(set.idx)[!is.na(unlist(set.idx))])
 	heights <- names <- NULL
 	for(i in 1:length(set.idx)) {
-		heights <- append(heights, mast$sets[[set.idx[i]]]$height)
-		names <- append(names, names(mast$sets)[set.idx[i]])
+		heights <- append(heights, x$sets[[set.idx[i]]]$height)
+		names <- append(names, names(x$sets)[set.idx[i]])
 	}
 	plot(0, type="n", axes=FALSE, xlab="", ylab="")
 	par(mar=c(0,5,0,1))

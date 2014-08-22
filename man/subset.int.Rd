@@ -10,6 +10,6 @@
 }
 \value{Returns index of start and end time stamp.}
 \author{Christian Graul}
-\seealso{\code{\link{aep}}, \code{\link{availability}}, \code{\link{energy}}, \code{\link{frequency}}, \code{\link{month.stats}}, \code{\link{plotDay}}, \code{\link{plotPolar}}, \code{\link{plotTimeSeries}}, \code{\link{plotTurbIEC}}, \code{\link{profile}}, \code{\link{turbulence}}, \code{\link{weibull}}}
+\seealso{\code{\link{aep}}, \code{\link{availability}}, \code{\link{energy}}, \code{\link{frequency}}, \code{\link{month.stats}}, \code{\link{plotDay}}, \code{\link{plotPolar}}, \code{\link{plotTurbIEC}}, \code{\link{profile}}, \code{\link{turbulence}}, \code{\link{weibull}}}
 \keyword{methods}
 \keyword{internal}

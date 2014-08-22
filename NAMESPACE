@@ -19,8 +19,6 @@ export(
   map,
   plotPolar,
   plpol,
-  plotTimeSeries,
-  plts,
   plotTurbIEC,
   pliec,
   pc,
@@ -43,6 +41,7 @@ S3method(pc, read)
 S3method(plot, aep)
 S3method(plot, energy)
 S3method(plot, frequency)
+S3method(plot, mast)
 S3method(plot, month.stats)
 S3method(plot, pc)
 S3method(plot, profile)

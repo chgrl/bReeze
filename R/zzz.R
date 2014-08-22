@@ -45,9 +45,6 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) plotDay(
 plpol <- 
 function(mast, v.set=1, dir.set=1, subset, ...) plotPolar(mast, v.set, dir.set, subset, ...)
 
-plts <- 
-function(mast, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) plotTimeSeries(mast, set, signal, subset, ...)
-
 pliec <- 
 function(mast, set, subset, ...) plotTurbIEC(mast, set, subset, ...)
 
