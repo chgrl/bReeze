@@ -11,7 +11,7 @@ aep(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20),
 \method{plot}{aep}(x, show.total=TRUE, ...)
 }
 \arguments{
-  \item{profile}{Wind profile object created by \code{profile}.}
+  \item{profile}{Wind profile object created by \code{\link{profile}}.}
   \item{pc}{Power curve object created by \code{\link{pc}}.}
   \item{hub.h}{Hub heigth of wind turbine as numeric value.}
   \item{rho}{Air density as numeric value. Default is \code{1.225} kg/m3 according to the International Standard Atmosphere (ISA) at sea level and 15°C.}
@@ -95,16 +95,18 @@ Jangamshetti, S.H., Rau, V.G. (1999) Site Matching of Wind Turbine Generators: A
 \seealso{\code{\link{profile}}}
 \examples{
 \dontrun{
-# load and prepare data
-data(neubuerg)
-set1 <- set(height=40, v.avg=neubuerg[,2], v.std=neubuerg[,5],
-  dir.avg=neubuerg[,14])
-set2 <- set(height=30, v.avg=neubuerg[,6], v.std=neubuerg[,9],
-  dir.avg=neubuerg[,16])
-ts <- timestamp(timestamp=neubuerg[,1])
+## load and prepare data
+data(winddata)
+set1 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],
+  dir.avg=winddata[,14])
+set2 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
+  dir.avg=winddata[,16])
+ts <- timestamp(timestamp=winddata[,1])
 neubuerg <- mast(timestamp=ts, set1, set2)
 neubuerg <- clean(mast=neubuerg)
 
+
+## calculate AEP
 # calculate wind profile
 neubuerg.wp <- profile(mast=neubuerg, v.set=c(1,2), dir.set=1, 
   print=FALSE)
@@ -128,6 +130,39 @@ aep(profile=neubuerg.wp, pc=pw.56, hub.h=71, bins=NULL)
 # change number of digits and hide results
 aep(profile=neubuerg.wp, pc=pw.56, hub.h=71, digits=c(1,1,1,1))
 neubuerg.aep <- aep(profile=neubuerg.wp, pc=pw.56, hub.h=71, print=FALSE)
+neubuerg.aep
+
+
+## plotting AEP objects
+# default
+plot(neubuerg.aep)
+
+# omit total AEP
+plot(neubuerg.aep, show.total=FALSE)
+
+# change colours and text sizes
+plot(neubuerg.aep, col=gray(5:0 / 5), cex=0.8)
+
+# manual definition of circles
+plot(neubuerg.aep, circles=c(250, 750, 250))
+
+# plot sectors in foreground
+plot(neubuerg.aep, fg=TRUE)
+
+# change position of axis labels
+plot(neubuerg.aep, pos.axis=135)
+
+# no legend
+plot(neubuerg.aep, width.leg=0)
+
+# freaky
+plot(neubuerg.aep, border.leg=heat.colors(5), bty.leg="o", 
+  cex.axis=0.5, cex.lab=2, cex.leg=0.5, circles=c(80, 800, 80), 
+  col=rainbow(5), col.axis="green", col.border="orange", 
+  col.circle="purple", col.cross="yellow", col.lab="pink", 
+  col.leg="lightblue", fg=TRUE, lwd.border=2, lwd.circle=3, 
+  lwd.cross=4, lty.circle="12345678", lty.cross="87654321", 
+  sec.space=0.6, title.leg="* WiNd SpEeD *", x.intersp=2, y.intersp=5)
 }
 }
 \keyword{methods}
