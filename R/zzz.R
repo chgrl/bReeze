@@ -34,19 +34,19 @@ ts <-
 function(timestamp, pattern, tz) timestamp(timestamp, pattern, tz)
 
 map <- 
-function(mast, type=c("satellite", "terrain", "hybrid", "roadmap"), zoom, label, ...) plotMap(mast, type, zoom, label, ...)
+function(mast, type=c("satellite", "terrain", "hybrid", "roadmap"), zoom, label, ...) map.plot(mast, type, zoom, label, ...)
 
 ms <- 
 function(mast, set, signal="v.avg", fun=c("mean", "median", "min", "max", "sd"), subset, digits=3, print=TRUE) month.stats(mast, set, signal, fun, subset, digits, print)
 
-plday <- 
-function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) plotDay(mast, set, dir.set, signal, num.sectors, subset, ...)
+day <- 
+function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) day.plot(mast, set, dir.set, signal, num.sectors, subset, ...)
 
-plpol <- 
-function(mast, v.set=1, dir.set=1, subset, ...) plotPolar(mast, v.set, dir.set, subset, ...)
+pol <- 
+function(mast, v.set=1, dir.set=1, subset, ...) polar.plot(mast, v.set, dir.set, subset, ...)
 
-pliec <- 
-function(mast, set, subset, ...) plotTurbIEC(mast, set, subset, ...)
+iec <- 
+function(mast, set, subset, ...) turb.iec.plot(mast, set, subset, ...)
 
 pro <- 
 function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fixed"), alpha=NULL, subset, digits=3, print=TRUE) profile(mast, v.set, dir.set, num.sectors, method, alpha, subset, digits, print)

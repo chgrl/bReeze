@@ -96,12 +96,12 @@ Jangamshetti, S.H., Rau, V.G. (1999) Site Matching of Wind Turbine Generators: A
 \examples{
 \dontrun{
 # load and prepare data
-data(winddata)
-set1 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],
-  dir.avg=winddata[,14])
-set2 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
-  dir.avg=winddata[,16])
-ts <- timestamp(timestamp=winddata[,1])
+data(neubuerg)
+set1 <- set(height=40, v.avg=neubuerg[,2], v.std=neubuerg[,5],
+  dir.avg=neubuerg[,14])
+set2 <- set(height=30, v.avg=neubuerg[,6], v.std=neubuerg[,9],
+  dir.avg=neubuerg[,16])
+ts <- timestamp(timestamp=neubuerg[,1])
 neubuerg <- mast(timestamp=ts, set1, set2)
 neubuerg <- clean(mast=neubuerg)
 

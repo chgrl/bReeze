@@ -41,16 +41,16 @@ Further references are given under the specific functions of the package.
 \examples{
 \dontrun{
 # load example data
-data(winddata)
+data(neubuerg)
 
 # create two datasets
-set40 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],
-  dir.avg=winddata[,14])
-set30 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
-  dir.avg=winddata[,16])
+set40 <- set(height=40, v.avg=neubuerg[,2], v.std=neubuerg[,5],
+  dir.avg=neubuerg[,14])
+set30 <- set(height=30, v.avg=neubuerg[,6], v.std=neubuerg[,9],
+  dir.avg=neubuerg[,16])
 
 # format time stamp
-ts <- timestamp(timestamp=winddata[,1])
+ts <- timestamp(timestamp=neubuerg[,1])
 
 # create met mast object
 metmast <- mast(timestamp=ts, set40=set40, set30=set30)

@@ -68,11 +68,11 @@ Brower, M., Marcus, M., Taylor, M., Bernadett, D., Filippelli, M., Beaucage, P.,
 \examples{
 \dontrun{
 # load and prepare data
-data(winddata)
-set40 <- set(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
-set30 <- set(height=30, v.avg=winddata[,6], dir.avg=winddata[,16])
-set20 <- set(height=20, v.avg=winddata[,10])
-ts <- timestamp(timestamp=winddata[,1])
+data(neubuerg)
+set40 <- set(height=40, v.avg=neubuerg[,2], dir.avg=neubuerg[,14])
+set30 <- set(height=30, v.avg=neubuerg[,6], dir.avg=neubuerg[,16])
+set20 <- set(height=20, v.avg=neubuerg[,10])
+ts <- timestamp(timestamp=neubuerg[,1])
 neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
