@@ -61,19 +61,20 @@ Brower, M., Marcus, M., Taylor, M., Bernadett, D., Filippelli, M., Beaucage, P.,
 \seealso{\code{\link{mast}}, \code{\link{clean}}}
 \examples{
 \dontrun{
-# load and prepare data
-data(neubuerg)
-set40 <- set(height=40, v.avg=neubuerg[,2], v.std=neubuerg[,5],
-  dir.avg=neubuerg[,14])
-set30 <- set(height=30, v.avg=neubuerg[,6], v.std=neubuerg[,9],
-  dir.avg=neubuerg[,16])
-set20 <- set(height=20, v.avg=neubuerg[,10], v.std=neubuerg[,13])
-ts <- timestamp(timestamp=neubuerg[,1])
+## load and prepare data
+data(winddata)
+set40 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],
+  dir.avg=winddata[,14])
+set30 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
+  dir.avg=winddata[,16])
+set20 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])
+ts <- timestamp(timestamp=winddata[,1])
 neubuerg <- mast(timestamp=ts, set40=set40, set30=set30, 
   set20=set20)
 neubuerg <- clean(mast=neubuerg)
 
-# calculate availability
+
+## calculate availability
 neubuerg.avail <- availability(mast=neubuerg)
 
 # compare the total availability of 'set40' and 'set30'
@@ -101,6 +102,24 @@ availability(mast=neubuerg, v.set=1,
   subset=c("2010-01-01 00:10:00", NA)) # just 'start' time stamp
 availability(mast=neubuerg, v.set=1, 
   subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
+
+# change number of digits and hide results
+neubuerg.avail <- availability(mast=neubuerg, digits=0)
+neubuerg.avail <- availability(mast=neubuerg, print=FALSE)
+neubuerg.avail
+
+
+## plot availability objects
+plot(neubuerg.avail)  # default
+plot(neubuerg.avail, set=2)	 # one dataset
+plot(neubuerg.avail, set="set30")  # same as above
+plot(neubuerg.avail, set=c(1,2))  # several datasets
+
+# customize plot
+plot(neubuerg.avail, border="darkgray", cex.axis=0.7, 
+  cex.lab=0.9, col=c("darkgreen", "orange", "red4"), col.axis="blue", 
+  col.lab="blue", fill=c("lightgreen", "yellow", "red"), lwd=0.5, 
+  mar=c(1,1,1,1), plot.names=FALSE, xlab="jour", ylab="mois")
 }
 }
 \keyword{methods}
