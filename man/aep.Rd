@@ -133,7 +133,7 @@ neubuerg.aep <- aep(profile=neubuerg.wp, pc=pw.56, hub.h=71, print=FALSE)
 neubuerg.aep
 
 
-## plotting AEP objects
+## plot AEP objects
 # default
 plot(neubuerg.aep)
 

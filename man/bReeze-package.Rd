@@ -56,19 +56,19 @@ ts <- timestamp(timestamp=neubuerg[,1])
 metmast <- mast(timestamp=ts, set40=set40, set30=set30)
 
 # plot time series of met mast signals
-plotTimeSeries(mast=metmast)
+plot(metmast)
 
 # calculate frequency and mean wind speed per wind direction sector
 freq <- frequency(mast=metmast, v.set=1)
 
 # plot frequency
-plotFrequency(freq=freq)
+plot(freq)
 
 # calculate availability of pairs of wind speed and direction
 availability(mast=metmast)
 
 # calculate monthly means of wind speed
-monthStats(mast=metmast)
+month.stats(mast=metmast)
 
 # calculate turbulence intensity
 turbulence(mast=metmast, turb.set=1)
@@ -89,6 +89,6 @@ pc <- pc("Enercon_E126_7.5MW.pow")
 aep <- aep(profile=pf, pc=pc, hub.h=135)
 
 # plot AEP
-plotAep(aep)
+plot(aep)
 }
 }

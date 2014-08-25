@@ -67,7 +67,7 @@ Brower, M., Marcus, M., Taylor, M., Bernadett, D., Filippelli, M., Beaucage, P.,
 \seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
-# load and prepare data
+## load and prepare data
 data(neubuerg)
 set40 <- set(height=40, v.avg=neubuerg[,2], dir.avg=neubuerg[,14])
 set30 <- set(height=30, v.avg=neubuerg[,6], dir.avg=neubuerg[,16])
@@ -76,8 +76,8 @@ ts <- timestamp(timestamp=neubuerg[,1])
 neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
-# calculate frequency
-frequency(mast=neubuerg, v.set=1)
+## calculate frequency
+neubuerg.freq <- frequency(mast=neubuerg, v.set=1)
 
 # if only one of v.set and dir.set is given, 
 # the dataset is assigned to both
@@ -109,6 +109,24 @@ frequency(mast=neubuerg, v.set=1,
 # change number of digits and hide results
 frequency(mast=neubuerg, v.set=1, digits=2)
 frequency(mast=neubuerg, v.set=1, print=FALSE)
+
+
+## plot frequency objects
+plot(neubuerg.freq)  # default
+plot(neubuerg.freq, col=gray(5:0 / 5.5), cex=0.8)  # change colours/text sizes
+plot(neubuerg.freq, circles=c(10, 30, 10))  # manual definition of circles
+plot(neubuerg.freq, fg=TRUE)  # plot sectors in foreground
+plot(neubuerg.freq, pos.axis=135) # change axis label position
+plot(neubuerg.freq, width.leg=0)  # no legend
+
+# freaky
+plotFrequency(freq=neubuerg.freq, border.leg=heat.colors(5), bty.leg="o", 
+  cex.axis=0.5, cex.lab=2, cex.leg=0.5, circles=c(5, 30, 5), 
+  col=rainbow(5), col.axis="green", col.border="orange", 
+  col.circle="purple", col.cross="yellow", col.lab="pink", 
+  col.leg="lightblue", fg=TRUE, lwd.border=2, lwd.circle=3, lwd.cross=3, 
+  lty.circle="12345678", lty.cross="87654321", sec.space=0.6, 
+  title.leg="* WiNd SpEeD *", x.intersp=2, y.intersp=5)
 }
 }
 \keyword{methods}

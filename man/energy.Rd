@@ -80,7 +80,7 @@ Troen, I., Petersen, E.L. (1989) \emph{European Wind Atlas}. Tønder: Laursen
 \seealso{\code{\link{weibull}}}
 \examples{
 \dontrun{
-# load and prepare data
+## load and prepare data
 data(neubuerg)
 set1 <- set(height=40, v.avg=neubuerg[,2], v.std=neubuerg[,5],
   dir.avg=neubuerg[,14])
@@ -91,11 +91,13 @@ ts <- timestamp(timestamp=neubuerg[,1])
 neubuerg <- mast(timestamp=ts, set1, set2, set3)
 neubuerg <- clean(mast=neubuerg)
 
+
+## calculate Energy object
 # calculate Weibull object
 neubuerg.wb <- weibull(mast=neubuerg, v.set=1, print=FALSE)
 
 # calculate energy
-energy(wb=neubuerg.wb)
+neubuerg.e <- energy(wb=neubuerg.wb)
 
 # calculate energy for 1 m/s speed bins and without binning
 energy(wb=neubuerg.wb, bins=0:25)
@@ -107,6 +109,25 @@ energy(wb=neubuerg.wb, rho=1.115, bins=NULL)
 # change number of digits and hide results
 energy(wb=neubuerg.wb, digits=2)
 energy(wb=neubuerg.wb, print=FALSE)
+
+
+## plot energy objects
+plot(neubuerg.e)  # default
+plot(neubuerg.e, show.total=FALSE)  # omit total amount
+plot(neubuerg.e, col=gray(5:0/5.5), cex=0.8)  # change colours/text sizes
+plot(neubuerg.e, circles=c(100, 500, 100))  # manual definition of circles
+plot(neubuerg.e, fg=TRUE)  # plot sectors in foreground
+plot(neubuerg.e, pos.axis=135)  # change axis label position
+plot(neubuerg.e, width.leg=0)  # no legend
+
+# freaky
+plot(neubuerg.e, border.leg=heat.colors(5), bty.leg="o", 
+  cex.axis=0.5, cex.lab=2, cex.leg=0.5, circles=c(80, 800, 80), 
+  col=rainbow(5), col.axis="green", col.border="orange", 
+  col.circle="purple", col.cross="yellow", col.lab="pink", 
+  col.leg="lightblue", fg=TRUE, lwd.border=2, lwd.circle=3, lwd.cross=4, 
+  lty.circle="52168319", lty.cross="12223242", sec.space=0.6, 
+  title.leg="* WiNd SpEeD *", x.intersp=2, y.intersp=5)
 }
 }
 \keyword{methods}
