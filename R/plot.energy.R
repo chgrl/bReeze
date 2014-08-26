@@ -2,17 +2,23 @@ plot.energy <-
 function(x, show.total=TRUE, ...) {
 ###	plotting wind energy rose
 	
-	dim.data <- dim(x)
+	en <- x[[1]]
+	for(i in 2:length(x)) en <- cbind(en, x[[i]])
+	en <- as.data.frame(en)
+	row.names(en) <- attr(x, "row.names")
+	names(en) <- names(x)
+	
+	dim.data <- dim(en)
 	num.sectors <- dim.data[1] - 1
 	num.classes <- dim.data[2] - 1
-	total <- x$total[num.sectors+1]
+	total <- en$total[num.sectors+1]
 	unit <- attr(x, "unit")
 	
 	if(num.classes>1) {
-		e.cum <- x[1:num.sectors,2:dim.data[2]]
+		e.cum <- en[1:num.sectors,2:dim.data[2]]
 		for(i in 2:num.classes) e.cum[,i] <- e.cum[,i] + e.cum[,i-1]
 	} else {
-		e.cum <- data.frame(x[1:num.sectors,1])
+		e.cum <- data.frame(en[1:num.sectors,1])
 		num.classes <- 1
 	}
 	
