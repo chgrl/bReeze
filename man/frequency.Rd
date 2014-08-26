@@ -68,16 +68,16 @@ Brower, M., Marcus, M., Taylor, M., Bernadett, D., Filippelli, M., Beaucage, P.,
 \examples{
 \dontrun{
 ## load and prepare data
-data(neubuerg)
-set40 <- set(height=40, v.avg=neubuerg[,2], dir.avg=neubuerg[,14])
-set30 <- set(height=30, v.avg=neubuerg[,6], dir.avg=neubuerg[,16])
-set20 <- set(height=20, v.avg=neubuerg[,10])
-ts <- timestamp(timestamp=neubuerg[,1])
+data(winddata)
+set40 <- set(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
+set30 <- set(height=30, v.avg=winddata[,6], dir.avg=winddata[,16])
+set20 <- set(height=20, v.avg=winddata[,10])
+ts <- timestamp(timestamp=winddata[,1])
 neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
 ## calculate frequency
-neubuerg.freq <- frequency(mast=neubuerg, v.set=1)
+frequency(mast=neubuerg, v.set=1)
 
 # if only one of v.set and dir.set is given, 
 # the dataset is assigned to both
@@ -108,8 +108,8 @@ frequency(mast=neubuerg, v.set=1,
 
 # change number of digits and hide results
 frequency(mast=neubuerg, v.set=1, digits=2)
-frequency(mast=neubuerg, v.set=1, print=FALSE)
-
+neubuerg.freq <- frequency(mast=neubuerg, v.set=1, print=FALSE)
+neubuerg.freq
 
 ## plot frequency objects
 plot(neubuerg.freq)  # default
@@ -120,7 +120,7 @@ plot(neubuerg.freq, pos.axis=135) # change axis label position
 plot(neubuerg.freq, width.leg=0)  # no legend
 
 # freaky
-plotFrequency(freq=neubuerg.freq, border.leg=heat.colors(5), bty.leg="o", 
+plot(neubuerg.freq, border.leg=heat.colors(5), bty.leg="o", 
   cex.axis=0.5, cex.lab=2, cex.leg=0.5, circles=c(5, 30, 5), 
   col=rainbow(5), col.axis="green", col.border="orange", 
   col.circle="purple", col.cross="yellow", col.lab="pink", 

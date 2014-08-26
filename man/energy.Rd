@@ -81,13 +81,13 @@ Troen, I., Petersen, E.L. (1989) \emph{European Wind Atlas}. Tønder: Laursen
 \examples{
 \dontrun{
 ## load and prepare data
-data(neubuerg)
-set1 <- set(height=40, v.avg=neubuerg[,2], v.std=neubuerg[,5],
-  dir.avg=neubuerg[,14])
-set2 <- set(height=30, v.avg=neubuerg[,6], v.std=neubuerg[,9],
-  dir.avg=neubuerg[,16])
-set3 <- set(height=20, v.avg=neubuerg[,10], v.std=neubuerg[,13])
-ts <- timestamp(timestamp=neubuerg[,1])
+data(winddata)
+set1 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],
+  dir.avg=winddata[,14])
+set2 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
+  dir.avg=winddata[,16])
+set3 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])
+ts <- timestamp(timestamp=winddata[,1])
 neubuerg <- mast(timestamp=ts, set1, set2, set3)
 neubuerg <- clean(mast=neubuerg)
 
