@@ -46,7 +46,10 @@ function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 	}
 	names(energy.tbl) <- c.names
 	
-	freq <- frequency(mast, v.set, dir.set, num.sectors, bins, subset, print=FALSE)[,-1]
+	freq.l <- frequency(mast, v.set, dir.set, num.sectors, bins, subset, print=FALSE)
+	freq <- freq.l[[2]]
+	if(length(freq.l)>2) for(i in 3:length(freq.l)) freq <- cbind(freq, freq.l[[i]])
+	if(!is.null(bins)) freq <- data.frame(freq)
 	
 	for(i in 1:num.sectors) {
 		if(!is.null(bins)) {
