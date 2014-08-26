@@ -60,7 +60,7 @@ The following graphical parameters can optionally be added to customize the plot
 \seealso{\code{\link{POSIXlt}}, \code{\link{set}}, \code{\link{timestamp}}}
 \examples{
 \dontrun{
-# load data, prepare sets and time stamp
+## load data, prepare sets and time stamp
 data(neubuerg)
 set40 <- set(height=40, v.avg=neubuerg[,2], v.std=neubuerg[,5],
   dir.avg=neubuerg[,14])
@@ -69,23 +69,35 @@ set30 <- set(height=30, v.avg=neubuerg[,6], v.std=neubuerg[,9],
 set20 <- set(height=20, v.avg=neubuerg[,10], v.std=neubuerg[,13])
 ts <- timestamp(timestamp=neubuerg[,1])
 
-# create met mast object
-neubuerg <- mast(timestamp=ts, set40, set30, set20)
+## create met mast object
+neubuerg <- mast(timestamp=ts, set40, set30, set20)  # default
 
-# create met mast with location and description
+# add location and description
 neubuerg.2 <- mast(timestamp=ts, set40, set30, set20, 
   loc=c(49.8909,11.4017), desc="Site #247 - Neubuerg")
-
-# view structure of met mast
-str(neubuerg.2)
 
 # name sets
 neubuerg.3 <- mast(timestamp=ts, C1.A1=set40, C2.A2=set30, 
   C3=set20, loc=c(49.8909,11.4017), desc="Site #247 - Neubuerg")
 
-# compare names
-names(neubuerg.2$sets)	# default names
-names(neubuerg.3$sets)
+
+## plot met mast (time series)
+plot(neubuerg)  # default
+plot(neubuerg, set=1, legend=FALSE)  # only one set
+plot(neubuerg, set="set1", legend=FALSE)  # same as above 
+plot(neubuerg, signal=c("v.avg", "dir.avg"))  # change signals
+
+# change time scale
+plot(neubuerg, subset=c("2010-01-01 00:10:00", NA))
+plot(neubuerg, subset=c("2009-10-11 00:10:00", "2009-10-11 23:50:00"))
+plot(neubuerg, set=1, signal="dir.avg", subset=c(NA, "2009-12-27 18:30:00"))
+
+# customize plot
+plot(neubuerg, bty="n", bty.leg="o", cex.axis=1.2, cex.lab=1.4, cex.leg=1.2, 
+  col=c("darkblue", "red2", "darkgreen"), col.axis="darkgray", 
+  col.lab="darkgray", col.leg="darkgray", col.ticks="darkgray", 
+  las=0, lty=rep(1.5,3), mar=c(0.5,4,0,0.5), mgp=c(2,0.5,0), 
+  ylab=c("v [m/s]","dir [deg]","ti [-]"), x.intersp=1)
 }
 }
 \keyword{methods}

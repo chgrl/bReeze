@@ -66,7 +66,7 @@ Brower, M., Marcus, M., Taylor, M., Bernadett, D., Filippelli, M., Beaucage, P.,
 \seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
-# load and prepare data
+## load and prepare data
 data(neubuerg)
 set40 <- set(height=40, v.avg=neubuerg[,2], v.max=neubuerg[,3])
 set30 <- set(height=30, v.avg=neubuerg[,6], v.max=neubuerg[,7])
@@ -75,15 +75,11 @@ ts <- timestamp(timestamp=neubuerg[,1])
 neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
-# calculate monthly means
-neubuerg.stats <- month.stats(mast=neubuerg)
-
-# calculate monthly means for one dataset
-month.stats(mast=neubuerg, set=1)
-month.stats(mast=neubuerg, set="set1")	# same as above
-
-# calculate monthly means for another signal
-month.stats(mast=neubuerg, signal="v.max")
+## calculate monthly means
+neubuerg.stats <- month.stats(mast=neubuerg)  # default
+month.stats(mast=neubuerg, set=1)  # one dataset
+month.stats(mast=neubuerg, set="set1")  # same as above
+month.stats(mast=neubuerg, signal="v.max")  # change signal
 
 # calculate monthly median, min, max and standard deviation
 month.stats(mast=neubuerg, fun="median")
@@ -99,9 +95,22 @@ month.stats(mast=neubuerg,
 month.stats(mast=neubuerg, 
   subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
 
-# change number of digits and hide results
-month.stats(mast=neubuerg, digits=2)
-month.stats(mast=neubuerg, print=FALSE)
+month.stats(mast=neubuerg, digits=2)  # change number of digits
+neubuerg.ms <- month.stats(mast=neubuerg, print=FALSE)  # hide results
+neubuerg.ms
+
+
+## plot month stats object
+plot(neubuerg.ms)  # default
+plot(neubuerg.ms, set=1)  # one dataset
+plot(neubuerg.ms, set="set1")  # same as above
+
+# customize plot
+ploz(neubuerg.ms, border="darkgray", bty="l", cex.axis=0.7, 
+  cex.lab=0.9, col=c(gray(0.3), gray(0.7)), col.axis="darkgray", 
+  col.box="darkgray", col.lab="darkgray", col.ticks="darkgray", las=0, 
+  legend=FALSE, mgp=c(2, 0.7, 0), plot.names=FALSE, ylim=c(0,7), 
+  ylab="Wind speed [m/s]")
 }
 }
 \keyword{methods}
