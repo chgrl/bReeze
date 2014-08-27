@@ -94,15 +94,17 @@ International Electrotechnical Commission (2005) IEC 61400-12 Wind Turbines -- P
 \seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
-# load and prepare data
-data(neubuerg)
-set40 <- set(height=40, v.avg=neubuerg[,2], dir.avg=neubuerg[,14])
-set30 <- set(height=30, v.avg=neubuerg[,6], dir.avg=neubuerg[,16])
-set20 <- set(height=20, v.avg=neubuerg[,10], v.std=neubuerg[,13])
-ts <- timestamp(timestamp=neubuerg[,1])
+## load and prepare data
+data(winddata)
+set40 <- set(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
+set30 <- set(height=30, v.avg=winddata[,6], dir.avg=winddata[,16])
+set20 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])
+ts <- timestamp(timestamp=winddata[,1])
 neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
+
+## calculate profile
 # create profile based on one height
 profile(mast=neubuerg, v.set=1, dir.set=1)	# default alpha=0.2
 profile(mast=neubuerg, v.set=1, dir.set=1, alpha=0.15)
@@ -133,7 +135,27 @@ profile(mast=neubuerg, v.set=c(1:3), dir.set=1,
 
 # change number of digits and hide results
 profile(mast=neubuerg, v.set=1, dir.set=1, digits=2)
-profile(mast=neubuerg, v.set=1, dir.set=1, print=FALSE)
+neubuerg.wp <- profile(mast=neubuerg, v.set=1, dir.set=1, print=FALSE)
+neubuerg.wp
+
+
+## plot profile objects
+plot(neubuerg.wp)  # default
+plot(neubuerg.wp, measured=FALSE)  # omit 'measured' points
+
+# plot only one sector
+plot(neubuerg.wp, sector=3)	# ENE by sector number
+plot(neubuerg.wp, sector="ene")	# ENE by sector code
+plot(neubuerg.wp, sector="all")	# general profile
+
+# customize plot
+plot(neubuerg.wp, bty="l", bty.leg="o", cex.axis=0.8, 
+  cex.lab=0.9, cex.leg=0.7, col=rainbow(13), col.axis=gray(0.2), 
+  col.box=gray(0.2), col.lab=gray(0.2), col.leg=gray(0.2), 
+  col.ticks=gray(0.2), las=0, lty=c(rep(3,12),1), 
+  lwd=c(rep(1.2,12), 1.7), mar=c(3,3,0.5,0.5), mgp=c(2,0.7,0), 
+  pos.leg="right", xlab="velocity [m/s]", ylab="height [m]", 
+  xlim=c(0,11), ylim=c(0,150), x.intersp=1, y.intersp=1.2)
 }
 }
 \keyword{methods}

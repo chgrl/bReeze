@@ -36,16 +36,16 @@ Returns a dataset object which is a list of:
 \examples{
 \dontrun{
 # load data
-data(neubuerg)
+data(winddata)
 
 # minimal dataset
-s <- set(height=40, v.avg=neubuerg[,2])
+s <- set(height=40, v.avg=winddata[,2])
 
 # detailed dataset
 s2 <- set(height=40, desc=
   "C1: cup anemometer (SN: 4.3250.128), A1: wind vane (SN: 4.2800.205)", 
-  v.avg=neubuerg[,2], v.max=neubuerg[,3], v.min=neubuerg[,4], 
-  v.std=neubuerg[,5], dir.avg=neubuerg[,14], dir.std=neubuerg[,15])
+  v.avg=winddata[,2], v.max=winddata[,3], v.min=winddata[,4], 
+  v.std=winddata[,5], dir.avg=winddata[,14], dir.std=winddata[,15])
 }
 }
 \keyword{methods}

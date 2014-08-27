@@ -64,26 +64,23 @@ Langreder, W. (2010) Wind Resource and Site Assessment. In: Wei Tong (Ed.), Wind
 \seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
-# load and prepare data
-data(neubuerg)
-set40 <- set(height=40, v.avg=neubuerg[,2], v.std=neubuerg[,5],
-  dir.avg=neubuerg[,14])
-set30 <- set(height=30, v.avg=neubuerg[,6], v.std=neubuerg[,9],
-  dir.avg=neubuerg[,16])
-set20 <- set(height=20, v.avg=neubuerg[,10], v.std=neubuerg[,13])
-ts <- timestamp(timestamp=neubuerg[,1])
+## load and prepare data
+data(winddata)
+set40 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],
+  dir.avg=winddata[,14])
+set30 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
+  dir.avg=winddata[,16])
+set20 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])
+ts <- timestamp(timestamp=winddata[,1])
 neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
-# calculate turbulence intensity
-turbulence(mast=neubuerg, turb.set=1)
 
-# use different datasets for turb.set and dir.set
-turbulence(mast=neubuerg, turb.set=1, dir.set=2)
-turbulence(mast=neubuerg, turb.set="set1", dir.set="set2")	# same as above
-
-# change number of direction sectors
-turbulence(mast=neubuerg, turb.set=1, num.sectors=4)
+## calculate turbulence intensity
+turbulence(mast=neubuerg, turb.set=1)  # default
+turbulence(mast=neubuerg, turb.set=1, dir.set=2)  # use different datasets
+turbulence(mast=neubuerg, turb.set="set1", dir.set="set2")  # same as above
+turbulence(mast=neubuerg, turb.set=1, num.sectors=4)  # change sector number
 
 # calculate turbulence intensity for 1 m/s speed bins and without binning
 turbulence(mast=neubuerg, turb.set=1, bins=1:25)
@@ -95,7 +92,19 @@ turbulence(mast=neubuerg, turb.set=1,
 
 # change number of digits and hide results
 turbulence(mast=neubuerg, turb.set=1, digits=2)
-turbulence(mast=neubuerg, turb.set=1, print=FALSE)
+neubuerg.ti <- turbulence(mast=neubuerg, turb.set=1, print=FALSE)
+neubuerg.ti
+
+
+## plot turbulence intensity object
+plot(neubuerg.ti)  # default
+
+# change colour, text size etc.
+plot(neubuerg.ti, cex.axis=0.7, cex.lab=0.9, circles=c(0.05,0.20,0.05), 
+  col="lightgray", col.axis="darkgray", col.border="gray", col.circle="darkgray", 
+  col.cross="darkgray", col.lab="darkgray", fg=TRUE, lty.circle="dotdash", 
+  lty.cross="longdash", lwd.border=1.2, lwd.circle=1.2, lwd.cross=1.2, 
+  pos.axis=135, sec.space=0.6)
 }
 }
 \keyword{methods}
