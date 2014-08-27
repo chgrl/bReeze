@@ -37,25 +37,28 @@ For details see \code{\link{strptime}}.
 \examples{
 \dontrun{
 # load and prepare data
-data(neubuerg)
+data(winddata)
 
 # format time stamp
-timestamp <- timestamp(timestamp=neubuerg[,1])
+timestamp <- timestamp(timestamp=winddata[,1])
 
 # format time stamp with given pattern
-timestamp.2 <- timestamp(timestamp=neubuerg[,1], "\%d.\%m.\%Y \%H:\%M")
+timestamp.2 <- timestamp(timestamp=winddata[,1], "%d.%m.%Y %H:%M")
 
-# wrong pattern (\%y)
-timestamp.2 <- timestamp(timestamp=neubuerg[,1], "\%d.\%m.\%y \%H:\%M")
+# wrong pattern (%y)
+timestamp.2 <- timestamp(timestamp=winddata[,1], "%d.%m.%y %H:%M")
 
 # strange time stamp pattern
 ts <- c("TS 08/2012-10 8h10m30s", "TS 08/2012-10 8h20m30s", 
   "TS 08/2012-10 8h30m30s")
 timestamp.3 <- timestamp(timestamp=ts)	# pattern not found
-timestamp.3 <- timestamp(timestamp=ts, "TS \%m/\%Y-\%d \%Hh\%Mm\%Ss")
+timestamp.3 <- timestamp(timestamp=ts, "TS %m/%Y-%d %Hh%Mm%Ss")
 
-# time zone
-timestamp.4 <- timestamp(timestamp=neubuerg[,1], tz="CEST")
+# time zones
+# manually define time zone
+timestamp.4 <- timestamp(timestamp=winddata[,1], tz="CET")
+
+# get time zone from timestamp
 timestamp.5 <- timestamp(timestamp="2012-08-08 22:55 GMT", tz="?")
 }
 }
