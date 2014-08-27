@@ -2,13 +2,19 @@ plot.turbulence <-
 function(x, ...) {
 ### plotting turbulence intensity from turbulence object
 	
-	num.sectors <- dim(x)[1] - 1
+	turb <- x[[1]]
+	for(i in 2:length(x)) turb <- cbind(turb, x[[i]])
+	turb <- as.data.frame(turb)
+	row.names(turb) <- attr(x, "row.names")
+	names(turb) <- names(x)
+	
+	num.sectors <- dim(turb)[1] - 1
 	sectors <- seq(0, 360-360/num.sectors, by=360/num.sectors)
 	sectors <- sectors+90
 	sector.edges <- sectors*pi/180
 	sector.width <- sector.edges[2] - sector.edges[1]
 	
-	turb.max <- 100*max(x$total[1:num.sectors], na.rm=TRUE)
+	turb.max <- 100*max(turb$total[1:num.sectors], na.rm=TRUE)
 	
 	# prepare plot
 	old.par <- par(no.readonly=TRUE)
@@ -62,7 +68,7 @@ function(x, ...) {
 	plot.window(xlim, ylim, "", asp=1)
 	
 	if(!fg) {
-		plot.data <- c(tail(rev(as.vector(x$total[1:num.sectors])), n=1), head(rev(as.vector(x$total[1:num.sectors])), n=-1))    	
+		plot.data <- c(tail(rev(as.vector(turb$total[1:num.sectors])), n=1), head(rev(as.vector(turb$total[1:num.sectors])), n=-1))    	
 		for (i in 1:num.sectors) {
 			arc.pts <- seq(sector.edges[i] - sector.width/2*sec.space, sector.edges[i] + sector.width/2*sec.space, length.out=trunc(360/num.sectors*sec.space))
 			rad <- 0.95 * plot.data[i]/tail(circles, 1)
@@ -91,7 +97,7 @@ function(x, ...) {
 	text(0.95, 0, "E", pos=4, cex=cex.lab, col=col.lab)
 	
 	if(fg) {
-		plot.data <- c(tail(rev(as.vector(x$total[1:num.sectors])), n=1), head(rev(as.vector(x$total[1:num.sectors])), n=-1))    	
+		plot.data <- c(tail(rev(as.vector(turb$total[1:num.sectors])), n=1), head(rev(as.vector(turb$total[1:num.sectors])), n=-1))    	
 		for (i in 1:num.sectors) {
 			arc.pts <- seq(sector.edges[i] - sector.width/2*sec.space, sector.edges[i] + sector.width/2*sec.space, length.out=trunc(360/num.sectors*sec.space))
 			rad <- 0.95 * plot.data[i]/tail(circles, 1)
