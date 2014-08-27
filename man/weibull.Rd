@@ -114,17 +114,18 @@ Weibull, W. (1951) A Statistical Distribution Function of Wide Applicability. \e
 \seealso{\code{\link{mast}}}
 \examples{
 \dontrun{
-# load and prepare data
-data(neubuerg)
-set40 <- set(height=40, v.avg=neubuerg[,2], dir.avg=neubuerg[,14])
-set30 <- set(height=30, v.avg=neubuerg[,6], dir.avg=neubuerg[,16])
-set20 <- set(height=20, v.avg=neubuerg[,10])
-ts <- timestamp(timestamp=neubuerg[,1])
+## load and prepare data
+data(winddata)
+set40 <- set(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
+set30 <- set(height=30, v.avg=winddata[,6], dir.avg=winddata[,16])
+set20 <- set(height=20, v.avg=winddata[,10])
+ts <- timestamp(timestamp=winddata[,1])
 neubuerg <- mast(timestamp=ts, set40, set30, set20)
 neubuerg <- clean(mast=neubuerg)
 
-# calculate Weibull parameters
-weibull(mast=neubuerg, v.set=1)
+
+## calculate Weibull parameters
+weibull(mast=neubuerg, v.set=1)  # default
 
 # if only one of v.set and dir.set is given, 
 # the dataset is assigned to both
@@ -144,8 +145,42 @@ weibull(mast=neubuerg, v.set=1,
   subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
 
 # change number of digits and hide results
-weibull(mast=neubuerg, v.set=1, digits=2)
-weibull(mast=neubuerg, v.set=1, print=FALSE)
+neubuerg.wb <- weibull(mast=neubuerg, v.set=1, digits=2, print=FALSE)
+
+
+## plot weibull objects - histogram plot
+plot(neubuerg.wb)  # default
+plot(neubuerg.wb, type="dir")  # same as above
+plot(neubuerg.wb, show.ak=TRUE)  # show parameters in legend
+
+# customize plot
+plot(neubuerg.wb, bty="l", bty.leg="l", cex.axis=1.2, cex.lab=1.4, cex.leg=0.9, 
+  col.axis="darkgray", col.box="darkgray", col.lab="darkgray", col.leg="darkgray", 
+  col.ticks="darkgray", las=0, leg.text=c("measured", "calculated"), 
+  mar=c(3,3,0.5,0.5), mgp=c(1.8,0.5,0), pos.leg="right", xlab="velocity [m/s]", 
+  ylab="frequency [\%]", xlim=c(0,20), ylim=c(0,15), x.intersp=1, y.intersp=1)
+
+# customize bars
+plot(neubuerg.wb, border="darkgray", breaks=seq(0,21,0.5), 
+  col="lightgray")
+
+# customize line
+plot(neubuerg.wb, line="black", lty="dotdash", lwd=2)
+
+
+## plot weibull objects - directional plot
+plot(neubuerg.wb, type="dir")
+
+# show parameters in legend
+plot(neubuerg.wb, type="dir", show.ak=TRUE)
+
+# customize plot
+plot(neubuerg.wb, type="dir", bty="l", bty.leg="o", cex.axis=0.8, cex.lab=0.9, 
+  cex.leg=0.7, col=c(rainbow(12), gray(0.4)), col.axis=gray(0.2), col.box=gray(0.4), 
+  col.lab=gray(0.2), col.leg=gray(0.2), col.ticks=gray(0.2), las=0, 
+  lty=c(rep(3, 12), 1), lwd=c(rep(1, 12), 2), mar=c(3,3,0.5,0.5), mgp=c(1.5,0.5,0), 
+  pos.leg="right", xlab="velocity [m/s]", ylab="frequency [m/s]", xlim=c(0,15), 
+  ylim=c(0,25), x.intersp=1, y.intersp=1)
 }
 }
 \keyword{methods}

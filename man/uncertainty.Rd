@@ -89,17 +89,19 @@ Measnet (2009) MEASNET Procedure: Evaluation of Site Specific Wind Conditions, V
 \seealso{\code{\link{aep}}}
 \examples{
 \dontrun{
-# load and prepare data
-data(neubuerg)
-set1 <- set(height=40, v.avg=neubuerg[,2], v.std=neubuerg[,5],
-  dir.avg=neubuerg[,14])
-set2 <- set(height=30, v.avg=neubuerg[,6], v.std=neubuerg[,9],
-  dir.avg=neubuerg[,16])
-ts <- timestamp(timestamp=neubuerg[,1])
+## load and prepare data
+data(winddata)
+set1 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],
+  dir.avg=winddata[,14])
+set2 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
+  dir.avg=winddata[,16])
+ts <- timestamp(timestamp=winddata[,1])
 neubuerg <- mast(timestamp=ts, set1, set2)
 neubuerg <- clean(mast=neubuerg)
 
-# calculate aep
+
+## calculate uncertainty
+# calculate AEP
 nb.wp <- profile(mast=neubuerg, v.set=c(1,2), dir.set=1, 
   print=FALSE)
 pw.56 <- pc("PowerWind_56_900kW.wtg")
@@ -125,9 +127,44 @@ uncertainty(nb.aep, uc.values=c(5,10,5,5),
   "Flow Model", "Power Curve"), prob=seq(50,90,10))
 
 # change number of digits and hide results
-uncertainty(nb.aep, uc.values=c(5,10,5,5), 
+neubuerg.uc <- uncertainty(nb.aep, uc.values=c(5,10,5,5), 
   uc.names=c("Wind Measurement Mast", "Long Term Correlation", 
   "Flow Model", "Power Curve"), digits=c(1,2), print=FALSE)
+neubuerg.uc
+
+
+## plot uncertainty objects - probability of exceedance plot 
+plot(neubuerg.uc)  # default
+plot(neubuerg.uc, p.values=c(50, 95))  # change highlighted P-values
+
+# change colours, line types, line width and text size
+plot(neubuerg.uc, col="blue", lty=c(1, 2, 3, 4), lwd=2, cex=1.2)
+
+# freaky
+plot(neubuerg.uc, bty="l", bty.leg="o", cex.axis=2, 
+  cex.lab=0.5, cex.leg=0.8, col=c(5, 10, 15, 20), col.axis="sienna", 
+  col.box="purple", col.lab="plum", col.leg="orchid", col.ticks="gold", 
+  las=0, lty=c(8, 7, 6, 5), lwd=c(5, 3, 1, 0.5), mar=c(6, 5, 4, 3), 
+  mgp=c(4, 2, 1), pos.leg="bottomleft", xlim=c(0.1, 0.9), ylim=c(1000, 2000), 
+  x.intersp=2, y.intersp=1.5)
+
+
+## plot uncertainty objects - uncertainty overview plot
+plot(neubuerg.uc, type="uncert")  # default
+
+# change colours and border
+plot(neubuerg.uc, type="uncert", col="red", border="red4")
+plot(neubuerg.uc, type="uncert", col=c(gray(0.7), gray(0.5)), 
+  border=c(gray(0.6), gray(0.4)))
+plot(neubuerg.uc, type="uncert", col=c(5:1), border=c(1:5))
+
+# change text size, space and margin
+plot(neubuerg.uc, type="uncert", cex=1.5, space=0.1, mar=c(1, 13, 1, 1))
+
+# freaky
+plot(neubuerg.uc, type="uncert", border=c(11, 22, 33, 44, 55), cex.axis=0.7, 
+  cex.text=2, col=c("maroon", "navy", "thistle", "rosybrown", "papayawhip"), 
+  col.axis="pink3", col.text="seagreen", mar=c(3, 8, 2, 1), mgp=c(0, 1, 2), space=1)
 }
 }
 \keyword{methods}
