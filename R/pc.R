@@ -95,24 +95,24 @@ function(pc, ...) {
 		attr(r, "call") <- list(func="pc.read", pc=pc)
 	} else if(type==".wtg") {
 		stopifnot(requireNamespace("XML", quietly=TRUE))
-		wtg <- xmlTreeParse(pc, asTree=TRUE)
+		wtg <- XML::xmlTreeParse(pc, asTree=TRUE)
 		if(is.null(wtg$doc$children$WindTurbineGenerator)) stop("Cannot handle file")
 		n <- length(wtg$doc$children$WindTurbineGenerator)
 		idx <- 3
 		if(n>4) {
 			rho <- NULL
-			for(i in 3:(n-1)) rho <- append(rho, as.numeric(xmlAttrs(wtg$doc$children$WindTurbineGenerator[[i]])[["AirDensity"]]))
+			for(i in 3:(n-1)) rho <- append(rho, as.numeric(XML::xmlAttrs(wtg$doc$children$WindTurbineGenerator[[i]])[["AirDensity"]]))
 			idx <- which.min(abs(rho-1.225))+2
 		}
-		rho <- as.numeric(xmlAttrs(wtg$doc$children$WindTurbineGenerator[[idx]])[["AirDensity"]])
+		rho <- as.numeric(XML::xmlAttrs(wtg$doc$children$WindTurbineGenerator[[idx]])[["AirDensity"]])
 		n <- length(wtg$doc$children$WindTurbineGenerator[[idx]][["DataTable"]])
 		v <- p <- ct <- NULL
 		for(i in 1:n) {
-			v <- append(v, as.numeric(xmlAttrs(wtg$doc$children$WindTurbineGenerator[[idx]][["DataTable"]][[i]])[["WindSpeed"]]))
-			p <- append(p, as.numeric(xmlAttrs(wtg$doc$children$WindTurbineGenerator[[idx]][["DataTable"]][[i]])[["PowerOutput"]])/1000)
-			ct <- append(ct, as.numeric(xmlAttrs(wtg$doc$children$WindTurbineGenerator[[idx]][["DataTable"]][[i]])[["ThrustCoEfficient"]]))
+			v <- append(v, as.numeric(XML::xmlAttrs(wtg$doc$children$WindTurbineGenerator[[idx]][["DataTable"]][[i]])[["WindSpeed"]]))
+			p <- append(p, as.numeric(XML::xmlAttrs(wtg$doc$children$WindTurbineGenerator[[idx]][["DataTable"]][[i]])[["PowerOutput"]])/1000)
+			ct <- append(ct, as.numeric(XML::xmlAttrs(wtg$doc$children$WindTurbineGenerator[[idx]][["DataTable"]][[i]])[["ThrustCoEfficient"]]))
 		}
-		desc <- xmlAttrs(xmlRoot(wtg))[["Description"]]
+		desc <- XML::xmlAttrs(XML::xmlRoot(wtg))[["Description"]]
 		r <- pc.default(pc=list(v=v, p=p, ct=ct), rho=rho, desc=desc)
 		attr(r, "call") <- list(func="pc.read", pc=pc)
 	}
