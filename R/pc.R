@@ -94,7 +94,7 @@ function(pc, ...) {
 		r <- pc.default(pc=list(v=v, p=p), rho=1.225, desc=desc)
 		attr(r, "call") <- list(func="pc.read", pc=pc)
 	} else if(type==".wtg") {
-		stopifnot(require(XML))
+		stopifnot(requireNamespace("XML", quietly=TRUE))
 		wtg <- xmlTreeParse(pc, asTree=TRUE)
 		if(is.null(wtg$doc$children$WindTurbineGenerator)) stop("Cannot handle file")
 		n <- length(wtg$doc$children$WindTurbineGenerator)

@@ -22,7 +22,7 @@ function(x, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
 			if(length(p.values)==1) col <- c("#084081", "#FF0000")
 			else if(length(p.values)==2) col <- c("#084081", "#FB6A4A", "#A50F15")
 			else if(length(p.values)>2 && length(p.values)<10) {
-				if(suppressWarnings(require(RColorBrewer, quietly=TRUE))) col <- c("#084081", brewer.pal(length(p.values), "Reds"))
+				if(requireNamespace("RColorBrewer", quietly=TRUE)) col <- c("#084081", RColorBrewer::brewer.pal(length(p.values), "Reds"))
 				else col <- c("#084081", rainbow(length(p.values)))
 			} else col <- c("#084081", rainbow(length(p.values)))
 		}

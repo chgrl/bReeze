@@ -37,8 +37,8 @@ function(x, show.total=TRUE, ...) {
 		if(num.classes==1) col <- c("#31A354")
 		else if(num.classes==2) col <- c("#31A354", "#A1D99B")
 		else if(num.classes>2 && num.classes<=11) {
-			if(suppressWarnings(require(RColorBrewer, quietly=TRUE))) col <- rev(brewer.pal(num.classes, "Greens"))
-			else col <- rev(rainbow(num.classes, start=0.0, end=0.7))
+			if(requireNamespace("RColorBrewer", quietly=TRUE)) col <- rev(RColorBrewer::brewer.pal(num.classes, "Greens"))
+			else rev(rainbow(num.classes, start=0.0, end=0.7))
 		} else col <- rev(rainbow(num.classes, start=0.0, end=0.7))
 	}
 	if(any(names(plot.param)=="cex")) cex <- plot.param$cex
