@@ -106,7 +106,7 @@ plot(neubuerg.ms, set=1)  # one dataset
 plot(neubuerg.ms, set="set1")  # same as above
 
 # customize plot
-ploz(neubuerg.ms, border="darkgray", bty="l", cex.axis=0.7, 
+plot(neubuerg.ms, border="darkgray", bty="l", cex.axis=0.7, 
   cex.lab=0.9, col=c(gray(0.3), gray(0.7)), col.axis="darkgray", 
   col.box="darkgray", col.lab="darkgray", col.ticks="darkgray", las=0, 
   legend=FALSE, mgp=c(2, 0.7, 0), plot.names=FALSE, ylim=c(0,7), 
