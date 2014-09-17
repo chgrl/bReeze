@@ -28,9 +28,9 @@ function(mast, type=c("satellite", "terrain", "hybrid", "roadmap"), zoom, label,
 	else pos.lab <- 4
 	
 	tmp.file <- gsub("[^0-9]", "", substr(Sys.time(), 1, 19))
-	tmpmap <- GetMap(center=c(lat, lon), zoom=zoom, destfile=file.path(tempdir(), paste0("map", tmp.file, ".png")), maptype=type, format="png32", verbose=0)
-	PlotOnStaticMap(tmpmap, lat=lat, lon=lon, destfile=file.path(tempdir(), paste0("map", tmp.file, ".png")), cex=cex, pch=pch ,col=col, NEWMAP=FALSE)
-	if(!is.na(label)) TextOnStaticMap(tmpmap, lat=lat, lon=lon, labels=label, cex=cex.lab, col=col.lab, pos=pos.lab, add=TRUE)
+	tmpmap <- RgoogleMaps::GetMap(center=c(lat, lon), zoom=zoom, destfile=file.path(tempdir(), paste0("map", tmp.file, ".png")), maptype=type, format="png32", verbose=0)
+	RgoogleMaps::PlotOnStaticMap(tmpmap, lat=lat, lon=lon, destfile=file.path(tempdir(), paste0("map", tmp.file, ".png")), cex=cex, pch=pch ,col=col, NEWMAP=FALSE)
+	if(!is.na(label)) RgoogleMaps::TextOnStaticMap(tmpmap, lat=lat, lon=lon, labels=label, cex=cex.lab, col=col.lab, pos=pos.lab, add=TRUE)
 	
 	unlink(file.path(tempdir(), paste0("map", tmp.file, ".png.rda")), recursive=FALSE, force=FALSE)
 	unlink(file.path(tempdir(), paste0("map", tmp.file, ".png")), recursive=FALSE, force=FALSE)
