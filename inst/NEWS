@@ -1,3 +1,17 @@
+bReeze 0.4-0 [2014-09-18]
+-------------------------
+
+* S3 reorganisation of all functions
+ 
+* aep, availability, energy, frequency, month.stats, day.plot, 
+  polar.plot, turb.iec.plot, profile, turbulence, weibull: 
+  potential timezone bug fixed
+  
+* plot.weibull: parameter display error fixed
+
+* package dependencies reduced 
+
+
 bReeze 0.3-2 [2014-05-08]
 -------------------------
 

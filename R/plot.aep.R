@@ -34,7 +34,7 @@ function(x, show.total=TRUE, ...) {
 		if(num.classes==1) col <- c("#3182BD")
 		else if(num.classes==2) col <- c("#3182BD", "#9ECAE1")
 		else if(num.classes>2 && num.classes<=11) {
-	    	if(suppressWarnings(require(RColorBrewer, quietly=TRUE))) col <- rev(brewer.pal(num.classes, "Blues"))
+	    	if(suppressWarnings(require(RColorBrewer, quietly=TRUE))) col <- rev(RColorBrewer::brewer.pal(num.classes, "Blues"))
 	    	else col <- rev(rainbow(num.classes, start=0.0, end=0.7))
 	    } else {
 	    	col <- rev(rainbow(num.classes, start=0.0, end=0.7))
