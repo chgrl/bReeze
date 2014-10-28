@@ -90,7 +90,7 @@ function(x, show.total=TRUE, ...) {
 	else col.border <- NULL
 	if(any(names(plot.param)=="lwd.border")) lwd.border <- plot.param$lwd.border
 	else lwd.border <- 0.5
-
+	
 	if(is.null(circles)) {
 		aep.max <- max(aep.cum, na.rm=TRUE)
 		mag <-length(strsplit(as.character(aep.max),"")[[1]])-1
@@ -197,4 +197,8 @@ function(x, show.total=TRUE, ...) {
 		plot(0, type="n", axes=FALSE, xlab="", ylab="")
 		legend("left", legend=names(aep.cum), title=title.leg, fill=col[1:num.classes], xjust=0, bty=bty.leg, border=border.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
 	}
+	
+	plt <- list(aep.cum=aep.cum, total=total, unit=unit)
+	class(plt) <- "aep.plot"
+	invisible(plt)
 }
