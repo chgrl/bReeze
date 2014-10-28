@@ -1,0 +1,222 @@
+combine <-
+function(a, b, ...) {
+###	combine plots
+	
+	if(missing(a) || missing(b)) stop("Two plots needed")
+	if(class(a)!=class(b)) stop("Only plots of the same class can be combined")
+	#if(class(a)=="aep.plot") combine.aep(a, b)
+	
+	if(any(dim(a$aep.cum)==dim(b$aep.cum))==FALSE) stop("Bins and number of sectors must be equal")
+	num.classes <- dim(a$aep.cum)[2]
+	num.sectors <- dim(a$aep.cum)[1]
+	if(any(names(a$aep.cum)==names(b$aep.cum))==FALSE) stop("Bins must be equal")
+	bins <- names(a$aep.cum)
+	
+	sectors <- seq(0, 360-360/num.sectors, by=360/num.sectors)
+	sectors <- sectors+90
+	sector.edges <- sectors*pi/180
+	sector.width <- sector.edges[2] - sector.edges[1]
+	
+	plot.param <- list(...)
+	if(any(names(plot.param)=="col")) col <- plot.param$col
+	else {
+		if(num.classes==1) col <- list("#3182BD", "#DE2D26")
+		else if(num.classes==2) col <- list(c("#3182BD", "#9ECAE1"), c("#DE2D26", "#FC9272"))
+		else if(num.classes>2 && num.classes<=11) {
+	    	if(requireNamespace("RColorBrewer", quietly=TRUE)) col <- list(rev(RColorBrewer::brewer.pal(num.classes, "Blues")), rev(RColorBrewer::brewer.pal(num.classes, "Reds")))
+	    	else col <- list(rev(rainbow(num.classes, start=0.0, end=0.5)), rev(rainbow(num.classes, start=0.5, end=1.0)))
+	    } else {
+	    	col <- list(rev(rainbow(num.classes, start=0.0, end=0.5)), rev(rainbow(num.classes, start=0.5, end=1.0)))
+	    }
+	}
+	if(any(names(plot.param)=="cex")) cex <- plot.param$cex
+	else cex <- 1
+	if(any(names(plot.param)=="cex.axis")) cex.axis <- plot.param$cex.axis
+	else cex.axis <- cex-0.2
+	if(any(names(plot.param)=="cex.lab")) cex.lab <- plot.param$cex.lab
+	else cex.lab <- cex
+	if(any(names(plot.param)=="cex.leg")) cex.leg <- plot.param$cex.leg
+	else cex.leg <- cex-0.2
+	if(any(names(plot.param)=="width.leg")) width.leg <- plot.param$width.leg
+	else width.leg <- 0.2
+	if(any(names(plot.param)=="x.intersp")) x.intersp <- plot.param$x.intersp
+	else x.intersp <- 0.4
+	if(any(names(plot.param)=="y.intersp")) y.intersp <- plot.param$y.intersp
+	else y.intersp <- 0.8
+	if(any(names(plot.param)=="circles")) circles <- seq(plot.param$circles[1], plot.param$circles[2], by=plot.param$circles[3])
+	else circles <- NULL
+	if(any(names(plot.param)=="fg")) fg <- plot.param$fg
+	else fg <- FALSE
+	if(any(names(plot.param)=="pos.axis")) pos.axis <- plot.param$pos.axis
+	else pos.axis <- 60
+	if(any(names(plot.param)=="sec.space")) sec.space <- 1-plot.param$sec.space
+	else sec.space <- 0.8
+	if(any(names(plot.param)=="col.circle")) col.circle <- plot.param$col.circle
+	else col.circle <- "gray45"
+	if(any(names(plot.param)=="col.cross")) col.cross <- plot.param$col.cross
+	else col.cross <- "gray45"
+	if(any(names(plot.param)=="col.axis")) col.axis <- plot.param$col.axis
+	else col.axis <- "gray45"
+	if(any(names(plot.param)=="col.lab")) col.lab <- plot.param$col.lab
+	else col.lab <- "black"
+	if(any(names(plot.param)=="col.leg")) col.leg <- plot.param$col.leg
+	else col.leg <- "black"
+	if(any(names(plot.param)=="lwd.circle")) lwd.circle <- plot.param$lwd.circle
+	else lwd.circle <- 0.7
+	if(any(names(plot.param)=="lwd.cross")) lwd.cross <- plot.param$lwd.cross
+	else lwd.cross <- 0.7
+	if(any(names(plot.param)=="lty.circle")) lty.circle <- plot.param$lty.circle
+	else lty.circle <- 2
+	if(any(names(plot.param)=="lty.cross")) lty.cross <- plot.param$lty.cross
+	else lty.cross <- 1
+	if(any(names(plot.param)=="title.leg")) title.leg <- plot.param$title.leg
+	else title.leg <- "Wind speed\n[m/s]"
+	if(any(names(plot.param)=="border.leg")) {
+		border.leg <- plot.param$border.leg
+		if(!is.list(border.leg)) border.leg <- list(border.leg, border.leg)
+	} else border.leg <- list(col[[1]][1:num.classes], col[[2]][1:num.classes])
+	#if(any(names(plot.param)=="bty.leg")) bty.leg <- plot.param$bty.leg
+	#else bty.leg <- "n"
+	if(any(names(plot.param)=="col.border")) col.border <- plot.param$col.border
+	else col.border <- NULL
+	if(any(names(plot.param)=="lwd.border")) lwd.border <- plot.param$lwd.border
+	else lwd.border <- 0.5
+
+	if(is.null(circles)) {
+		aep.max <- max(a$aep.cum, b$aep.cum, na.rm=TRUE)
+		mag <-length(strsplit(as.character(aep.max),"")[[1]])-1
+		circ.max <- ceiling(aep.max/10^mag)*10^mag
+		if(circ.max<=2*10^mag) circles <- tail(seq(0, 2*10^mag, length.out=5), -1)
+		if(circ.max>2*10^mag && circ.max<=3*10^mag) circles <- tail(seq(0, 3*10^mag, length.out=4), -1)
+		if(circ.max>3*10^mag && circ.max<=4*10^mag) circles <- tail(seq(0, 4*10^mag, length.out=5), -1)
+		if(circ.max>4*10^mag && circ.max<=5*10^mag) circles <- tail(seq(0, 5*10^mag, length.out=5), -1)
+		if(circ.max>5*10^mag && circ.max<=6*10^mag) circles <- tail(seq(0, 6*10^mag, length.out=5), -1)
+		if(circ.max>6*10^mag && circ.max<=8*10^mag) circles <- tail(seq(0, 8*10^mag, length.out=5), -1)
+		if(circ.max>8*10^mag) circles <- tail(seq(0, 10^(mag+1), length.out=5), -1)
+	}
+
+	if(is.numeric(width.leg)) if(width.leg>1) stop("'width.leg' must be a numeric value between 0 and 1")
+	if(num.classes>1 && width.leg!=0) lo <- layout(matrix(1:2, 1, 2), widths=c(1, width.leg))
+	
+	# plot
+	par(mar=c(1,1,1,1), las=1)
+	plot.new()
+	pin <- par("pin")
+	xlim <- ylim <- c(-1, 1)
+	if (pin[1] > pin[2]) {
+		xlim <- (pin[1]/pin[2]) * xlim
+	} else {
+		ylim <- (pin[2]/pin[1]) * ylim
+	}
+	plot.window(xlim, ylim, "", asp=1)
+		
+	if(!fg) {
+		for(c in num.classes:1) {
+			plot.data.a <- c(tail(rev(as.vector(a$aep.cum[,c])), n=1), head(rev(as.vector(a$aep.cum[,c])), n=-1))
+			plot.data.b <- c(tail(rev(as.vector(b$aep.cum[,c])), n=1), head(rev(as.vector(b$aep.cum[,c])), n=-1))
+			
+			for (i in 1:num.sectors) {
+				arc.pts.a <- seq(sector.edges[i], sector.edges[i] + sector.width/2*sec.space, length.out=trunc(360/num.sectors*sec.space))
+				arc.pts.b <- seq(sector.edges[i] - sector.width/2*sec.space, sector.edges[i], length.out=trunc(360/num.sectors*sec.space))
+				rad.a <- 0.9 * plot.data.a[i]/tail(circles, 1)
+				rad.b <- 0.9 * plot.data.b[i]/tail(circles, 1)
+				xlist.a <- c(0, rad.a * cos(arc.pts.a), 0)
+				xlist.b <- c(0, rad.b * cos(arc.pts.b), 0)
+				ylist.a <- c(0, rad.a * sin(arc.pts.a), 0)
+				ylist.b <- c(0, rad.b * sin(arc.pts.b), 0)
+				polygon(xlist.a, ylist.a, col=col[[1]][c], border=col[[1]][c], lwd=0.01)
+				polygon(xlist.b, ylist.b, col=col[[2]][c], border=col[[2]][c], lwd=0.01)
+			}
+		}
+		if(!is.null(col.border)) {
+			a$aep.cum[is.na(a$aep.cum)] <- 0
+			b$aep.cum[is.na(b$aep.cum)] <- 0
+			plot.max.a <- apply(a$aep.cum, 1, max)
+			plot.max.b <- apply(b$aep.cum, 1, max)
+			plot.max.a <- c(tail(rev(plot.max.a), n=1), head(rev(plot.max.a), n=-1))
+			plot.max.b <- c(tail(rev(plot.max.b), n=1), head(rev(plot.max.b), n=-1))
+			for(i in 1:num.sectors) {
+				arc.pts.a <- seq(sector.edges[i], sector.edges[i] + sector.width/2*sec.space, length.out=trunc(360/num.sectors*sec.space))
+				arc.pts.b <- seq(sector.edges[i] - sector.width/2*sec.space, sector.edges[i], length.out=trunc(360/num.sectors*sec.space))
+				rad.a <- 0.9 * plot.max.a[i]/tail(circles, 1)
+				rad.b <- 0.9 * plot.max.b[i]/tail(circles, 1)
+				xlist.a <- c(0, rad.a * cos(arc.pts.a), 0)
+				xlist.b <- c(0, rad.b * cos(arc.pts.b), 0)
+				ylist.a <- c(0, rad.a * sin(arc.pts.a), 0)
+				ylist.b <- c(0, rad.b * sin(arc.pts.b), 0)
+				lines(xlist.a, ylist.a, col=col.border, lwd=lwd.border)
+				lines(xlist.b, ylist.b, col=col.border, lwd=lwd.border)
+			}
+		}
+	}
+	
+	circle.pts <- seq(0, 2*pi, length.out=360)
+	pos.axis <- pi/2 - pos.axis*pi/180
+	
+	for(i in 1:length(circles)) {
+		rad <- 0.9 * circles[i]/tail(circles, 1)
+		circle.x <- cos(circle.pts)*rad
+		circle.y <- sin(circle.pts)*rad
+		lines(circle.x, circle.y, lty=lty.circle, lwd=lwd.circle, col=col.circle)
+		text(cos(pos.axis)*rad, sin(pos.axis)*rad, circles[i], cex=cex.axis, col=col.axis)
+	}
+	     
+	lines(c(-0.92, 0.92), c(0, 0), lty=lty.cross, lwd=lwd.cross, col=col.cross)
+	lines(c(0, 0), c(0.92, -0.92), lty=lty.cross, lwd=lwd.cross, col=col.cross)
+	text(0, -0.90, "S", pos=1, cex=cex.lab, col=col.lab)
+	text(-0.90, 0, "W", pos=2, cex=cex.lab, col=col.lab)
+	text(0, 0.90, "N", pos=3, cex=cex.lab, col=col.lab)
+	text(0.90, 0, "E", pos=4, cex=cex.lab, col=col.lab)
+	#if(show.total) text(-1, 1, paste("Total:", a$total), pos=4, cex=cex.axis, col=col.axis)
+	if(a$unit=="MWh/a") text(1, -1, "MWh/a", pos=2, cex=cex.axis, col=col.axis)
+	else text(1, -1, a$unit, pos=2, cex=cex.axis, col=col.axis)
+	
+	if(fg) {
+		for(c in num.classes:1) {
+			plot.data.a <- c(tail(rev(as.vector(a$aep.cum[,c])), n=1), head(rev(as.vector(a$aep.cum[,c])), n=-1))
+			plot.data.b <- c(tail(rev(as.vector(b$aep.cum[,c])), n=1), head(rev(as.vector(b$aep.cum[,c])), n=-1))
+			
+			for (i in 1:num.sectors) {
+				arc.pts.a <- seq(sector.edges[i], sector.edges[i] + sector.width/2*sec.space, length.out=trunc(360/num.sectors*sec.space))
+				arc.pts.b <- seq(sector.edges[i] - sector.width/2*sec.space, sector.edges[i], length.out=trunc(360/num.sectors*sec.space))
+				rad.a <- 0.9 * plot.data.a[i]/tail(circles, 1)
+				rad.b <- 0.9 * plot.data.b[i]/tail(circles, 1)
+				xlist.a <- c(0, rad.a * cos(arc.pts.a), 0)
+				xlist.b <- c(0, rad.b * cos(arc.pts.b), 0)
+				ylist.a <- c(0, rad.a * sin(arc.pts.a), 0)
+				ylist.b <- c(0, rad.b * sin(arc.pts.b), 0)
+				polygon(xlist.a, ylist.a, col=col[[1]][c], border=col[[1]][c], lwd=0.01)
+				polygon(xlist.b, ylist.b, col=col[[2]][c], border=col[[2]][c], lwd=0.01)
+			}
+		}
+		if(!is.null(col.border)) {
+			a$aep.cum[is.na(a$aep.cum)] <- 0
+			b$aep.cum[is.na(b$aep.cum)] <- 0
+			plot.max.a <- apply(a$aep.cum, 1, max)
+			plot.max.b <- apply(b$aep.cum, 1, max)
+			plot.max.a <- c(tail(rev(plot.max.a), n=1), head(rev(plot.max.a), n=-1))
+			plot.max.b <- c(tail(rev(plot.max.b), n=1), head(rev(plot.max.b), n=-1))
+			for(i in 1:num.sectors) {
+				arc.pts.a <- seq(sector.edges[i], sector.edges[i] + sector.width/2*sec.space, length.out=trunc(360/num.sectors*sec.space))
+				arc.pts.b <- seq(sector.edges[i] - sector.width/2*sec.space, sector.edges[i], length.out=trunc(360/num.sectors*sec.space))
+				rad.a <- 0.9 * plot.max.a[i]/tail(circles, 1)
+				rad.b <- 0.9 * plot.max.b[i]/tail(circles, 1)
+				xlist.a <- c(0, rad.a * cos(arc.pts.a), 0)
+				xlist.b <- c(0, rad.b * cos(arc.pts.b), 0)
+				ylist.a <- c(0, rad.a * sin(arc.pts.a), 0)
+				ylist.b <- c(0, rad.b * sin(arc.pts.b), 0)
+				lines(xlist.a, ylist.a, col=col.border, lwd=lwd.border)
+				lines(xlist.b, ylist.b, col=col.border, lwd=lwd.border)
+			}
+		}
+	}
+	
+	if(num.classes>1 && width.leg!=0) {
+		par(mar=c(0,0,0,0))
+		plot(0, type="n", axes=FALSE, xlab="", ylab="")
+		l <- legend("left", legend=names(a$aep.cum), fill=col[[2]][1:num.classes], xjust=0, bty="n", border=border.leg[[2]], cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, inset=0.12, text.col=col.leg)
+		legend("left", legend=rep("", length(a$aep.cum)), fill=col[[1]][1:num.classes], xjust=0, bty="n", border=border.leg[[1]], cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, inset=0.02, text.col=col.leg)
+		text(x=1.02*l$text$x[1], y=1.5*l$text$y[1], labels=title.leg, cex=cex.leg, col=col.leg, adj=c(0.5, 0))
+		#if(bty.leg=="o") polygon(c(l$rect$left-0.07, l$rect$left+l$rect$w, l$rect$left+l$rect$w, l$rect$left-0.07), c(l$rect$top, l$rect$top, l$rect$top-l$rect$h, l$rect$top-l$rect$h))
+	}
+}

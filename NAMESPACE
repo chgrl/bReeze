@@ -6,6 +6,7 @@ export(
   changes,
   clean,
   cln,
+  combine,
   energy,
   en,
   frequency,
