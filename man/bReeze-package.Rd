@@ -3,7 +3,7 @@
 \alias{bReeze-package}
 \alias{bReeze}
 \docType{package}
-\title{Functions for wind resource assessment}
+\title{Functions for Wind Resource Assessment}
 \description{
 A collection of functions to analyse, visualize and interpret wind data and to calculate the potential energy production of wind turbines.
 }
