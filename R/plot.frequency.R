@@ -47,7 +47,7 @@ function(x, ...) {
 	if(any(names(plot.param)=="cex.leg")) cex.leg <- plot.param$cex.leg
 	else cex.leg <- cex-0.2
 	if(any(names(plot.param)=="width.leg")) width.leg <- plot.param$width.leg
-	else width.leg <- 0.15
+	else width.leg <- 0.2
 	if(any(names(plot.param)=="x.intersp")) x.intersp <- plot.param$x.intersp
 	else x.intersp <- 0.4
 	if(any(names(plot.param)=="y.intersp")) y.intersp <- plot.param$y.intersp

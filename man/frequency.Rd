@@ -49,7 +49,7 @@ The following graphical parameters can optionally be added to customize the plot
     \item \code{pos.axis}: Position of axis labels in degree, as numeric value -- default is \code{60}.
     \item \code{sec.space}: Space between plotted sectors, as numeric value between \code{0} and \code{1} -- default is \code{0.2}.
     \item \code{title.leg}: Alternative legend title, as string.
-    \item \code{width.leg}: Widths of legend space relative to plot space, as numeric value between \code{0} and \code{1}. If \code{0}, the legend is omitted, default value is \code{0.15}.
+    \item \code{width.leg}: Widths of legend space relative to plot space, as numeric value between \code{0} and \code{1}. If \code{0}, the legend is omitted, default value is \code{0.2}.
     \item \code{x.intersp}: Horizontal interspacing factor for legend text, as numeric -- default is \code{0.4}.
     \item \code{y.intersp}: Vertical line distance for legend text, as numeric -- default is \code{0.4}.
   }
