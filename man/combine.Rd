@@ -12,7 +12,7 @@ combine(a, b, ...)
   \item{\dots}{Arguments to be passed to methods. For optional graphical parameters see below.}
 }
 \note{
-Please note: currently only \code{\link{aep}} objects are supported.
+Please note: currently only \code{\link{aep}} plot objects are supported.
 }
 \section{Optional graphical parameters}{
 The following graphical parameters can optionally be added to customize the plot:
@@ -80,5 +80,6 @@ plt.71 <- plot(aep.71)
 ## combine plots
 # default
 combine(plt.59, plt.71)
+}
 }
 \keyword{methods}
