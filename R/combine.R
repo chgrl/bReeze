@@ -99,6 +99,7 @@ function(a, b, ...) {
 	if(num.classes>1 && width.leg!=0) lo <- layout(matrix(1:2, 1, 2), widths=c(1, width.leg))
 	
 	# plot
+	stopifnot(requireNamespace("plotrix", quietly=TRUE))
 	par(mar=c(1,1,1,1), las=1)
 	plot.new()
 	pin <- par("pin")
@@ -214,9 +215,6 @@ function(a, b, ...) {
 	if(num.classes>1 && width.leg!=0) {
 		par(mar=c(0,0,0,0))
 		plot(0, type="n", axes=FALSE, xlab="", ylab="")
-		l <- legend("left", legend=names(a$aep.cum), fill=col[[2]][1:num.classes], xjust=0, bty="n", border=border.leg[[2]], cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, inset=0.12, text.col=col.leg)
-		legend("left", legend=rep("", length(a$aep.cum)), fill=col[[1]][1:num.classes], xjust=0, bty="n", border=border.leg[[1]], cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, inset=0.02, text.col=col.leg)
-		text(x=1.02*l$text$x[1], y=1.5*l$text$y[1], labels=title.leg, cex=cex.leg, col=col.leg, adj=c(0.5, 0))
-		#if(bty.leg=="o") polygon(c(l$rect$left-0.07, l$rect$left+l$rect$w, l$rect$left+l$rect$w, l$rect$left-0.07), c(l$rect$top, l$rect$top, l$rect$top-l$rect$h, l$rect$top-l$rect$h))
+		plotrix::legendg("left", legend=names(a$aep.cum), title=title.leg, fill=lapply(seq_along(col[[1]]), function(i) sapply(col, "[", i)), xjust=0, bty="n", border=border.leg[[2]], cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, inset=0.12, text.col=col.leg)
 	}
 }
