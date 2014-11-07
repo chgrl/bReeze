@@ -1,11 +1,12 @@
 combine <-
-function(a, b, ...) {
+function(a, b, names, show.total=TRUE, ...) {
 ###	combine plots
 	
 	if(missing(a) || missing(b)) stop("Two plots needed")
 	if(class(a)!=class(b)) stop("Only plots of the same class can be combined")
 	#if(class(a)=="aep.plot") combine.aep(a, b)
 	
+	if(missing(names)) names <- c("A", "B")
 	if(any(dim(a$aep.cum)==dim(b$aep.cum))==FALSE) stop("Bins and number of sectors must be equal")
 	num.classes <- dim(a$aep.cum)[2]
 	num.sectors <- dim(a$aep.cum)[1]
@@ -168,7 +169,7 @@ function(a, b, ...) {
 	text(-0.90, 0, "W", pos=2, cex=cex.lab, col=col.lab)
 	text(0, 0.90, "N", pos=3, cex=cex.lab, col=col.lab)
 	text(0.90, 0, "E", pos=4, cex=cex.lab, col=col.lab)
-	#if(show.total) text(-1, 1, paste("Total:", a$total), pos=4, cex=cex.axis, col=col.axis)
+	if(show.total) text(-1, 1, paste0("Total ", names[1], ": ", a$total, "\nTotal ", names[2], ": ", b$total), pos=4, cex=cex.axis, col=col.axis)
 	if(a$unit=="MWh/a") text(1, -1, "MWh/a", pos=2, cex=cex.axis, col=col.axis)
 	else text(1, -1, a$unit, pos=2, cex=cex.axis, col=col.axis)
 	

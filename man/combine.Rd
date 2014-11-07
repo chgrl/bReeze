@@ -4,11 +4,13 @@
 \title{Combine plots}
 \description{Combine plots.}
 \usage{
-combine(a, b, ...)
+combine(a, b, names, show.total=TRUE, ...)
 }
 \arguments{
   \item{a}{Plot object.}
   \item{b}{Plot object.}
+  \item{names}{Names for \code{a} and \code{b}.}
+  \item{show.total}{If \code{TRUE} (the default) the total numbers are added to the plot.}
   \item{\dots}{Arguments to be passed to methods. For optional graphical parameters see below.}
 }
 \note{
