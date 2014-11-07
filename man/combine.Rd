@@ -73,8 +73,8 @@ aep.71 <- aep(profile=neubuerg.wp, pc=pw.56, hub.h=71)
 
 
 ## plot AEP objects
-plt.59 <- plot(aep.59)
-plt.71 <- plot(aep.71)
+plt.59 <- plot(aep.59, type="n")
+plt.71 <- plot(aep.71, type="n")
 
 
 ## combine plots
