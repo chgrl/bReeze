@@ -111,8 +111,6 @@ function(x, show.total=TRUE, ...) {
 		if(num.classes>1 && width.leg!=0) lo <- layout(matrix(1:2, 1, 2), widths=c(1, width.leg))
 		
 		# plot
-		old.par <- par(no.readonly=TRUE)
-		on.exit(par(old.par))
 		par(mar=c(1,1,1,1), las=1)
 		plot.new()
 		pin <- par("pin")
