@@ -74,10 +74,9 @@ function(a, b, names, show.total=TRUE, ...) {
 	else title.leg <- "Wind speed\n[m/s]"
 	if(any(names(plot.param)=="border.leg")) {
 		border.leg <- plot.param$border.leg
-		if(!is.list(border.leg)) border.leg <- list(border.leg, border.leg)
-	} else border.leg <- list(col[[1]][1:num.classes], col[[2]][1:num.classes])
-	#if(any(names(plot.param)=="bty.leg")) bty.leg <- plot.param$bty.leg
-	#else bty.leg <- "n"
+	} else border.leg <- NA
+	if(any(names(plot.param)=="bty.leg")) bty.leg <- plot.param$bty.leg
+	else bty.leg <- "n"
 	if(any(names(plot.param)=="col.border")) col.border <- plot.param$col.border
 	else col.border <- NULL
 	if(any(names(plot.param)=="lwd.border")) lwd.border <- plot.param$lwd.border
@@ -216,6 +215,6 @@ function(a, b, names, show.total=TRUE, ...) {
 	if(num.classes>1 && width.leg!=0) {
 		par(mar=c(0,0,0,0))
 		plot(0, type="n", axes=FALSE, xlab="", ylab="")
-		plotrix::legendg("left", legend=names(a$aep.cum), title=title.leg, fill=lapply(seq_along(col[[1]]), function(i) sapply(col, "[", i)), xjust=0, bty="n", border=border.leg[[2]], cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, inset=0.12, text.col=col.leg)
+		plotrix::legendg("left", legend=names(a$aep.cum), title=title.leg, fill=lapply(seq_along(col[[1]]), function(i) sapply(col, "[", i)), xjust=0, bty=bty.leg, border=border.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, inset=0.12, text.col=col.leg)
 	}
 }

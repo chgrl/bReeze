@@ -19,7 +19,8 @@ Please note: currently only \code{\link{aep}} plot objects are supported.
 \section{Optional graphical parameters}{
 The following graphical parameters can optionally be added to customize the plot:
   \itemize{
-    \item \code{border.leg}: Border colour(s) for the legend. One colour for each wind speed bin or a single colour -- default is same as \code{col}.
+    \item \code{border.leg}: Border colour for the legend items -- default is \code{NA} (no border).
+	\item \code{bty.leg}: Type of box to be drawn around the legend. Allowed values are \code{"n"} (no box, the default) and \code{"o"}.
     \item \code{cex}: Amount by which text on the plot should be scaled relative to the default (which is \code{1}), as numeric. To be used for scaling of all texts at once.
     \item \code{cex.axis}: Amount by which axis annotations should be scaled, as numeric value.
     \item \code{cex.lab}: Amount by which axis labels should be scaled, as numeric value.
