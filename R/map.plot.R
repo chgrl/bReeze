@@ -2,7 +2,7 @@ map.plot <-
 function(mast, type=c("satellite", "terrain", "hybrid", "roadmap"), zoom, label, ...) {
 ### plotting map or satellite image of mast location
 
-	stopifnot(requireNamespace("RgoogleMaps", quietly=TRUE))
+	if(!requireNamespace("RgoogleMaps", quietly=TRUE)) stop("'RgoogleMaps' package required for map plot")
 	
 	if(class(mast)!="mast") stop(substitute(mast), " is no mast object")
 	if(missing(type)) type <- "satellite"

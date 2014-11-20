@@ -99,7 +99,7 @@ function(a, b, names, show.total=TRUE, ...) {
 	if(num.classes>1 && width.leg!=0) lo <- layout(matrix(1:2, 1, 2), widths=c(1, width.leg))
 	
 	# plot
-	stopifnot(requireNamespace("plotrix", quietly=TRUE))
+	if(!requireNamespace("plotrix", quietly=TRUE)) stop("'plotrix' package required for combined plot")
 	par(mar=c(1,1,1,1), las=1)
 	plot.new()
 	pin <- par("pin")
