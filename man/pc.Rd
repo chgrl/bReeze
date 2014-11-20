@@ -172,6 +172,7 @@ pc.3 <- pc(data.frame(v=v, p=p, cp=cp, ct=ct),
 pc.3
 
 ## import power curve
+## note: XML package required for WAsP .wtg files
 vestas.v90 <- pc("Vestas_V90_2.0MW.wtg")  # bReeze wtg file
 repower.mm92 <- pc("Repower_MM92_2.0MW.pow")  # bReeze pow file
 #my.pc <- pc("~/Projects/bReeze/Sandbox/myPC.wtg")  # user file
