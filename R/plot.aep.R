@@ -202,7 +202,7 @@ function(x, show.total=TRUE, ...) {
 		}
 	}
 	
-	plt <- list(aep.cum=aep.cum, total=total, unit=unit)
+	plt <- list(aep.cum=aep.cum, total=total, unit=unit, attr=attr(x, "call"))
 	class(plt) <- "aep.plot"
 	invisible(plt)
 }
