@@ -5,6 +5,7 @@ An R package collecting functions for wind resource assessment
 ======
 
 [![Build Status](https://api.travis-ci.org/chgrl/bReeze.png)](https://travis-ci.org/chgrl/bReeze)
+![downloads](http://cranlogs.r-pkg.org/badges/grand-total/bReeze)
 
 bReeze is a collection of widely used methods to analyse, visualise and interpret wind data. Wind resource analyses can subsequently be combined with characteristics of wind turbines to estimate the potential energy production.
 
