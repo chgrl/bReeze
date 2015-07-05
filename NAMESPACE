@@ -36,6 +36,11 @@ export(
   wb
 )
 
+importFrom("graphics", "abline", "axis", "axis.POSIXct", "barplot", "box", "curve", "hist", "layout", "legend", "lines", "mtext", "par", "plot", "plot.new", "plot.window", "points", "polygon", "rect", "text")
+importFrom("grDevices", "colors", "rainbow")
+importFrom("stats", "dweibull", "lm", "median", "qnorm", "sd", "spline")
+importFrom("utils", "head", "read.table", "tail")
+
 ## S3 methods
 S3method(pc, default)
 S3method(pc, read)
