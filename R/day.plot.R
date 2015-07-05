@@ -34,7 +34,7 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 	} else {
 		if(is.null(num.sectors)) {
 			if(num.sets<=9) {
-				if(suppressWarnings(require(RColorBrewer, quietly=TRUE))) {
+				if(suppressWarnings(requireNamespace("RColorBrewer", quietly=TRUE))) {
 					col <- col1 <- RColorBrewer::brewer.pal(3, "Set1")
 					if(num.sets>3) col <- col1 <- RColorBrewer::brewer.pal(num.sets, "Set1")
 					col[1] <- col1[2]

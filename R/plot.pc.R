@@ -27,7 +27,7 @@ function(x, cp=TRUE, ct=TRUE, ...) {
 	#	if(any(names(plot.param)=="col")) col <- plot.param$col
 	#	else {
 	#		if(length(x)<=9) {
-	#			if(suppressWarnings(require(RColorBrewer, quietly=TRUE))) {
+	#			if(suppressWarnings(requireNamespace("RColorBrewer", quietly=TRUE))) {
 	#				col <- brewer.pal(3, "Set1")
 	#				if(length(x)==2) col <- col[1:2]
 	#				if(length(x)>3) col <- brewer.pal(length(x), "Set1")
