@@ -17,8 +17,10 @@ Feel free to flattr, if you like bReeze: <a href="https://flattr.com/submit/auto
 
 #### Install from GitHub
 ```
-if(!require(devtools))  { install.packages('devtools'); require(devtools) }
-devtools::install_github('bReeze', 'chgrl')
+if(packageVersion("devtools") < 1.6) {
+  install.packages("devtools")
+}
+devtools::install_github("chgrl/bReeze")
 ```
 
 #### Example
