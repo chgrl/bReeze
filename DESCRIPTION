@@ -7,7 +7,7 @@ Author: Christian Graul and Carsten Poppinga
 Maintainer: Christian Graul <christian.graul@gmail.com>
 Description: A collection of functions to analyse, visualize and interpret wind data
          and to calculate the potential energy production of wind turbines.
-License: GPL (>= 2)
+License: MIT + file LICENSE
 URL: https://github.com/chgrl/bReeze
 Depends: R (>= 2.14.2)
 Imports: graphics, grDevices, stats, utils
