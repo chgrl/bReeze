@@ -2,11 +2,11 @@ citHeader("To cite package 'bReeze' in publications use:")
 
 citEntry(entry = "Manual",
          title = "bReeze: Functions for Wind Resource Assessment",
-         author = "Graul, Christian", "Poppinga, Carsten",
+         author = "Graul, Christian and Poppinga, Carsten",
          year = "2014",
-         url = "https://cran.r-project.org/package=bReeze",
-         note = "R package",
-         textVersion = "Graul, Christian and Poppinga, Carsten (2014): bReeze: Functions for Wind Resource Assessment. R package, https://cran.r-project.org/package=bReeze.")
+         url = "http://cran.r-project.org/package=bReeze",
+         note = "R package version 0.4-0",
+         textVersion = "Graul, Christian and Poppinga, Carsten (2014): bReeze: Functions for Wind Resource Assessment. R package version 0.4-0, http://cran.r-project.org/package=bReeze.")
 
 citFooter("Please cite both 'bReeze' and R when using 'bReeze' for data analysis.",
           "For R citation, see ", sQuote("citation()"))
