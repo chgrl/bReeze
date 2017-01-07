@@ -31,8 +31,8 @@ function(mast, v.set=1, dir.set=1, subset, ...) {
 	on.exit(par(old.par))
 	
 	plot.param <- list(...)
-	if(any(names(plot.param)=="col")) col <- plot.param$col
-	else col <- "#3182BD"
+	if(any(names(plot.param)=="col")) colset <- plot.param$col
+	else colset <- "#3182BD"
 	if(any(names(plot.param)=="pch")) pch <- plot.param$pch
 	else pch <- "."
 	if(any(names(plot.param)=="cex")) cex <- plot.param$cex
@@ -78,7 +78,7 @@ function(mast, v.set=1, dir.set=1, subset, ...) {
 	if(!fg) {
 		xlist <- 0.9 * ws/tail(circles, 1) * cos(wd)
 		ylist <- 0.9 * ws/tail(circles, 1) * sin(wd)
-		points(xlist, ylist, pch=pch, col=col, cex=cex.pts)
+		points(xlist, ylist, pch=pch, col=colset, cex=cex.pts)
 	}
 	
 	circle.pts <- seq(0, 2*pi, length.out=360)
@@ -102,6 +102,6 @@ function(mast, v.set=1, dir.set=1, subset, ...) {
 	if(fg) {
 		xlist <- 0.9 * ws/tail(circles, 1) * cos(wd)
 		ylist <- 0.9 * ws/tail(circles, 1) * sin(wd)
-		points(xlist, ylist, pch=pch, col=col, cex=cex.pts)
+		points(xlist, ylist, pch=pch, col=colset, cex=cex.pts)
 	}
 }

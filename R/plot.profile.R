@@ -33,15 +33,15 @@ function(x, sector, measured=TRUE, ...) {
 	
 	plot.param <- list(...)
 	if(any(names(plot.param)=="col")) {
-		col <- plot.param$col
-		if(length(col)==1 && is.null(sector)) col <- rep(col, num.sectors+1)
+		colset <- plot.param$col
+		if(length(colset)==1 && is.null(sector)) colset <- rep(colset, num.sectors+1)
 	} else {
-		col <- sample(colors(), num.sectors+1)
-		if(num.sectors==4) col <- c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C")
-		if(num.sectors==8) col <- c("#377EB8", "#41B6C4", "#4DAF4A", "#9970AB", "#984EA3", "#F781BF", "#FF7F00", "#A6761D", "#E41A1C")
-		if(num.sectors==12) col <- c("#08519C", "#3182BD", "#74C476", "#006D2C", "#31A354", "#9E9AC8", "#54278F", "#756BB1", "#FED976", "#FD8D3C", "#FEB24C", "#6BAED6", "#E41A1C")
-		if(num.sectors==16) col <- c("#08519C", "#3182BD", "#41B6C4", "#74C476", "#006D2C", "#31A354", "#9970AB", "#9E9AC8", "#54278F", "#756BB1", "#F781BF", "#FED976", "#FD8D3C", "#FEB24C", "#A6761D", "#6BAED6", "#E41A1C")
-		if(!is.null(sector)) col <- col[sector]
+		colset <- sample(colors(), num.sectors+1)
+		if(num.sectors==4) colset <- c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C")
+		if(num.sectors==8) colset <- c("#377EB8", "#41B6C4", "#4DAF4A", "#9970AB", "#984EA3", "#F781BF", "#FF7F00", "#A6761D", "#E41A1C")
+		if(num.sectors==12) colset <- c("#08519C", "#3182BD", "#74C476", "#006D2C", "#31A354", "#9E9AC8", "#54278F", "#756BB1", "#FED976", "#FD8D3C", "#FEB24C", "#6BAED6", "#E41A1C")
+		if(num.sectors==16) colset <- c("#08519C", "#3182BD", "#41B6C4", "#74C476", "#006D2C", "#31A354", "#9970AB", "#9E9AC8", "#54278F", "#756BB1", "#F781BF", "#FED976", "#FD8D3C", "#FEB24C", "#A6761D", "#6BAED6", "#E41A1C")
+		if(!is.null(sector)) colset <- colset[sector]
 	}
 	if(any(names(plot.param)=="col.lab")) col.lab <- plot.param$col.lab
 	else col.lab <- "black"
@@ -129,40 +129,40 @@ function(x, sector, measured=TRUE, ...) {
 		v.over.h <- x$profile$v.ref[1] * exp(x$profile$alpha[1] * log(h.range / h.ref))
 		h.over.v <- spline(x=v.over.h, y=h.range, method="natural", xout=v.range)
 		h.over.v[[2]][h.over.v[[2]]<0] <- 0	
-		plot(h.over.v, type="l", xlim=xlim, ylim=ylim, axes=FALSE, lty=lty[1], lwd=lwd[1], col=col[1], xlab=xlab, ylab=ylab, cex.lab=cex.lab, col.lab=col.lab)
+		plot(h.over.v, type="l", xlim=xlim, ylim=ylim, axes=FALSE, lty=lty[1], lwd=lwd[1], col=colset[1], xlab=xlab, ylab=ylab, cex.lab=cex.lab, col.lab=col.lab)
 		box(bty=bty, col=col.box)
 		axis(1, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 		axis(2, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
-		if(measured) for(j in 1:length(v.mean)) points(x=v.mean[1,j], y=h[j], col=col[1], pch=pch, cex=cex-0.2)
+		if(measured) for(j in 1:length(v.mean)) points(x=v.mean[1,j], y=h[j], col=colset[1], pch=pch, cex=cex-0.2)
 		
 		for(i in 2:num.sectors) {
 			v.over.h <- x$profile$v.ref[i] * exp(x$profile$alpha[i] * log(h.range / h.ref))
 			h.over.v <- spline(x=v.over.h, y=h.range, method="natural", xout=v.range)
 			h.over.v[[2]][h.over.v[[2]]<0] <- 0
-			lines(h.over.v, lty=lty[i], lwd=lwd[i], col=col[i])
-			if(measured) for(j in 1:length(v.mean)) points(x=v.mean[i,j], y=h[j], col=col[i], pch=pch, cex=cex-0.2)
+			lines(h.over.v, lty=lty[i], lwd=lwd[i], col=colset[i])
+			if(measured) for(j in 1:length(v.mean)) points(x=v.mean[i,j], y=h[j], col=colset[i], pch=pch, cex=cex-0.2)
 		}
 		
 		v.over.h <- x$profile$v.ref[num.sectors+1] * exp(x$profile$alpha[num.sectors+1] * log(h.range / h.ref))
 		h.over.v <- spline(x=v.over.h, y=h.range, method="natural", xout=v.range)
 		h.over.v[[2]][h.over.v[[2]]<0] <- 0
-		lines(h.over.v, lty=lty[num.sectors+1], lwd=lwd[num.sectors+1], col=col[num.sectors+1])
-		if(measured) for(j in 1:length(v.mean)) points(x=v.mean[num.sectors+1,j], y=h[j], col=col[num.sectors+1], pch=pch, cex=cex-0.2)
+		lines(h.over.v, lty=lty[num.sectors+1], lwd=lwd[num.sectors+1], col=colset[num.sectors+1])
+		if(measured) for(j in 1:length(v.mean)) points(x=v.mean[num.sectors+1,j], y=h[j], col=colset[num.sectors+1], pch=pch, cex=cex-0.2)
 		
 		if(legend) {
-			if(measured) legend(pos.leg, legend=c(sector.names, "measured"), col=c(col,"darkgrey"), lty=c(lty,NA), lwd=c(lwd,NA), pch=c(rep(NA,num.sectors+1),pch), bty=bty.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
-			else legend(pos.leg, legend=sector.names, col=col, lty=lty, lwd=lwd, bty=bty.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
+			if(measured) legend(pos.leg, legend=c(sector.names, "measured"), col=c(colset,"darkgrey"), lty=c(lty,NA), lwd=c(lwd,NA), pch=c(rep(NA,num.sectors+1),pch), bty=bty.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
+			else legend(pos.leg, legend=sector.names, col=colset, lty=lty, lwd=lwd, bty=bty.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
 		}
 	} else { # one sector
 		v.over.h <- x$profile$v.ref[sector] * exp(x$profile$alpha[sector] * log(h.range / h.ref))
 		h.over.v <- spline(x=v.over.h, y=h.range, method="natural", xout=v.range)
 		h.over.v[[2]][h.over.v[[2]]<0] <- 0
-		plot(h.over.v, type="l", xlim=xlim, ylim=ylim, axes=FALSE, lty=lty, lwd=lwd, col=col, xlab=xlab, ylab=ylab, cex.lab=cex.lab, col.lab=col.lab)
+		plot(h.over.v, type="l", xlim=xlim, ylim=ylim, axes=FALSE, lty=lty, lwd=lwd, col=colset, xlab=xlab, ylab=ylab, cex.lab=cex.lab, col.lab=col.lab)
 		box(bty=bty, col=col.box)
 		axis(1, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 		axis(2, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
-		if(measured) for(j in 1:length(v.mean)) points(x=v.mean[sector,j], y=h[j], col=col, pch=pch, cex=cex-0.2)
+		if(measured) for(j in 1:length(v.mean)) points(x=v.mean[sector,j], y=h[j], col=colset, pch=pch, cex=cex-0.2)
 		
-		if(legend) if(measured) legend(pos.leg, legend="measured", col=col, pch=pch, bty=bty.leg, cex=cex.leg, x.intersp=x.intersp, text.col=col.leg)
+		if(legend) if(measured) legend(pos.leg, legend="measured", col=colset, pch=pch, bty=bty.leg, cex=cex.leg, x.intersp=x.intersp, text.col=col.leg)
 	}
 }

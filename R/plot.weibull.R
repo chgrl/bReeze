@@ -24,8 +24,8 @@ function(x, type, show.ak, ...) {
 	end <- start.end[2]
 	
 	plot.param <- list(...)
-	if(any(names(plot.param)=="col")) col <- plot.param$col
-	else col <- "#3182BD"
+	if(any(names(plot.param)=="col")) colset <- plot.param$col
+	else colset <- "#3182BD"
 	if(any(names(plot.param)=="col.lab")) col.lab <- plot.param$col.lab
 	else col.lab <- "black"
 	if(any(names(plot.param)=="col.axis")) col.axis <- plot.param$col.axis
@@ -92,7 +92,7 @@ function(x, type, show.ak, ...) {
 	# plot
 	par(mar=mar, mgp=mgp, las=las, bty="n")
 	plot.new()
-	hist(mast$sets[[v.set]]$data$v.avg[start:end], breaks=breaks, axes=FALSE, freq=FALSE, col=col, border=border, main=NULL, xlab=xlab, ylab=ylab, cex.lab=cex.lab, col.lab=col.lab, xlim=xlim, ylim=ylim)
+	hist(mast$sets[[v.set]]$data$v.avg[start:end], breaks=breaks, axes=FALSE, freq=FALSE, col=colset, border=border, main=NULL, xlab=xlab, ylab=ylab, cex.lab=cex.lab, col.lab=col.lab, xlim=xlim, ylim=ylim)
 	box(bty=bty, col=col.box)
 	axis(1, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 	if(!is.null(ylim)) axis(2, at=seq(ylim[1], ylim[2], 0.02), labels=seq(ylim[1]*100, ylim[2]*100, 2), col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
@@ -105,7 +105,7 @@ function(x, type, show.ak, ...) {
 	
 	if(legend) {
 		if(show.ak) leg.text <- c(leg.text[1], paste0(leg.text[2], " (A:", round(tail(wb$A, 1), digits=1), ", k:", round(tail(wb$k, 1), digits=1), ")"))
-		legend(pos.leg, legend=leg.text, col=c(border, line), lty=c(NA, lty), lwd=c(NA, lwd), pch=c(22, NA), pt.bg=c(col, NA), bty=bty.leg, cex=cex.leg, text.col=col.leg, x.intersp=x.intersp, y.intersp=y.intersp)
+		legend(pos.leg, legend=leg.text, col=c(border, line), lty=c(NA, lty), lwd=c(NA, lwd), pch=c(22, NA), pt.bg=c(colset, NA), bty=bty.leg, cex=cex.leg, text.col=col.leg, x.intersp=x.intersp, y.intersp=y.intersp)
 	}
 }
 
@@ -130,13 +130,13 @@ function(x, type, show.ak, ...) {
     on.exit(par(old.par))
 	
 	plot.param <- list(...)
-	if(any(names(plot.param)=="col")) col <- plot.param$col
+	if(any(names(plot.param)=="col")) colset <- plot.param$col
 	else {
-		col <- c(rep("gray45", num.sectors), "#E41A1C")
-		if(num.sectors==4) col <- c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C")
-		if(num.sectors==8) col <- c("#377EB8", "#41B6C4", "#4DAF4A", "#9970AB", "#984EA3", "#F781BF", "#FF7F00", "#A6761D", "#E41A1C")
-		if(num.sectors==12) col <- c("#08519C", "#3182BD", "#74C476", "#006D2C", "#31A354", "#9E9AC8", "#54278F", "#756BB1", "#FED976", "#FD8D3C", "#FEB24C", "#6BAED6", "#E41A1C")
-		if(num.sectors==16) col <- c("#08519C", "#3182BD", "#41B6C4", "#74C476", "#006D2C", "#31A354", "#9970AB", "#9E9AC8", "#54278F", "#756BB1", "#F781BF", "#FED976", "#FD8D3C", "#FEB24C", "#A6761D", "#6BAED6", "#E41A1C")
+		colset <- c(rep("gray45", num.sectors), "#E41A1C")
+		if(num.sectors==4) colset <- c("#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#E41A1C")
+		if(num.sectors==8) colset <- c("#377EB8", "#41B6C4", "#4DAF4A", "#9970AB", "#984EA3", "#F781BF", "#FF7F00", "#A6761D", "#E41A1C")
+		if(num.sectors==12) colset <- c("#08519C", "#3182BD", "#74C476", "#006D2C", "#31A354", "#9E9AC8", "#54278F", "#756BB1", "#FED976", "#FD8D3C", "#FEB24C", "#6BAED6", "#E41A1C")
+		if(num.sectors==16) colset <- c("#08519C", "#3182BD", "#41B6C4", "#74C476", "#006D2C", "#31A354", "#9970AB", "#9E9AC8", "#54278F", "#756BB1", "#F781BF", "#FED976", "#FD8D3C", "#FEB24C", "#A6761D", "#6BAED6", "#E41A1C")
 	}
 	if(any(names(plot.param)=="col.lab")) col.lab <- plot.param$col.lab
 	else col.lab <- "black"
@@ -206,17 +206,17 @@ function(x, type, show.ak, ...) {
 	
 	# plot
 	par(mar=mar, mgp=mgp, las=las, bty="n")
-	plot(x=v, y=100*dweibull(v, shape=x$k[num.sectors], scale=x$A[num.sectors]), axes=FALSE, xlab=xlab, ylab=ylab, type="l", xlim=xlim, ylim=ylim, col=col[num.sectors], lty=lty[num.sectors], lwd=lwd[num.sectors], col.lab=col.lab, cex.lab=cex.lab)
+	plot(x=v, y=100*dweibull(v, shape=x$k[num.sectors], scale=x$A[num.sectors]), axes=FALSE, xlab=xlab, ylab=ylab, type="l", xlim=xlim, ylim=ylim, col=colset[num.sectors], lty=lty[num.sectors], lwd=lwd[num.sectors], col.lab=col.lab, cex.lab=cex.lab)
 	box(bty=bty, col=col.box)
 	axis(1, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 	axis(2, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 	for(i in 1:(num.sectors-1)) {
-		lines(x=v, y=100*dweibull(v, shape=x$k[i], scale=x$A[i]), col=col[i], lty=lty[i], lwd=lwd[i])
+		lines(x=v, y=100*dweibull(v, shape=x$k[i], scale=x$A[i]), col=colset[i], lty=lty[i], lwd=lwd[i])
 	}
-	lines(x=v, y=100*dweibull(v, shape=x$k[num.sectors+1], scale=x$A[num.sectors+1]), col=col[num.sectors+1], lty=lty[num.sectors+1], lwd=lwd[num.sectors+1])
+	lines(x=v, y=100*dweibull(v, shape=x$k[num.sectors+1], scale=x$A[num.sectors+1]), col=colset[num.sectors+1], lty=lty[num.sectors+1], lwd=lwd[num.sectors+1])
 	if(legend) {
 		if(is.null(leg.text)) leg.text <- attr(x, "row.names") 
 		if(show.ak) leg.text <- paste0(leg.text, " (A:", round(x$A, digits=1), ", k:", round(x$k, digits=1), ")")
-		legend(pos.leg, legend=leg.text, col=col, lty=lty, lwd=lwd, bty=bty.leg, cex=cex.leg, text.col=col.leg, x.intersp=x.intersp, y.intersp=y.intersp)
+		legend(pos.leg, legend=leg.text, col=colset, lty=lty, lwd=lwd, bty=bty.leg, cex=cex.leg, text.col=col.leg, x.intersp=x.intersp, y.intersp=y.intersp)
 	}	
 }

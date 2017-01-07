@@ -34,16 +34,16 @@ function(x, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 	on.exit(par(old.par))
 	
 	plot.param <- list(...)
-	if(any(names(plot.param)=="col")) col <- plot.param$col
+	if(any(names(plot.param)=="col")) colset <- plot.param$col
 	else {
 		if(num.sets<=9) {
 			if(requireNamespace("RColorBrewer", quietly=TRUE)) {
-				col <- col1 <- RColorBrewer::brewer.pal(3, "Set1")
-				if(num.sets>3) col <- col1 <- RColorBrewer::brewer.pal(num.sets, "Set1")
-				col[1] <- col1[2]
-				col[2] <- col1[1]
-			} else col <- c("blue", "green", "red", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
-		} else col <- c("blue", "green", "red", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
+				colset <- col1 <- RColorBrewer::brewer.pal(3, "Set1")
+				if(num.sets>3) colset <- col1 <- RColorBrewer::brewer.pal(num.sets, "Set1")
+				colset[1] <- col1[2]
+				colset[2] <- col1[1]
+			} else colset <- c("blue", "green", "red", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
+		} else colset <- c("blue", "green", "red", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
 	}
 	if(any(names(plot.param)=="col.lab")) col.lab <- plot.param$col.lab
 	else col.lab <- "black"
@@ -111,7 +111,7 @@ function(x, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 		par(mar=mar, mgp=mgp, las=las, bty="n")
 		sets <- set.idx[!is.na(set.idx[,which(names(set.idx)==signal[i])]),which(names(set.idx)==signal[i])]
 		if(length(sets)>=1) {
-			plot(timestamp[start:end], x$sets[[sets[1]]]$data[[which(names(x$sets[[sets[1]]]$data)==signal[i])]][start:end], type="l", col=col[sets[1]], ylab=ylab[i], axes=FALSE, col.lab=col.lab, cex.lab=cex.lab, lty=lty[sets[1]])
+			plot(timestamp[start:end], x$sets[[sets[1]]]$data[[which(names(x$sets[[sets[1]]]$data)==signal[i])]][start:end], type="l", col=colset[sets[1]], ylab=ylab[i], axes=FALSE, col.lab=col.lab, cex.lab=cex.lab, lty=lty[sets[1]])
 			box(bty=bty, col=col.box)
 			axis(2, line=mgp[3], col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 			if(i<n.sig) axis.POSIXct(1, at=seq(min(timestamp[start:end]), max(timestamp[start:end]), length.out=6), format="%Y-%m-%d %H:%M:%S", labels=FALSE, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
@@ -120,7 +120,7 @@ function(x, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 		
 			if(length(sets)>1) {
 				for(j in 2:length(sets)) {
-					lines(timestamp[start:end], x$sets[[sets[j]]]$data[[which(names(x$sets[[sets[j]]]$data)==signal[i])]][start:end], col=col[sets[j]], lty=lty[sets[j]])
+					lines(timestamp[start:end], x$sets[[sets[j]]]$data[[which(names(x$sets[[sets[j]]]$data)==signal[i])]][start:end], col=colset[sets[j]], lty=lty[sets[j]])
 				}
 			}
 		} else {
@@ -138,5 +138,5 @@ function(x, set, signal=c("v.avg", "dir.avg", "turb.int"), subset, ...) {
 	plot(0, type="n", axes=FALSE, xlab="", ylab="")
 	par(mar=c(0,5,0,1))
 	plot(0, type="n", axes=FALSE, xlab="", ylab="")
-	if(legend) legend("center", legend=paste0(names, " (", heights, h.unit, ")"), col=col[set.idx], lty=lty[set.idx], ncol=length(set.idx), bty=bty.leg, cex=cex.leg, text.col=col.leg, x.intersp=x.intersp)
+	if(legend) legend("center", legend=paste0(names, " (", heights, h.unit, ")"), col=colset[set.idx], lty=lty[set.idx], ncol=length(set.idx), bty=bty.leg, cex=cex.leg, text.col=col.leg, x.intersp=x.intersp)
 }

@@ -21,8 +21,8 @@ function(x, cp=TRUE, ct=TRUE, ...) {
 	
 	plot.param <- list(...)
 	#if(!pc.list) {
-		if(any(names(plot.param)=="col")) col <- plot.param$col
-		else col <- c("#3182BD", "#E41A1C", "#E41A1C")
+		if(any(names(plot.param)=="col")) colset <- plot.param$col
+		else colset <- c("#3182BD", "#E41A1C", "#E41A1C")
 	#} else {
 	#	if(any(names(plot.param)=="col")) col <- plot.param$col
 	#	else {
@@ -94,23 +94,23 @@ function(x, cp=TRUE, ct=TRUE, ...) {
 			if(is.null(mar)) par(mar=c(5,5,1,1), mgp=mgp, las=las, bty="n") else par(mar=mar, mgp=mgp, las=las, bty="n")
 		}
 		
-		plot(x$v[!is.na(x$P)], x$P[!is.na(x$P)], type="l", xaxt="n", yaxt="n", xlab=xlab, ylab=ylab[1], col=col[1], lty=lty[1], lwd=lwd[1], cex=cex, xlim=xlim, ylim=ylim, col.axis=col.axis, col.lab=col.lab, bty="n")
+		plot(x$v[!is.na(x$P)], x$P[!is.na(x$P)], type="l", xaxt="n", yaxt="n", xlab=xlab, ylab=ylab[1], col=colset[1], lty=lty[1], lwd=lwd[1], cex=cex, xlim=xlim, ylim=ylim, col.axis=col.axis, col.lab=col.lab, bty="n")
 		box(bty=bty, col=col.box)
 		axis(1, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 		axis(2, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 		
 		if(cp && !is.null(x$cp)) {
 			par(new=TRUE, mgp=mgp, las=las)
-			plot(x$v[!is.na(x$cp)], x$cp[!is.na(x$cp)], type="l", axes=FALSE, ylab="", xlab="", xlim=xlim, ylim=c(0,1), , col=col[2], lty=lty[2], lwd=lwd[2]) 
+			plot(x$v[!is.na(x$cp)], x$cp[!is.na(x$cp)], type="l", axes=FALSE, ylab="", xlab="", xlim=xlim, ylim=c(0,1), , col=colset[2], lty=lty[2], lwd=lwd[2]) 
 			axis(4, col=col.ticks, cex=cex, cex.axis=cex.axis, cex.lab=cex.lab, col.axis=col.axis, col.lab=col.lab)  
 		}
 		if(cp && !is.null(x$cp) && ct && !is.null(x$ct)) {
 			par(new=TRUE, mgp=mgp, las=las)
-			plot(x$v[!is.na(x$ct)], x$ct[!is.na(x$ct)], type="l", axes=FALSE, ylab="", xlab="", xlim=xlim, ylim=c(0,1), , col=col[3], lty=lty[3], lwd=lwd[3], cex=cex, cex.axis=cex, cex.lab=cex) 
+			plot(x$v[!is.na(x$ct)], x$ct[!is.na(x$ct)], type="l", axes=FALSE, ylab="", xlab="", xlim=xlim, ylim=c(0,1), , col=colset[3], lty=lty[3], lwd=lwd[3], cex=cex, cex.axis=cex, cex.lab=cex) 
 		}
 		if((!cp || is.null(x$cp)) && ct && !is.null(x$ct)) {
 			par(new=TRUE, mgp=mgp, las=las)
-			plot(x$v[!is.na(x$ct)], x$ct[!is.na(x$ct)], type="l", axes=FALSE, ylab="", xlab="", xlim=xlim, ylim=c(0,1), , col=col[2], lty=lty[2], lwd=lwd[2], cex=cex, cex.axis=cex, cex.lab=cex) 
+			plot(x$v[!is.na(x$ct)], x$ct[!is.na(x$ct)], type="l", axes=FALSE, ylab="", xlab="", xlim=xlim, ylim=c(0,1), , col=colset[2], lty=lty[2], lwd=lwd[2], cex=cex, cex.axis=cex, cex.lab=cex) 
 			axis(4, col=col.ticks, cex=cex, cex.axis=cex.axis, cex.lab=cex.lab, col.axis=col.axis, col.lab=col.lab)  
 		}
 		
@@ -118,17 +118,17 @@ function(x, cp=TRUE, ct=TRUE, ...) {
 			if(length(ylab)==1) txt <- "Coefficients [-]" else txt <- ylab[2]
 			if(is.null(leg.text)) leg.text <- c("Power", expression(c[p]), expression(c[t]))
 			mtext(txt, 4, line=mgp[1], las=0, cex=cex.lab, col=col.lab)
-			if(legend) legend(pos.leg, legend=leg.text, bty=bty.leg, col=col, lty=lty[1:3], lwd=lwd[1:3], x.intersp=x.intersp, y.intersp=y.intersp, cex=cex.leg, text.col=col.leg)
+			if(legend) legend(pos.leg, legend=leg.text, bty=bty.leg, col=colset, lty=lty[1:3], lwd=lwd[1:3], x.intersp=x.intersp, y.intersp=y.intersp, cex=cex.leg, text.col=col.leg)
 		} else if(cp && !is.null(x$cp) && (!ct || is.null(x$ct))) {
 			if(length(ylab)==1) txt <- "Power coefficient [-]" else txt <- ylab[2]
 			if(is.null(leg.text)) leg.text <- c("Power", expression(c[p]))
 			mtext(txt, 4, line=mgp[1], las=0, cex=cex.lab, col=col.lab)
-			if(legend) legend(pos.leg, legend=leg.text, bty=bty.leg, col=col[c(1,2)], lty=lty[c(1,2)], lwd=lwd[c(1,2)], x.intersp=x.intersp, y.intersp=y.intersp, cex=cex.leg, text.col=col.leg)
+			if(legend) legend(pos.leg, legend=leg.text, bty=bty.leg, col=colset[c(1,2)], lty=lty[c(1,2)], lwd=lwd[c(1,2)], x.intersp=x.intersp, y.intersp=y.intersp, cex=cex.leg, text.col=col.leg)
 		} else if(ct && !is.null(x$ct) && (!cp || is.null(x$cp))) {
 			if(length(ylab)==1) txt <- "Thrust coefficient [-]" else txt <- ylab[2]
 			if(is.null(leg.text)) leg.text <- c("Power", expression(c[t]))
 			mtext(txt, 4, line=mgp[1], las=0, cex=cex.lab, col=col.lab)
-			if(legend) legend(pos.leg, legend=leg.text, bty=bty.leg, col=col[c(1,2)], lty=lty[c(1,2)], lwd=lwd[c(1,2)], x.intersp=x.intersp, y.intersp=y.intersp, cex=cex.leg, text.col=col.leg)
+			if(legend) legend(pos.leg, legend=leg.text, bty=bty.leg, col=colset[c(1,2)], lty=lty[c(1,2)], lwd=lwd[c(1,2)], x.intersp=x.intersp, y.intersp=y.intersp, cex=cex.leg, text.col=col.leg)
 		}
 	#} else { # list of pc
 	#	cpt <- FALSE

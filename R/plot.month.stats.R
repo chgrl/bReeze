@@ -17,16 +17,16 @@ function(x, set, ...) {
 	on.exit(par(old.par))
 	
 	plot.param <- list(...)
-	if(any(names(plot.param)=="col")) col <- plot.param$col
+	if(any(names(plot.param)=="col")) colset <- plot.param$col
 	else {
 		if(n.set<=9) {
 			if(requireNamespace("RColorBrewer", quietly=TRUE)) {
-				col <- col1 <- RColorBrewer::brewer.pal(3, "Paired")
-				if(years>3) col <- col1 <- RColorBrewer::brewer.pal(years, "Paired")
-				col[1] <- col1[2]
-				col[2] <- col1[1]
-			} else col <- c("blue", "green", "red", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
-		} else col <- c("blue", "green", "red", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
+				colset <- col1 <- RColorBrewer::brewer.pal(3, "Paired")
+				if(years>3) colset <- col1 <- RColorBrewer::brewer.pal(years, "Paired")
+				colset[1] <- col1[2]
+				colset[2] <- col1[1]
+			} else colset <- c("blue", "green", "red", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
+		} else colset <- c("blue", "green", "red", "cyan", "magenta", "orange", "brown", "violet", "yellow", "pink", colors())
 	}
 	if(any(names(plot.param)=="col.lab")) col.lab <- plot.param$col.lab
 	else col.lab <- "black"
@@ -79,7 +79,7 @@ function(x, set, ...) {
 		if(is.null(pos.leg)) pos.leg <- "top"
 		par(mar=mar, mgp=mgp, las=las)
 		if(is.null(ylim)) ylim <- c(-0.1, ceiling(max(x[[set]][1:12,1:(length(x[[set]])-2)], na.rm=TRUE))+0.3)
-		barplot(t(as.matrix(x[[set]][1:12,1:(length(x[[set]])-2)])), beside=TRUE, xaxt="n", yaxt="n", col=col[1:years], border=border, ylim=ylim, xpd=FALSE)
+		barplot(t(as.matrix(x[[set]][1:12,1:(length(x[[set]])-2)])), beside=TRUE, xaxt="n", yaxt="n", col=colset[1:years], border=border, ylim=ylim, xpd=FALSE)
 		box(bty=bty, col=col.box)
 		axis(2, line=mgp[3], col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 		bxp <- barplot(t(as.matrix(x[[set]][1:12,1:(length(x[[set]])-2)])), beside=TRUE, plot=FALSE)
@@ -88,7 +88,7 @@ function(x, set, ...) {
 		mtext(xlab, side=1, line=mgp[1]-0.5, at=mean(at), cex=cex.lab+0.1, col=col.lab, las=1)
 		mtext(ylab, side=2, line=mgp[1], las=0, cex=cex.lab+0.1, col=col.lab)
 		if(plot.names) mtext(names(x)[set], side=2, line=mgp[1]+1.2, las=0, cex=cex.lab+0.1, col=col.lab)
-		if(legend) legend(pos.leg, legend=names(x[[1]])[1:years], fill=col[1:years], border=border, ncol=years, bty=bty.leg, cex=cex.leg-0.1, x.intersp=x.intersp, text.col=col.leg)
+		if(legend) legend(pos.leg, legend=names(x[[1]])[1:years], fill=colset[1:years], border=border, ncol=years, bty=bty.leg, cex=cex.leg-0.1, x.intersp=x.intersp, text.col=col.leg)
 	} else {
 		if(is.null(pos.leg)) pos.leg <- "center"
 		lo <- layout(matrix(c(n.set+2, 1:(n.set+1)), n.set+2, 1), heights=c(1, rep(5, n.set), 1))
@@ -96,7 +96,7 @@ function(x, set, ...) {
 		dat.max <- ceiling(max(unlist(x), na.rm=TRUE))
 		for(i in 1:n.set) {
 			if(is.null(ylim)) ylim <- c(-0.1, dat.max+0.3)
-			barplot(t(as.matrix(x[[i]][1:12,1:years])), beside=TRUE, xaxt="n", yaxt="n", col=col[1:years], border=border, ylim=ylim, xpd=FALSE)
+			barplot(t(as.matrix(x[[i]][1:12,1:years])), beside=TRUE, xaxt="n", yaxt="n", col=colset[1:years], border=border, ylim=ylim, xpd=FALSE)
 			box(bty=bty, col=col.box)
 			axis(2, line=mgp[3], col=col.ticks, col.axis=col.axis, cex.axis=cex.axis+0.2)
 			if(plot.names) mtext(names(x)[set[i]], side=2, line=mgp[1]+1.2, las=0, cex=cex.lab, col=col.lab)
@@ -109,6 +109,6 @@ function(x, set, ...) {
 		plot(0, type="n", axes=FALSE, xlab="", ylab="")
 		par(mar=c(0,5.5,0,1))
 		plot(0, type="n", axes=FALSE, xlab="", ylab="")
-		if(legend) legend(pos.leg, legend=names(x[[1]])[1:years], fill=col[1:years], border=border, ncol=years, bty=bty.leg, cex=cex.leg+0.2, x.intersp=x.intersp, text.col=col.leg)
+		if(legend) legend(pos.leg, legend=names(x[[1]])[1:years], fill=colset[1:years], border=border, ncol=years, bty=bty.leg, cex=cex.leg+0.2, x.intersp=x.intersp, text.col=col.leg)
 	}
 }

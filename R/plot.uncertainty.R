@@ -16,15 +16,15 @@ function(x, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
 	plot.param <- list(...)
 	if(type=="prob") { # probability of exceedance
 		if(any(names(plot.param)=="col")) {
-			if(length(plot.param$col)==1) col <- rep(plot.param$col, 4)
-			else col <- plot.param$col
+			if(length(plot.param$col)==1) colset <- rep(plot.param$col, 4)
+			else colset <- plot.param$col
 		} else {
-			if(length(p.values)==1) col <- c("#084081", "#FF0000")
-			else if(length(p.values)==2) col <- c("#084081", "#FB6A4A", "#A50F15")
+			if(length(p.values)==1) colset <- c("#084081", "#FF0000")
+			else if(length(p.values)==2) colset <- c("#084081", "#FB6A4A", "#A50F15")
 			else if(length(p.values)>2 && length(p.values)<10) {
-				if(requireNamespace("RColorBrewer", quietly=TRUE)) col <- c("#084081", RColorBrewer::brewer.pal(length(p.values), "Reds"))
-				else col <- c("#084081", rainbow(length(p.values)))
-			} else col <- c("#084081", rainbow(length(p.values)))
+				if(requireNamespace("RColorBrewer", quietly=TRUE)) colset <- c("#084081", RColorBrewer::brewer.pal(length(p.values), "Reds"))
+				else colset <- c("#084081", rainbow(length(p.values)))
+			} else colset <- c("#084081", rainbow(length(p.values)))
 		}
 		if(any(names(plot.param)=="bty")) bty <- plot.param$bty
 		else bty <- "o"
@@ -89,11 +89,11 @@ function(x, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
 			else stop("Wrong length of border colours")
 		} else border <- NA
 		if(any(names(plot.param)=="col")) {
-			if(length(plot.param$col)==1) col <- rep(plot.param$col, length(x$uncertainty.meth$uncertainty))
-			else if(length(plot.param$col)==2) col <- c(rep(plot.param$col[1], length(x$uncertainty.meth$uncertainty)-1), plot.param$col[2])
-			else if(length(plot.param$col)==length(x$uncertainty.meth$uncertainty)) col <- plot.param$col
+			if(length(plot.param$col)==1) colset <- rep(plot.param$col, length(x$uncertainty.meth$uncertainty))
+			else if(length(plot.param$col)==2) colset <- c(rep(plot.param$col[1], length(x$uncertainty.meth$uncertainty)-1), plot.param$col[2])
+			else if(length(plot.param$col)==length(x$uncertainty.meth$uncertainty)) colset <- plot.param$col
 			else stop("Wrong length of colours")
-		} else col <- c(rep("#CB181D", length(x$uncertainty.meth$uncertainty)-1), "#940E13")
+		} else colset <- c(rep("#CB181D", length(x$uncertainty.meth$uncertainty)-1), "#940E13")
 		if(any(names(plot.param)=="col.axis")) col.axis <- plot.param$col.axis
 		else col.axis <- "black"
 		if(any(names(plot.param)=="col.text")) col.text <- plot.param$col.text
@@ -124,18 +124,18 @@ function(x, type=c("prob", "uncert"), p.values=c(50, 75, 90), ...) {
 		p <- qnorm((1-p.values/100), p50, tuc*p50)
 		par(mar=mar, mgp=mgp, las=las)
 		x <- NULL # just to satisfy R CMD check
-		curve(qnorm(rev(x), mean=p50, sd=tuc*p50), xaxt="n", yaxt="n", xlab=xlab, ylab=ylab, col=col[1], lty=lty[1], lwd=lwd[1], cex=cex, cex.lab=cex.lab, xlim=xlim, ylim=ylim, col.axis=col.axis, col.lab=col.lab, bty="n")
-		abline(h=p, col=col[2:(length(p.values)+1)], lty=lty[2:(length(p.values)+1)], lwd=lwd[2:(length(p.values)+1)])
+		curve(qnorm(rev(x), mean=p50, sd=tuc*p50), xaxt="n", yaxt="n", xlab=xlab, ylab=ylab, col=colset[1], lty=lty[1], lwd=lwd[1], cex=cex, cex.lab=cex.lab, xlim=xlim, ylim=ylim, col.axis=col.axis, col.lab=col.lab, bty="n")
+		abline(h=p, col=colset[2:(length(p.values)+1)], lty=lty[2:(length(p.values)+1)], lwd=lwd[2:(length(p.values)+1)])
 		box(bty=bty, col=col.box)
 		axis(1, at=seq(0, 1, by=0.2), labels=seq(0, 100, by=20), col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
 		axis(2, col=col.ticks, col.axis=col.axis, cex.axis=cex.axis)
-		if(legend) legend(pos.leg, legend=leg.text, bty=bty.leg, col=col, lty=lty, lwd=lwd, x.intersp=x.intersp, y.intersp=y.intersp, cex=cex.leg, text.col=col.leg)
+		if(legend) legend(pos.leg, legend=leg.text, bty=bty.leg, col=colset, lty=lty, lwd=lwd, x.intersp=x.intersp, y.intersp=y.intersp, cex=cex.leg, text.col=col.leg)
 	} else { # uncertainties of methods
 		dat <- rev(x$uncertainty.meth$uncertainty)
 		nam <- rev(row.names(x$uncertainty.meth))
 		
 		par(mar=mar, mgp=mgp, las=1)
-		barplot(dat, horiz=TRUE, xaxt="n", yaxt="n", col=rev(col), border=rev(border), space=space)
+		barplot(dat, horiz=TRUE, xaxt="n", yaxt="n", col=rev(colset), border=rev(border), space=space)
 		bxp <- barplot(dat, horiz=TRUE, space=space, plot=FALSE)
 		at <- apply(bxp, 1, mean)
 		mtext(nam, side=2, line=mgp[2]-0.5, at=at, cex=cex.axis, col=col.axis)

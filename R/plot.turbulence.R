@@ -21,8 +21,8 @@ function(x, ...) {
 	on.exit(par(old.par))
 	
 	plot.param <- list(...)
-	if(any(names(plot.param)=="col")) col <- plot.param$col
-	else col <- "#E41A1C"
+	if(any(names(plot.param)=="col")) colset <- plot.param$col
+	else colset <- "#E41A1C"
 	if(any(names(plot.param)=="cex")) cex <- plot.param$cex
 	else cex <- 1
 	if(any(names(plot.param)=="cex.axis")) cex.axis <- plot.param$cex.axis
@@ -54,7 +54,7 @@ function(x, ...) {
 	if(any(names(plot.param)=="sec.space")) sec.space <- 1-plot.param$sec.space
 	else sec.space <- 0.8
 	if(any(names(plot.param)=="col.border")) col.border <- plot.param$col.border
-	else col.border <- col
+	else col.border <- colset
 	if(any(names(plot.param)=="lwd.border")) lwd.border <- plot.param$lwd.border
 	else lwd.border <- 0.5
 	
@@ -74,7 +74,7 @@ function(x, ...) {
 			rad <- 0.95 * plot.data[i]/tail(circles, 1)
 			xlist <- c(0, rad * cos(arc.pts), 0)
 			ylist <- c(0, rad * sin(arc.pts), 0)
-		   	polygon(xlist, ylist, col=col, border=col.border, lwd=lwd.border)
+		   	polygon(xlist, ylist, col=colset, border=col.border, lwd=lwd.border)
 		}
 	}
 	
@@ -103,7 +103,7 @@ function(x, ...) {
 			rad <- 0.95 * plot.data[i]/tail(circles, 1)
 			xlist <- c(0, rad * cos(arc.pts), 0)
 			ylist <- c(0, rad * sin(arc.pts), 0)
-		   	polygon(xlist, ylist, col=col, border=col.border, lwd=lwd.border)
+		   	polygon(xlist, ylist, col=colset, border=col.border, lwd=lwd.border)
 		}
 	}
 }

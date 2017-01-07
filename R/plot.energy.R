@@ -196,6 +196,6 @@ function(x, show.total=TRUE, ...) {
 	if(num.classes>1 && width.leg!=0) {
 		par(mar=c(0,0,0,0))
 		plot(0, type="n", axes=FALSE, xlab="", ylab="")
-		legend("left", legend=names(e.cum), title=title.leg, fill=col[1:num.classes], xjust=0, bty=bty.leg, border=border.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
+		legend("left", legend=names(e.cum), title=title.leg, fill=colset[1:num.classes], xjust=0, bty=bty.leg, border=border.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
 	}
 }

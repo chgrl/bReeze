@@ -53,17 +53,17 @@ plot.availability <- function(x, set, ...) {
 	
 		for (i in 1:m) {
 			d <- length(x[[set[s]]]$daily[i, !is.na(x[[set[s]]]$daily[i,])])-1
-			col <- fill <- character(d)
+			colset <- fill <- character(d)
 			value <- x[[set[s]]]$daily[i,2:(d+1)]
-			col[value==d.s] <- color[1]
+			colset[value==d.s] <- color[1]
 			fill[value==d.s] <- col.fill[1]
-			col[value<d.s & value>0] <- color[2]
+			colset[value<d.s & value>0] <- color[2]
 			fill[value<d.s & value>0] <- col.fill[2]
-			col[value==0] <- color[3]
+			colset[value==0] <- color[3]
 			fill[value==0] <- col.fill[3]
 			
 			rect((1:d)/31,1-i/m, ((1:d)-1)/31, 1-(i-1)/m, col=fill, border=border, lwd=lwd)
-			text(((1:d)-0.5)/31, 1-(i-0.5)/m, value, cex=0.4*c.cex, col=col)
+			text(((1:d)-0.5)/31, 1-(i-0.5)/m, value, cex=0.4*c.cex, col=colset)
 		}
 		if(s==1) {
 			mtext(xlab, side=3, line=0.7, at=0.5, cex=0.8*cex.lab, col=col.lab)

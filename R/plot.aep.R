@@ -26,15 +26,15 @@ function(x, show.total=TRUE, ...) {
 	sector.width <- sector.edges[2] - sector.edges[1]
 	
 	plot.param <- list(...)
-	if(any(names(plot.param)=="col")) col <- plot.param$col
+	if(any(names(plot.param)=="col")) colset <- plot.param$col
 	else {
-		if(num.classes==1) col <- c("#3182BD")
-		else if(num.classes==2) col <- c("#3182BD", "#9ECAE1")
+		if(num.classes==1) colset <- c("#3182BD")
+		else if(num.classes==2) colset <- c("#3182BD", "#9ECAE1")
 		else if(num.classes>2 && num.classes<=11) {
-	    	if(requireNamespace("RColorBrewer", quietly=TRUE)) col <- rev(RColorBrewer::brewer.pal(num.classes, "Blues"))
-	    	else col <- rev(rainbow(num.classes, start=0.0, end=0.7))
+	    	if(requireNamespace("RColorBrewer", quietly=TRUE)) colset <- rev(RColorBrewer::brewer.pal(num.classes, "Blues"))
+	    	else colset <- rev(rainbow(num.classes, start=0.0, end=0.7))
 	    } else {
-	    	col <- rev(rainbow(num.classes, start=0.0, end=0.7))
+	    	colset <- rev(rainbow(num.classes, start=0.0, end=0.7))
 	    }
 	}
 	if(any(names(plot.param)=="cex")) cex <- plot.param$cex
@@ -80,7 +80,7 @@ function(x, show.total=TRUE, ...) {
 	if(any(names(plot.param)=="title.leg")) title.leg <- plot.param$title.leg
 	else title.leg <- "Wind speed\n[m/s]"
 	if(any(names(plot.param)=="border.leg")) border.leg <- plot.param$border.leg
-	else border.leg <- col[1:num.classes]
+	else border.leg <- colset[1:num.classes]
 	if(any(names(plot.param)=="bty.leg")) bty.leg <- plot.param$bty.leg
 	else bty.leg <- "n"
 	if(any(names(plot.param)=="col.border")) col.border <- plot.param$col.border
@@ -131,7 +131,7 @@ function(x, show.total=TRUE, ...) {
 					rad <- 0.9 * plot.data[i]/tail(circles, 1)
 					xlist <- c(0, rad * cos(arc.pts), 0)
 					ylist <- c(0, rad * sin(arc.pts), 0)
-					polygon(xlist, ylist, col=col[c], border=col[c], lwd=0.01)
+					polygon(xlist, ylist, col=colset[c], border=colset[c], lwd=0.01)
 				}
 			}
 			if(!is.null(col.border)) {
@@ -178,7 +178,7 @@ function(x, show.total=TRUE, ...) {
 					rad <- 0.9 * plot.data[i]/tail(circles, 1)
 					xlist <- c(0, rad * cos(arc.pts), 0)
 					ylist <- c(0, rad * sin(arc.pts), 0)
-					polygon(xlist, ylist, col=col[c], border=col[c], lwd=0.01)
+					polygon(xlist, ylist, col=colset[c], border=colset[c], lwd=0.01)
 				}
 			}
 			if(!is.null(col.border)) {
@@ -198,7 +198,7 @@ function(x, show.total=TRUE, ...) {
 		if(num.classes>1 && width.leg!=0) {
 			par(mar=c(0,0,0,0))
 			plot(0, type="n", axes=FALSE, xlab="", ylab="")
-			legend("left", legend=names(aep.cum), title=title.leg, fill=col[1:num.classes], xjust=0, bty=bty.leg, border=border.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
+			legend("left", legend=names(aep.cum), title=title.leg, fill=colset[1:num.classes], xjust=0, bty=bty.leg, border=border.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
 		}
 	}
 	
