@@ -1,8 +1,8 @@
 Package: bReeze
 Type: Package
 Title: Functions for Wind Resource Assessment
-Version: 0.4-0
-Date: 2014-09-18
+Version: 0.4-1
+Date: 2017-08-01
 Author: Christian Graul and Carsten Poppinga
 Maintainer: Christian Graul <christian.graul@gmail.com>
 Description: A collection of functions to analyse, visualize and interpret wind data
@@ -11,4 +11,4 @@ License: MIT + file LICENSE
 URL: https://github.com/chgrl/bReeze
 Depends: R (>= 2.14.2)
 Imports: graphics, grDevices, stats, utils
-Suggests: plotrix (>= 3.5-10), RColorBrewer, RgoogleMaps, XML
+Suggests: RColorBrewer, RgoogleMaps, XML

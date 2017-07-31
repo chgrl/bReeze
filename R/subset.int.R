@@ -14,8 +14,8 @@ function(timestamp, subset) {
 	end <- strptime(subset[2], "%Y-%m-%d %H:%M:%S", tz[1])
 	if(is.na(start)) stop("'start' time stamp in 'subset' not correctly formated")
 	if(is.na(end)) stop("'end' time stamp in 'subset' not correctly formated")
-	if(start<timestamp[1] || start>timestamp[num.samples]) stop("'start' time stamp in 'subset' not in period")
-	if(end<timestamp[1] || end>timestamp[num.samples]) stop("'end' time stamp in 'subset' not in period")
+	if(start<timestamp[1] || start>timestamp[num.samples]) stop("'start' timestamp in 'subset' not in period")
+	if(end<timestamp[1] || end>timestamp[num.samples]) stop("'end' timestamp in 'subset' not in period")
 	
 	match.date <- difftime(timestamp, ISOdatetime(1,1,1,0,0,0), tz=tz[1], units="days") - difftime(start, ISOdatetime(1,1,1,0,0,0), tz=tz[1], units="days")
 	start <- which(abs(as.numeric(match.date)) == min(abs(as.numeric(match.date))))	
