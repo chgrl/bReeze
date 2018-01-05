@@ -49,7 +49,7 @@ iec <-
 function(mast, set, subset, ...) turb.iec.plot(mast, set, subset, ...)
 
 pro <- 
-function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fixed"), alpha=NULL, subset, digits=3, print=TRUE) profile(mast, v.set, dir.set, num.sectors, method, alpha, subset, digits, print)
+function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fixed"), alpha=NULL, subset, digits=3, print=TRUE) windprofile(mast, v.set, dir.set, num.sectors, method, alpha, subset, digits, print)
 
 turb <- 
 function(mast, turb.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digits=3, print=TRUE) turbulence(mast, turb.set, dir.set, num.sectors, bins, subset, digits, print)

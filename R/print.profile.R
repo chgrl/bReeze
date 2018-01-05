@@ -1,4 +1,4 @@
-print.profile <- 
+print.windprofile <- 
 function(x, ...) {
 ### summarising profile object information
 	

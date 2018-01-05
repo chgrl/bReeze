@@ -1,4 +1,4 @@
-profile <-
+windprofile <-
 function(mast, v.set, dir.set, num.sectors=12, method=c("hellman", "loglm", "fixed"), alpha=NULL, subset, digits=3, print=TRUE) {
 ###	computing profile from mast data
 	

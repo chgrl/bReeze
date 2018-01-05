@@ -1,4 +1,4 @@
-plot.profile <-
+plot.windprofile <-
 function(x, sector, measured=TRUE, ...) {
 ###	plotting profile
 		

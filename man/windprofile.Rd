@@ -1,19 +1,19 @@
 \encoding{UTF-8}
-\name{profile}
-\alias{profile}
+\name{windprofile}
+\alias{windprofile}
 \alias{pro}
-\alias{plot.profile}
+\alias{plot.windprofile}
 \title{Calculate wind profile}
 \description{Calculates a wind profile, using on the Hellman exponential law.}
 \usage{
-profile(mast, v.set, dir.set, num.sectors=12, 
+windprofile(mast, v.set, dir.set, num.sectors=12, 
   method=c("hellman", "loglm", "fixed"), alpha=NULL, 
   subset, digits=3, print=TRUE)
 pro(mast, v.set, dir.set, num.sectors=12, 
   method=c("hellman", "loglm", "fixed"), alpha=NULL, 
   subset, digits=3, print=TRUE)
 
-\method{plot}{profile}(x, sector, measured=TRUE, ...)
+\method{plot}{windprofile}(x, sector, measured=TRUE, ...)
 }
 \arguments{
   \item{mast}{Met mast object created by \code{\link{mast}}.}
@@ -106,36 +106,36 @@ neubuerg <- clean(mast=neubuerg)
 
 ## calculate profile
 # create profile based on one height
-profile(mast=neubuerg, v.set=1, dir.set=1)	# default alpha=0.2
-profile(mast=neubuerg, v.set=1, dir.set=1, alpha=0.15)
+windprofile(mast=neubuerg, v.set=1, dir.set=1)	# default alpha=0.2
+windprofile(mast=neubuerg, v.set=1, dir.set=1, alpha=0.15)
 
 # calculate profile based on two heights
-profile(mast=neubuerg, v.set=c(1,2), dir.set=1)
-profile(mast=neubuerg, v.set=c(1,3), dir.set=1)
+windprofile(mast=neubuerg, v.set=c(1,2), dir.set=1)
+windprofile(mast=neubuerg, v.set=c(1,3), dir.set=1)
 # same as above
-profile(mast=neubuerg, v.set=c("set1", "set3"), dir.set="set1")
+windprofile(mast=neubuerg, v.set=c("set1", "set3"), dir.set="set1")
 
 # calculate profile based on three heights
-profile(mast=neubuerg, v.set=c(1,2,3), dir.set=1)
+windprofile(mast=neubuerg, v.set=c(1,2,3), dir.set=1)
 
 # change the method used for computation
 # note: negative alphas!
-profile(mast=neubuerg, v.set=c(1,2), dir.set=1, method="loglm")
+windprofile(mast=neubuerg, v.set=c(1,2), dir.set=1, method="loglm")
 
 # change number of direction sectors
-profile(mast=neubuerg, v.set=c(1,2), dir.set=1, num.sectors=8)
+windprofile(mast=neubuerg, v.set=c(1,2), dir.set=1, num.sectors=8)
 
 # data subsets
-profile(mast=neubuerg, v.set=1, dir.set=1, 
+windprofile(mast=neubuerg, v.set=1, dir.set=1, 
   subset=c("2009-12-01 00:00:00", "2009-12-31 23:50:00"))
-profile(mast=neubuerg, v.set=c(1,2), dir.set=1, 
+windprofile(mast=neubuerg, v.set=c(1,2), dir.set=1, 
   subset=c("2010-01-01 00:00:00", NA)) # just 'start' time stamp
-profile(mast=neubuerg, v.set=c(1:3), dir.set=1, 
+windprofile(mast=neubuerg, v.set=c(1:3), dir.set=1, 
   subset=c(NA, "2009-12-31 23:50:00")) # just 'end' time stamp
 
 # change number of digits and hide results
-profile(mast=neubuerg, v.set=1, dir.set=1, digits=2)
-neubuerg.wp <- profile(mast=neubuerg, v.set=1, dir.set=1, print=FALSE)
+windprofile(mast=neubuerg, v.set=1, dir.set=1, digits=2)
+neubuerg.wp <- windprofile(mast=neubuerg, v.set=1, dir.set=1, print=FALSE)
 neubuerg.wp
 
 

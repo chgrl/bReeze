@@ -73,7 +73,7 @@ wb <- weibull(mast=metmast, v.set=1)
 energy(wb=wb)
 
 # calculate wind profile
-pf <- profile(mast=metmast, v.set=c(1,2), dir.set=1)
+pf <- windprofile(mast=metmast, v.set=c(1,2), dir.set=1)
 
 # import power curve
 pc <- pc("Enercon_E126_7.5MW.pow")
