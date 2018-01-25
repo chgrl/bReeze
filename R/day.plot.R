@@ -155,12 +155,12 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 				high <- sector.edges[sec+1]
 				if(low<high) idx.dir <- mast$sets[[dir.set]]$data$dir.avg[start:end]>=low & mast$sets[[dir.set]]$data$dir.avg[start:end]<high
 				else idx.dir <- mast$sets[[dir.set]]$data$dir.avg[start:end]>=low | mast$sets[[dir.set]]$data$dir.avg[start:end]<high
-				diurnal.s <- NULL
+				diurnal.s <- rep(0, 24)
 				for(i in 0:23) {
 					hour.idx <- mast$timestamp[start:end]$hour==i
 					hour.values <- dat[hour.idx & idx.dir]
 					hour.values <- hour.values[!is.na(hour.values)]
-					if(length(hour.values)>0) diurnal.s <- append(diurnal.s, mean(hour.values))
+					if(length(hour.values)>0) diurnal.s[i+1] <- mean(hour.values)
 				}
 				diurnal[[length(diurnal)+1]] <- diurnal.s
 			}
