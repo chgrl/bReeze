@@ -140,12 +140,12 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 		if(length(lwd)==1) lwd <- rep(lwd, set)
 		
 		# mean diurnal
-		diurnal <- NULL
+		diurnal <- rep(0, 24)
 		for(i in 0:23) {
 			hour.idx <- mast$timestamp[start:end]$hour==i
 			hour.values <- dat[hour.idx]
 			hour.values <- hour.values[!is.na(hour.values)]
-			if(length(hour.values)>0) diurnal <- append(diurnal, mean(hour.values))
+			if(length(hour.values)>0) diurnal[i+1] <- mean(hour.values)
 		}
 		diurnal <- list(diurnal)
 		
@@ -224,12 +224,12 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 			lwd <- lwd.all
 		}
 		
-		diurnal <- NULL
+		diurnal <- rep(0, 24)
 		for(i in 0:23) {
 			hour.idx = mast$timestamp[start:end]$hour==i
 			hour.values <- mast$sets[[set.index[1]]]$data[hour.idx,which(names(mast$sets[[set.index[1]]]$data)==signal)]
 			hour.values <- hour.values[!is.na(hour.values)]
-			if(length(hour.values)>0) diurnal <- append(diurnal, mean(hour.values))
+			if(length(hour.values)>0) diurnal[i+1] <- mean(hour.values)
 		}
 		if(is.null(ylim)) ylim <- c(0.8*min(diurnal), 1.2*max(diurnal))
 		plot(0:23, diurnal, type="l", xaxt="n", yaxt="n", xlim=c(0, 24), ylim=ylim, xlab=xlab, ylab=ylab, col=col[set.index[1]], lty=lty[set.index[1]], lwd=lwd[set.index[1]], cex.lab=cex.lab, col.lab=col.lab)
@@ -239,12 +239,12 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 
 		if(length(set.index)>1) {
 			for(s in 2:length(set.index)) {
-				diurnal <- NULL
+				diurnal <- rep(0, 24)
 				for(i in 0:23) {
 					hour.idx <- mast$timestamp[start:end]$hour==i
 					hour.values <- mast$sets[[set.index[s]]]$data[hour.idx,which(names(mast$sets[[set.index[s]]]$data)==signal)]
 					hour.values <- hour.values[!is.na(hour.values)]
-					if(length(hour.values)>0) diurnal <- append(diurnal, mean(hour.values))
+					if(length(hour.values)>0) diurnal[i+1] <- mean(hour.values)
 				}
 				lines(0:23, diurnal, col=col[set.index[s]], lty=lty[set.index[s]], lwd=lwd[set.index[s]])
 			}
@@ -252,7 +252,7 @@ function(mast, set, dir.set=set, signal, num.sectors=NULL, subset, ...) {
 		
 		heights <- c()
 		for(s in 1:num.sets) {
-			if(any(names(mast$sets[[s]]$data)==signal)	) heights <- append(heights, mast$sets[[s]]$height)
+			if(any(names(mast$sets[[s]]$data)==signal)) heights <- append(heights, mast$sets[[s]]$height)
 		}
 		
 		if(!is.null(pos.leg)) legend(pos.leg, legend=paste0(names(mast$sets)[set.index], " (", heights, h.unit, ")"), col=col[set.index], lty=lty[set.index], lwd=lwd[set.index], bty=bty.leg, cex=cex.leg, x.intersp=x.intersp, y.intersp=y.intersp, text.col=col.leg)
