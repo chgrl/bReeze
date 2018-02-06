@@ -36,7 +36,7 @@ Returns a dataset object which is a list of:
 \examples{
 \dontrun{
 # load data
-data(winddata)
+data("winddata", package="bReeze")
 
 # minimal dataset
 s <- set(height=40, v.avg=winddata[,2])

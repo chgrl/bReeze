@@ -42,7 +42,7 @@ The following graphical parameters can optionally be added to customize the plot
 \examples{
 \dontrun{
 # load and prepare data
-data(winddata)
+data("winddata", package="bReeze")
 set40 <- set(height=40, v.avg=winddata[,2], dir.avg=winddata[,14])
 set30 <- set(height=30, v.avg=winddata[,6], dir.avg=winddata[,16])
 set20 <- set(height=20, v.avg=winddata[,10])

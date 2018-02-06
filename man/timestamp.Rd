@@ -37,7 +37,7 @@ For details see \code{\link{strptime}}.
 \examples{
 \dontrun{
 # load and prepare data
-data(winddata)
+data("winddata", package="bReeze")
 
 # format time stamp
 timestamp <- timestamp(timestamp=winddata[,1])

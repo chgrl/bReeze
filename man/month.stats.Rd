@@ -67,7 +67,7 @@ Brower, M., Marcus, M., Taylor, M., Bernadett, D., Filippelli, M., Beaucage, P.,
 \examples{
 \dontrun{
 ## load and prepare data
-data(winddata)
+data("winddata", package="bReeze")
 set40 <- set(height=40, v.avg=winddata[,2], v.max=winddata[,3])
 set30 <- set(height=30, v.avg=winddata[,6], v.max=winddata[,7])
 set20 <- set(height=20, v.avg=winddata[,10])

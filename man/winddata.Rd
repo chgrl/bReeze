@@ -7,7 +7,7 @@
 This dataset is provided as part of the \code{bReeze} package for use with the examples in the documantation. 
 It contains measured wind speed and wind direction in a 10 minute interval, collected by a meteorological mast.
 }
-\usage{data(winddata)}
+\usage{data("winddata", package="bReeze")}
 \format{
   Data frame with 36548 observations on the following 17 variables:
   \describe{
@@ -33,7 +33,7 @@ It contains measured wind speed and wind direction in a 10 minute interval, coll
 \examples{
 \dontrun{
 # load example data
-data(winddata)
+data("winddata", package="bReeze")
 
 # display the structure of the data
 str(winddata)

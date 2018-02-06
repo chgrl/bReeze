@@ -68,7 +68,7 @@ International Electrotechnical Commission (2005) IEC 61400-1 Wind Turbines -- Pa
 \examples{
 \dontrun{
 # load and prepare data
-data(winddata)
+data("winddata", package="bReeze")
 set40 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5])
 set30 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9])
 set20 <- set(height=20, v.avg=winddata[,10], v.std=winddata[,13])

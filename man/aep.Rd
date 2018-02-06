@@ -97,7 +97,7 @@ Jangamshetti, S.H., Rau, V.G. (1999) Site Matching of Wind Turbine Generators: A
 \examples{
 \dontrun{
 ## load and prepare data
-data(winddata)
+data("winddata", package="bReeze")
 set1 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],
   dir.avg=winddata[,14])
 set2 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],

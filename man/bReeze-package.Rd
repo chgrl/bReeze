@@ -34,7 +34,7 @@ Further references are given under the specific functions of the package.
 \examples{
 \dontrun{
 # load example data
-data(winddata)
+data("winddata", package="bReeze")
 
 # create two datasets
 set40 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],

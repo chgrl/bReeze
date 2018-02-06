@@ -35,7 +35,7 @@ Uneven time intervals might come up due to rounding errors. \code{ts} corrects t
 \examples{
 \dontrun{
 # load and prepare data
-data(winddata)
+data("winddata", package="bReeze")
 set40 <- set(height=40, v.avg=winddata[,2], v.std=winddata[,5],
   dir.avg=winddata[,14])
 set30 <- set(height=30, v.avg=winddata[,6], v.std=winddata[,9],
