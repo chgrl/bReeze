@@ -94,9 +94,9 @@ neubuerg.clean.7 <- clean(mast=neubuerg, rep="v.avg", n.rep=3)
 
 
 # correct time interval (actually not necessary here)
-neubuerg.clean.8 <- clean(mast=neubuerg, v.avg.min=NULL, v.avg.max=NULL,
-													dir.clean=FALSE, turb.clean=NULL, icing=FALSE, 
-													rep=NULL, ts=TRUE)
+neubuerg.clean.8 <- clean(mast=neubuerg, v.avg.min=NULL, v.avg.max=NULL, 
+  dir.clean=FALSE, turb.clean=NULL, icing=FALSE, 
+  rep=NULL, ts=TRUE)
 }
 }
 \keyword{methods}
