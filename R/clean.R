@@ -66,7 +66,8 @@ function(mast, set, v.avg.min=0.4, v.avg.max=50, dir.clean=TRUE, turb.clean=4, i
 	    ts.unit <- paste(ts.int, ts.unit)
 	    if(length(unique(ts.ints))!=1) {
 	      mast$timestamp <- round_date(ts, unit=ts.unit)
-	      message("Uneven time interval detected. ", sum(ts!=mast$timestamp), " time stamps rounded to ", ts.unit, " interval")
+	      if(sum(ts!=mast$timestamp)>0) message("Uneven time interval detected. ", sum(ts!=mast$timestamp), " time stamps rounded to ", ts.unit, " interval")
+	      else message("Time interval is consistend (", ts.unit, ")")
 	    } else {
 	      message("Time interval is consistend (", ts.unit, ")")
 	    }

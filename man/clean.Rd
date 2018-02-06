@@ -91,12 +91,6 @@ neubuerg.clean.5$timestamp[cleaned]
 # clean repetitions
 neubuerg.clean.6 <- clean(mast=neubuerg, rep=c("v.avg", "dir.avg"))
 neubuerg.clean.7 <- clean(mast=neubuerg, rep="v.avg", n.rep=3)
-
-
-# correct time interval (actually not necessary here)
-neubuerg.clean.8 <- clean(mast=neubuerg, v.avg.min=NULL, v.avg.max=NULL, 
-  dir.clean=FALSE, turb.clean=NULL, icing=FALSE, 
-  rep=NULL, ts=TRUE)
 }
 }
 \keyword{methods}
