@@ -39,6 +39,7 @@ importFrom("graphics", "abline", "axis", "axis.POSIXct", "barplot", "box", "curv
 importFrom("grDevices", "colors", "rainbow")
 importFrom("stats", "dweibull", "lm", "median", "qnorm", "sd", "spline")
 importFrom("utils", "head", "read.table", "tail")
+importFrom("lubridate", "round_date")
 
 ## S3 methods
 S3method(pc, default)

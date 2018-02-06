@@ -10,5 +10,5 @@ Description: A collection of functions to analyse, visualize and interpret wind 
 License: MIT + file LICENSE
 URL: https://github.com/chgrl/bReeze
 Depends: R (>= 2.14.2)
-Imports: graphics, grDevices, stats, utils
+Imports: graphics, grDevices, lubridate, stats, utils
 Suggests: RColorBrewer, RgoogleMaps, XML

@@ -22,7 +22,7 @@ avail <-
 function(mast, v.set, dir.set, subset, digits=1, print=TRUE) availability(mast, v.set, dir.set, subset, digits, print)
 
 cln <- 
-function(mast, set, v.avg.min=0.4, v.avg.max=50, dir.clean=TRUE, turb.clean=4, icing=FALSE, rep=NULL, n.rep=5) clean(mast, set, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep)
+function(mast, set, v.avg.min=0.4, v.avg.max=50, dir.clean=TRUE, turb.clean=4, icing=FALSE, rep=NULL, n.rep=5, ts=FALSE) clean(mast, set, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep, ts)
 
 en <- 
 function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) energy(wb, rho, bins, digits, print)
