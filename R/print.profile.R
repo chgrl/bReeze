@@ -22,5 +22,5 @@ function(x, ...) {
 	else vset <- paste0(", v.set=c(", paste0(attr(x, "call")$v.set, collapse=", "), ")")
 	if(!any(!is.na(attr(x, "call")$subset))) subs <- ", subset=NA"
 	else subs <- paste0(", subset=c(\"", paste(attr(x, "call")$subset, collapse="\", \""), "\")")
-	cat("\ncall: profile(mast=", attr(x, "call")$mast, vset, ", dir.set=", attr(x, "call")$dir.set, ", num.sectors=", attr(x, "call")$num.sectors, ", method=\"", attr(x, "call")$method, "\"", alph, subs, ", digits=", attr(x, "call")$digits, ", print=", attr(x, "call")$print, ")\n\n", sep="")
+	cat("\ncall: windprofile(mast=", attr(x, "call")$mast, vset, ", dir.set=", attr(x, "call")$dir.set, ", num.sectors=", attr(x, "call")$num.sectors, ", method=\"", attr(x, "call")$method, "\"", alph, subs, ", digits=", attr(x, "call")$digits, ", print=", attr(x, "call")$print, ")\n\n", sep="")
 }
