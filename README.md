@@ -17,9 +17,6 @@ Feel free to flattr, if you like bReeze: <a href="https://flattr.com/submit/auto
 
 #### Install from GitHub
 ```
-if(packageVersion("devtools") < 1.6) {
-  install.packages("devtools")
-}
 devtools::install_github("chgrl/bReeze")
 ```
 
