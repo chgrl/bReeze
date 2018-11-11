@@ -12,7 +12,11 @@ function(mast, type=c("satellite", "terrain", "hybrid", "roadmap"), zoom, label,
 	lon <- mast$location[2]
 	if(missing(zoom)) zoom <- 15
 	if(missing(label)) label <- paste(lat, lon, sep=",")
-
+	apiKey <- Sys.getenv("GOOGLE_MAPS_API_KEY")
+	if(apiKey=="") {
+	  message("Google Maps API key required\nPlease save as GOOGLE_MAPS_API_KEY in your .Renviron-file or type")
+	  apiKey <- readline(prompt="API key: ")
+	}
 	plot.param <- list(...)
 	if(any(names(plot.param)=="pch")) pch <- plot.param$pch
 	else pch <- 8
@@ -28,7 +32,8 @@ function(mast, type=c("satellite", "terrain", "hybrid", "roadmap"), zoom, label,
 	else pos.lab <- 4
 	
 	tmp.file <- gsub("[^0-9]", "", substr(Sys.time(), 1, 19))
-	tmpmap <- RgoogleMaps::GetMap(center=c(lat, lon), zoom=zoom, destfile=file.path(tempdir(), paste0("map", tmp.file, ".png")), maptype=type, format="png32", verbose=0)
+	tmpmap <- RgoogleMaps::GetMap(center=c(lat, lon), zoom=zoom, destfile=file.path(tempdir(), paste0("map", tmp.file, ".png")), maptype=type, format="png32", verbose=0,
+	                              API_console_key=apiKey)
 	RgoogleMaps::PlotOnStaticMap(tmpmap, lat=lat, lon=lon, destfile=file.path(tempdir(), paste0("map", tmp.file, ".png")), cex=cex, pch=pch ,col=col, NEWMAP=FALSE)
 	if(!is.na(label)) RgoogleMaps::TextOnStaticMap(tmpmap, lat=lat, lon=lon, labels=label, cex=cex.lab, col=col.lab, pos=pos.lab, add=TRUE)
 	
