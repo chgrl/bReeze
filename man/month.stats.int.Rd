@@ -1,9 +1,7 @@
 \encoding{UTF-8}
 \name{month.stats.int}
-\alias{month.stats.int}
 \title{Internal function for month.stats}
 \description{Internal function for \code{\link{month.stats}}}
-\usage{month.stats.int(data, fun, ts, years, digits)}
 \arguments{
   \item{data}{Data vector}
   \item{fun}{Function}

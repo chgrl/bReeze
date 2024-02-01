@@ -4,7 +4,7 @@ function(mast, type=c("satellite", "terrain", "hybrid", "roadmap"), zoom, label,
 
 	if(!requireNamespace("RgoogleMaps", quietly=TRUE)) stop("'RgoogleMaps' package required for map plot")
 	
-	if(class(mast)!="mast") stop(substitute(mast), " is no mast object")
+	if(!inherits(mast, "mast")) stop(substitute(mast), " is no mast object")
 	if(missing(type)) type <- "satellite"
 	type <- match.arg(type)
 	if(is.null(mast$location)) stop("No location found")

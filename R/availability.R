@@ -2,7 +2,7 @@ availability <-
 function(mast, v.set, dir.set, subset, digits=1, print=TRUE) {
 ### check availability for pairs of windspeed and direction - effective data period
 	
-	if(class(mast)!="mast") stop(substitute(mast), " is no mast object")
+	if(!inherits(mast, "mast")) stop(substitute(mast), " is no mast object")
 	num.sets <- length(mast$sets)
 	if(missing(v.set) && missing(dir.set)) v.set <- "all"
 	if(!missing(v.set) && missing(dir.set)) dir.set <- v.set

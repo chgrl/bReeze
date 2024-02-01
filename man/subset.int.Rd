@@ -1,9 +1,7 @@
 \encoding{UTF-8}
 \name{subset.int}
-\alias{subset.int}
 \title{Internal function data subsets}
 \description{Internal function for data subsets}
-\usage{subset.int(timestamp, subset)}
 \arguments{
   \item{timestamp}{Time stamp}
   \item{subset}{Subset, containing start and end time stamp.}

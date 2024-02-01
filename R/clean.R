@@ -14,11 +14,11 @@ function(mast, set, v.avg.min=0.4, v.avg.max=50, dir.clean=TRUE, turb.clean=4, i
 	if(!is.null(rep) && is.null(n.rep)) stop("Please specify 'n.rep'")
 	if(!is.null(rep)) if(!is.null(n.rep)) if(!is.numeric(n.rep)) stop("'n.rep' must be numeric or NULL") 
 	if(missing(mast) && !missing(set)) { # set
-		if(class(set)!="set") stop(substitute(set), " is no set object")
+		if(!inherits(set, "set")) stop(substitute(set), " is no set object")
 		set$data <- clean.int(set$data, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep+1)
 		r <- set
 	} else if(!missing(mast) && missing(set)) { # mast
-		if(class(mast)!="mast") stop(substitute(mast), " is no mast object")
+		if(!inherits(mast, "mast")) stop(substitute(mast), " is no mast object")
 		num.sets <- length(mast$sets)
 		for(s in 1:num.sets) {
 			message("Cleaning set ", s, "...")
@@ -26,7 +26,7 @@ function(mast, set, v.avg.min=0.4, v.avg.max=50, dir.clean=TRUE, turb.clean=4, i
 		}
 		r <- mast
 	} else if(!is.null(mast) && !is.null(set)) { # set of mast
-		if(class(mast)!="mast") stop(substitute(mast), " is no mast object")
+		if(!inherits(mast, "mast")) stop(substitute(mast), " is no mast object")
 		num.sets <- length(mast$sets)
 		if(!is.numeric(set)) set <- match(set, names(mast$sets))
 		if(is.na(set)) stop("Set not found")

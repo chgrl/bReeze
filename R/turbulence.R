@@ -2,7 +2,7 @@ turbulence <-
 function(mast, turb.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digits=3, print=TRUE) {
 ### calculating mean wind speed and turbulence intensity of sectors
 
-	if(class(mast)!="mast") stop(substitute(mast), " is no mast object")
+	if(!inherits(mast, "mast")) stop(substitute(mast), " is no mast object")
 	num.sets <- length(mast$sets)
 	if(!missing(turb.set) && missing(dir.set)) dir.set <- turb.set
 	if(missing(turb.set) && !missing(dir.set)) turb.set <- dir.set

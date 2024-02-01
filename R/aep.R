@@ -12,8 +12,8 @@ function(profile, pc, hub.h, rho=1.225, avail=1, bins=c(5,10,15,20), sectoral=FA
 	if(missing(digits)) digits <- c(3,0,0,3)
 	if(missing(print)) print <- TRUE
 	
-	if(class(profile)!="windprofile") stop(substitute(profile), " is no windprofile object")
-	if(class(pc)!="pc") stop(substitute(pc), " is no power curve object")
+	if(!inherits(profile, "windprofile")) stop(substitute(profile), " is no windprofile object")
+	if(!inherits(pc, "pc")) stop(substitute(pc), " is no power curve object")
 	if(!is.numeric(hub.h)) stop("'hub.h' must be numeric")
 	if(!is.numeric(rho)) stop("'rho' must be numeric")
 	if(!is.numeric(avail)) stop("'avail' must be numeric")

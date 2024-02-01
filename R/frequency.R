@@ -2,7 +2,7 @@ frequency <-
 function(mast, v.set, dir.set, num.sectors=12, bins=c(5,10,15,20), subset, digits=3, print=TRUE) {
 ### calculating mean wind speed and frequency of sectors
 
-	if(class(mast)!="mast") stop(substitute(mast), " is no mast object")
+	if(!inherits(mast, "mast")) stop(substitute(mast), " is no mast object")
 	num.sets <- length(mast$sets)
 	if(!missing(v.set) && missing(dir.set)) dir.set <- v.set
 	if(missing(v.set) && !missing(dir.set)) v.set <- dir.set

@@ -2,7 +2,7 @@ energy <-
 function(wb, rho=1.225, bins=c(5,10,15,20), digits=0, print=TRUE) {
 ###	calculating wind energy per sector
 	
-	if(class(wb)!="weibull") stop(substitute(wb), " is no weibull object")
+	if(!inherits(wb, "weibull")) stop(substitute(wb), " is no weibull object")
 	if(any(bins<0)) stop("'bins' must be NULL or a vector of positives")
 
 	if(is.null(attr(wb, "call")$mast)) stop("Source mast object of ", substitute(wb), " could not be found")

@@ -15,7 +15,7 @@ function(timestamp, ..., loc=NULL, desc=NULL) {
 	# check sets and timestamp
 	num.sets <- length(l)
 	if(num.sets<1) stop("No data - please add at least one data set")
-	for(i in 1:num.sets) if(class(l[[i]])!="set") stop(names(l)[i], " is no set object")
+	for(i in 1:num.sets) if(!inherits(l[[i]], "set")) stop(names(l)[i], " is no set object")
 	if(any(class(timestamp)=="POSIXlt")==FALSE) stop("'timestamp' must be given in POSIXlt format - for reformating use timestamp")
 	if(length(timestamp)!=length(l[[1]]$data[,1])) stop("Different length of timestamp and sets")
 	

@@ -1,9 +1,7 @@
 \encoding{UTF-8}
 \name{aep.int}
-\alias{aep.int}
 \title{Internal function for aep}
 \description{Internal function for \code{\link{aep}}}
-\usage{aep.int(wb.par, lim, pc, rho.pc, op, rho, avail)}
 \arguments{
   \item{wb.par}{Weibull parameters A and k.}
   \item{lim}{Lower and upper calculation limit (wind speed) as numeric vector.}

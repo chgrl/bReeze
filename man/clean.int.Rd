@@ -1,9 +1,7 @@
 \encoding{UTF-8}
 \name{clean.int}
-\alias{clean.int}
 \title{Internal function for clean}
 \description{Internal function for \code{\link{clean}}}
-\usage{clean.int(dat, v.avg.min, v.avg.max, dir.clean, turb.clean, icing, rep, n.rep)}
 \arguments{
   \item{dat}{Dataset to be cleaned.}
   \item{v.avg.min}{Lower limit for wind speeds as numeric value. Default is \code{0.4} m/s.}

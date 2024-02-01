@@ -1,3 +1,23 @@
+bReeze 0.4-4 [2024-02-01]
+-------------------------
+
+* internal functions: documentation issues fixed
+
+
+bReeze 0.4-3 [2018-11-14]
+-------------------------
+
+* clean: time interval correction added
+
+* day.plot: missing hour bug fixed
+
+* map.plot: Google Maps API key support added
+
+* windprofile: class typo fixed
+
+* example-dataset replaced with compressed version
+
+
 bReeze 0.4-2 [2018-01-05]
 -------------------------
 
