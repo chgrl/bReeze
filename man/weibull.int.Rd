@@ -1,5 +1,6 @@
 \encoding{UTF-8}
 \name{weibull.int}
+\alias{weibull_int}
 \title{Internal function for weibull}
 \description{Internal function for \code{\link{weibull}}}
 \arguments{

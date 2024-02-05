@@ -1,7 +1,12 @@
-bReeze 0.4-4 [2024-02-01]
+bReeze 0.4-4 [2024-02-05]
 -------------------------
 
 * internal functions: documentation issues fixed
+
+* data type corrections
+
+* comment added to outdated power curve files 
+  integrated in the package
 
 
 bReeze 0.4-3 [2018-11-14]

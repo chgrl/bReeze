@@ -1,5 +1,6 @@
 \encoding{UTF-8}
 \name{clean.int}
+\alias{clean_int}
 \title{Internal function for clean}
 \description{Internal function for \code{\link{clean}}}
 \arguments{

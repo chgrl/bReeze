@@ -118,13 +118,15 @@ The following graphical parameters can optionally be added to customize the plot
 }
 \value{Returns a data frame binding the given data}
 \source{
-Wind turbine generator files (*.wtg) are available from the WAsP website:
+Wind turbine generator files (*.wtg) were collected from the WAsP website:
 
 http://www.wasp.dk/Download/PowerCurves.aspx
 
-Power curve files (*.pow) are available from the WindPower Program website:
+Power curve files (*.pow) were collected from the WindPower Program website:
 
 http://www.wind-power-program.com/download.htm
+
+Both links are not active anymore and the turbine list is now a bit outdated.
 }
 \references{
 Betz, A. (1966) \emph{Introduction to the Theory of Flow Machines}. Oxford: Pergamon Press

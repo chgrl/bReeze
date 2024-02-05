@@ -1,8 +1,8 @@
 citHeader("To cite package 'bReeze' in publications use:")
 
-citEntry(entry = "Manual",
+bibentry(bibtype = "Manual",
          title = "bReeze: Functions for Wind Resource Assessment",
-         author = "Christian Graul, Carsten Poppinga",
+         author = "Christian Graul and Carsten Poppinga",
          year = "2024",
          url = "https://CRAN.R-project.org/package=bReeze",
          note = "R package version 0.4-4",

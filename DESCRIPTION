@@ -2,7 +2,7 @@ Package: bReeze
 Type: Package
 Title: Functions for Wind Resource Assessment
 Version: 0.4-4
-Date: 2024-02-01
+Date: 2024-02-05
 Author: Christian Graul and Carsten Poppinga
 Maintainer: Christian Graul <christian.graul@gmail.com>
 Description: A collection of functions to analyse, visualize and interpret wind data

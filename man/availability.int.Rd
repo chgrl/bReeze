@@ -1,5 +1,6 @@
 \encoding{UTF-8}
 \name{availability.int}
+\alias{availability_int}
 \title{Internal function for availability}
 \description{Internal function for \code{\link{availability}}}
 \arguments{

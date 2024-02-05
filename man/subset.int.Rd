@@ -1,5 +1,6 @@
 \encoding{UTF-8}
 \name{subset.int}
+\alias{subset_int}
 \title{Internal function data subsets}
 \description{Internal function for data subsets}
 \arguments{

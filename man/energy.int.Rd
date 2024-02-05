@@ -1,5 +1,6 @@
 \encoding{UTF-8}
 \name{energy.int}
+\alias{energy_int}
 \title{Internal function for energy}
 \description{Internal function for \code{\link{energy}}}
 \arguments{

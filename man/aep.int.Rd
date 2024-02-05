@@ -1,5 +1,6 @@
 \encoding{UTF-8}
 \name{aep.int}
+\alias{aep_int}
 \title{Internal function for aep}
 \description{Internal function for \code{\link{aep}}}
 \arguments{
